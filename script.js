@@ -1,43 +1,41 @@
-class Request {
-    constructor(trackNumber) {
-        this.trackNumber = trackNumber;
-    }
+import { Request, runFCFS } from './algorithms.js';
 
-    getTrackNumber() {
-        return this.trackNumber;
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    let selectedAlgorithm = null;
+    const algorithms = ['fcfs', 'scan', 'cscan', 'look', 'clook', 'sstf'];
 
-    toString() {
-        return String(this.trackNumber);
-    }
-}
+    algorithms.forEach(algorithm => {
+        document.querySelector(`#${algorithm}`).addEventListener('click', () => {
+            selectedAlgorithm = algorithm;
+            algorithms.forEach(algo => {
+                document.querySelector(`#${algo}`).classList.remove('glowing-border');
+            });
+            document.querySelector(`#${algorithm}`).classList.add('glowing-border');
+        });
+    });
 
-class FCFS {
-    static doFCFS(queue, head) {
-        let currentLocation;
-        let seekCounter = 0;
-        let distance = 0;
-
-        for (let i = 0; i < queue.length; i++) {
-            currentLocation = queue[i].getTrackNumber();
-            distance = Math.abs(currentLocation - head);  // Corrected distance calculation
-            seekCounter += distance;
-            head = currentLocation;
+    document.querySelector('#simulation-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (selectedAlgorithm) {
+            const initialHeadPosition = parseInt(document.querySelector('#initial-head-position').value);
+            const diskRequestSequence = document.querySelector('#disk-request-sequence').value.split(',').map(Number);
+            startSimulation(selectedAlgorithm, initialHeadPosition, diskRequestSequence);
+        } else {
+            alert('Please select an algorithm first.');
         }
+    });
+});
 
-        console.log("Total Number of seek operations = " + seekCounter);
-        console.log("The Seek Sequence is");
-        for (let i = 0; i < queue.length; i++) {
-            console.log(queue[i].toString());
-        }
+function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
+    console.log(`Starting simulation with ${algorithm} algorithm`);
+    const requests = diskRequestSequence.map(trackNumber => new Request(trackNumber));
+    // Change page view if valid algorithm is selected !!!
+    if (algorithm === 'fcfs') {
+        console.log('Starting FCFS simulation');
+        runFCFS(requests, initialHeadPosition);
+    } else if (algorithm === 'scan') {
+        // Call the appropriate function for SCAN
+        console.log('SCAN algorithm not implemented yet');
     }
+    // Add other conditions for different algorithms
 }
-
-// Example usage
-const initialHeadPosition = 40; // Example initial head position
-const input = "40,20,67,89,8"; // Example disk request sequence
-
-const inputArray = input.split(',');
-const requests = inputArray.map(trackNumber => new Request(parseInt(trackNumber)));
-
-FCFS.doFCFS(requests, initialHeadPosition);
