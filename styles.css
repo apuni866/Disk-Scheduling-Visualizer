@@ -2,3 +2,14 @@
     border: 2px solid #3b82f6; /* Tailwind blue-500 */
     box-shadow: 0 0 10px #3b82f6;
 }
+
+html, body {
+    margin: 0;
+    padding: 0;
+  }
+  
+
+  canvas {
+    display: block;
+  }
+  

@@ -1,4 +1,5 @@
 import { Request, runFCFS } from './algorithms.js';
+import { setup} from './graph.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     let selectedAlgorithm = null;
@@ -39,3 +40,6 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
     }
     // Add other conditions for different algorithms
 }
+
+console.log(setup);
+
