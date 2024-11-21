@@ -42,5 +42,3 @@ function drawLines(){
   } 
 }
 
-
-export {setup};

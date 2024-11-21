@@ -1,6 +1,14 @@
-import { Request, runFCFS } from './algorithms.js';
-import { setup} from './graph.js';
+// import { Request, runFCFS } from './algorithms.js';
 
+
+
+// function setup() {
+//     createCanvas(400, 400);
+//   }
+  
+// function draw() {
+//     background(220);
+// }
 document.addEventListener('DOMContentLoaded', () => {
     let selectedAlgorithm = null;
     const algorithms = ['fcfs', 'scan', 'cscan', 'look', 'clook', 'sstf'];
@@ -39,7 +47,14 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
         console.log('SCAN algorithm not implemented yet');
     }
     // Add other conditions for different algorithms
+
+
+    // setup()
+    // draw()
+
 }
 
-console.log(setup);
+
+  
+
 
