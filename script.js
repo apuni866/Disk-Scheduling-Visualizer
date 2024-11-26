@@ -42,7 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
         //startSimulationButton.textContent = 'Start Simulation';
     });
 });
-
+/**
+ * Set the text content of the start simulation button based on the
+ * @param {string} selectedAlgorithm 
+ */
 function updateStartButton(selectedAlgorithm) {
     const startSimulationButton = document.querySelector('#start-simulation');
     const algorithmNames = {
