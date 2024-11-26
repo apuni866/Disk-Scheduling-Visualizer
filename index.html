@@ -6,6 +6,7 @@
     <title>Disk Scheduling Algorithm Visualizer</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./styles.css">
+    <script type="module" src="script.js"></script>
 </head>
 <body class="bg-gradient-to-r from-blue-50 to-blue-100 text-gray-900 min-h-screen flex flex-col">
 
@@ -13,55 +14,76 @@
     <header class="bg-blue-700 text-white py-4 shadow-md">
         <div class="container mx-auto px-4 text-center max-w-4xl">
             <h1 class="text-2xl md:text-3xl font-extrabold">Disk Scheduling Algorithm Visualizer</h1>
-            <p class="mt-2 text-sm md:text-base">This interactive tool lets you visualize the FCFS, SCAN, CSCAN, LOOK, C-LOOK, and SSTF disk scheduling algorithms in action. Adjust parameters, view real-time metrics, and see how scheduling decisions impact performance.</p>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="container mx-auto px-4 py-8 max-w-5xl flex-grow">
-        <!-- Algorithm Sections -->
-        <section class="algorithms grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div id="fcfs" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                <h3 class="text-lg font-semibold mb-2">FCFS</h3>
-                <p class="text-gray-700 text-sm">First-Come, First-Served scheduling algorithm.</p>
-            </div>
-            <div id="scan" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                <h3 class="text-lg font-semibold mb-2">SCAN</h3>
-                <p class="text-gray-700 text-sm">SCAN scheduling algorithm.</p>
-            </div>
-            <div id="cscan" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                <h3 class="text-lg font-semibold mb-2">CSCAN</h3>
-                <p class="text-gray-700 text-sm">C-SCAN scheduling algorithm.</p>
-            </div>
-            <div id="look" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                <h3 class="text-lg font-semibold mb-2">LOOK</h3>
-                <p class="text-gray-700 text-sm">LOOK scheduling algorithm.</p>
-            </div>
-            <div id="clook" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                <h3 class="text-lg font-semibold mb-2">C-LOOK</h3>
-                <p class="text-gray-700 text-sm">C-LOOK scheduling algorithm.</p>
-            </div>
-            <div id="sstf" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                <h3 class="text-lg font-semibold mb-2">SSTF</h3>
-                <p class="text-gray-700 text-sm">Shortest Seek Time First scheduling algorithm.</p>
-            </div>
-        </section>
+<!-------------------- Select Algorithm Page -------------------->
+        <article id="home-page">
+            
+            <p class="mt-2 text-sm md:text-base">This interactive tool lets you visualize the FCFS, SCAN, CSCAN, LOOK,
+                C-LOOK, and SSTF disk scheduling algorithms in action. Adjust parameters, view real-time metrics, and
+                see how scheduling decisions impact performance.
+            </p>
+            
+            <section class="algorithms grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div id="fcfs" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
+                    <h3 class="text-lg font-semibold mb-2">FCFS</h3>
+                    <p class="text-gray-700 text-sm">First-Come, First-Served scheduling algorithm.</p>
+                </div>
+                <div id="scan" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
+                    <h3 class="text-lg font-semibold mb-2">SCAN</h3>
+                    <p class="text-gray-700 text-sm">SCAN scheduling algorithm.</p>
+                </div>
+                <div id="cscan" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
+                    <h3 class="text-lg font-semibold mb-2">CSCAN</h3>
+                    <p class="text-gray-700 text-sm">C-SCAN scheduling algorithm.</p>
+                </div>
+                <div id="look" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
+                    <h3 class="text-lg font-semibold mb-2">LOOK</h3>
+                    <p class="text-gray-700 text-sm">LOOK scheduling algorithm.</p>
+                </div>
+                <div id="clook" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
+                    <h3 class="text-lg font-semibold mb-2">C-LOOK</h3>
+                    <p class="text-gray-700 text-sm">C-LOOK scheduling algorithm.</p>
+                </div>
+                <div id="sstf" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
+                    <h3 class="text-lg font-semibold mb-2">SSTF</h3>
+                    <p class="text-gray-700 text-sm">Shortest Seek Time First scheduling algorithm.</p>
+                </div>
+            </section>
 
-        <!-- Input Parameters Form -->
-        <div class="text-center mt-8">
-            <form id="simulation-form" class="inline-block">
-                <div class="mb-4">
-                    <label for="initial-head-position" class="block text-sm font-medium text-gray-700">Initial Head Position</label>
-                    <input type="number" id="initial-head-position" name="initialHeadPosition" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
-                </div>
-                <div class="mb-4">
-                    <label for="disk-request-sequence" class="block text-sm font-medium text-gray-700">Disk Request Sequence (comma-separated)</label>
-                    <input type="text" id="disk-request-sequence" name="diskRequestSequence" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required>
-                </div>
-                <button type="submit" id="start-simulation" class="bg-gray-400 text-white py-2 px-4 rounded shadow-md cursor-not-allowed" disabled> Select an algorithm</button>
-                <button type="submit" id="compare-all" class="bg-blue-700 text-white py-2 px-4 rounded shadow-md hover:bg-blue-800 transition">Compare All</button>
-            </form>
-        </div>
+            <!-- Input Parameters Form -->
+            <div class="text-center mt-8">
+                <form id="simulation-form" class="inline-block" autocomplete="off">
+                    <div class="mb-4">
+                        <label for="initial-head-position" class="block text-sm font-medium text-gray-700">Initial Head
+                            Position</label>
+                        <input type="number" id="initial-head-position" name="initialHeadPosition"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="disk-request-sequence" class="block text-sm font-medium text-gray-700">Disk Request
+                            Sequence (comma-separated)</label>
+                        <input type="text" id="disk-request-sequence" name="diskRequestSequence"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            required>
+                    </div>
+                    <button type="submit" id="start-simulation"
+                        class="bg-gray-400 text-white py-2 px-4 rounded shadow-md cursor-not-allowed" disabled> Select
+                        an algorithm</button>
+                    <button type="submit" id="compare-all"
+                        class="bg-blue-700 text-white py-2 px-4 rounded shadow-md hover:bg-blue-800 transition">Compare
+                        All</button>
+                </form>
+            </div>
+        </article>
+<!-------------------- Run Single Simulation Page -------------------->
+        <article id="simulation-page" class="hidden">
+            <h3 class="text-2xl font-semibold mb-4">Simulation Page</h3>
+        </article>
+<!-------------------- Compare All Simulations Page -------------------->
     </main>
 
     <!-- Footer -->
@@ -70,6 +92,5 @@
             <p>Developed by Amtoj Punia, Henry Nguyen, and Evan Wushke</p>
         </div>
     </footer>
-    <script type="module" src="script.js"></script>
 </body>
 </html>
