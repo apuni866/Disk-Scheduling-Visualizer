@@ -43,13 +43,50 @@ runFCFS(requests, initialHeadPosition);
 */
 // Export the class and function if using modules
 //export { Request, runFCFS };
+class Simulation {
+    constructor(originalSequence = [], newSequence = [], seekTime = 0, drawingSequence = []) {
+      this.originalSequence = originalSequence;
+      this.newSequence = newSequence;
+      this.seekTime = seekTime;
+      this.drawingSequence = drawingSequence;
+    }
+  
+    // Example method to modify the new sequence
+    updateNewSequence(newSeq) {
+      this.newSequence = newSeq;
+    }
+  
+    // Example method to calculate seek time (you can implement actual logic based on your requirements)
+    calculateSeekTime() {
+      // Placeholder logic: sum of absolute differences between adjacent elements in the newSequence
+      let totalSeekTime = 0;
+      for (let i = 1; i < this.newSequence.length; i++) {
+        totalSeekTime += Math.abs(this.newSequence[i] - this.newSequence[i - 1]);
+      }
+      this.seekTime = totalSeekTime;
+      return this.seekTime;
+    }
+  
+    // Example method to update the drawing sequence
+    updateDrawingSequence(seq) {
+      this.drawingSequence = seq;
+    }
+  
+    // Example method to reset the simulation
+    resetSimulation() {
+      this.originalSequence = [];
+      this.newSequence = [];
+      this.seekTime = 0;
+      this.drawingSequence = [];
+    }
+}
+/* Amtooj do this */
+    function runScan(queue, head) {
 
-class SCAN {
-    static runScan(queue, head) {
         const MAX = 200;
 
         console.log("* * * * * Running the SCAN algorithm * * * * *\n");
-
+        let oldqueue = Array.from(queue);
         let left = [];
         let right = [];
 
@@ -80,7 +117,7 @@ class SCAN {
         console.log("Full Sequence:", fullSequence);
         console.log("Seek time was:", seekTime);
 
-        return fullSequence; // Fully built array
+        return new Simulation(oldqueue, queue, seekTime, queue); // Fully built array
     }
 
     /**
@@ -90,19 +127,19 @@ class SCAN {
      * @param {number} head The starting position of the head.
      * @return {number} The total seek time.
      */
-    static calculateSeekTime(queue, head) {
-        let seekCounter = 0;
+    //static calculateSeekTime(queue, head) {
+    //    let seekCounter = 0;
+//
+    //    for (let i = 1; i < queue.length; i++) {
+    //        let track = queue[i];
+    //        let distance = Math.abs(track - head); // Calculate the seek distance
+    //        seekCounter += distance; // Accumulate total seek time
+    //        head = track;
+    //    }
+//
+    //    return seekCounter;
+    //}
 
-        for (let i = 1; i < queue.length; i++) {
-            let track = queue[i];
-            let distance = Math.abs(track - head); // Calculate the seek distance
-            seekCounter += distance; // Accumulate total seek time
-            head = track;
-        }
-
-        return seekCounter;
-    }
-}
 
 // Example usage:
 const queue = [82, 170, 43, 140, 24, 16, 190];
