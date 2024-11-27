@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -21,65 +21,89 @@
     <main class="container mx-auto px-4 py-8 max-w-5xl flex-grow">
         <!-------------------- Select Algorithm Page -------------------->
         <article id="home-page">
+            <div class="grid grid-cols-3 grid-rows-4 gap-4">
+                <!-- Description Container -->
+                <div class="col-span-3 row-span-1 mb-8">
+                    <p class="mt-2 text-sm md:text-base text-center bg-gray-300 p-6 rounded shadow-md h-full">This
+                        interactive tool lets you visualize the FCFS,
+                        SCAN, CSCAN, LOOK,
+                        C-LOOK, and SSTF disk scheduling algorithms in action. Adjust parameters, view real-time
+                        metrics, and
+                        see how scheduling decisions impact performance.
+                    </p>
+                </div>
 
-            <p class="mt-2 text-sm md:text-base">This interactive tool lets you visualize the FCFS, SCAN, CSCAN, LOOK,
-                C-LOOK, and SSTF disk scheduling algorithms in action. Adjust parameters, view real-time metrics, and
-                see how scheduling decisions impact performance.
-            </p>
+                <!-- Algorithms Container -->
+                <div
+                    class="col-span-2 row-span-3 row-start-2 bg-gray-300 p-6 rounded shadow-md flex flex-col justify-center">
+                    <section class="algorithms grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div id="fcfs"
+                            class=" bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
+                            <h3 class="text-lg font-semibold mb-2">FCFS</h3>
+                            <p class="text-gray-700 text-sm">First-Come, First-Served scheduling algorithm.</p>
+                        </div>
+                        <div id="scan" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
+                            <h3 class="text-lg font-semibold mb-2">SCAN</h3>
+                            <p class="text-gray-700 text-sm">SCAN scheduling algorithm.</p>
+                        </div>
+                        <div id="cscan"
+                            class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
+                            <h3 class="text-lg font-semibold mb-2">CSCAN</h3>
+                            <p class="text-gray-700 text-sm">C-SCAN scheduling algorithm.</p>
+                        </div>
+                        <div id="look" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
+                            <h3 class="text-lg font-semibold mb-2">LOOK</h3>
+                            <p class="text-gray-700 text-sm">LOOK scheduling algorithm.</p>
+                        </div>
+                        <div id="clook"
+                            class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
+                            <h3 class="text-lg font-semibold mb-2">C-LOOK</h3>
+                            <p class="text-gray-700 text-sm">C-LOOK scheduling algorithm.</p>
+                        </div>
+                        <div id="sstf" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
+                            <h3 class="text-lg font-semibold mb-2">SSTF</h3>
+                            <p class="text-gray-700 text-sm">Shortest Seek Time First scheduling algorithm.</p>
+                        </div>
+                    </section>
+                </div>
 
-            <section class="algorithms grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div id="fcfs" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                    <h3 class="text-lg font-semibold mb-2">FCFS</h3>
-                    <p class="text-gray-700 text-sm">First-Come, First-Served scheduling algorithm.</p>
-                </div>
-                <div id="scan" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                    <h3 class="text-lg font-semibold mb-2">SCAN</h3>
-                    <p class="text-gray-700 text-sm">SCAN scheduling algorithm.</p>
-                </div>
-                <div id="cscan" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                    <h3 class="text-lg font-semibold mb-2">CSCAN</h3>
-                    <p class="text-gray-700 text-sm">C-SCAN scheduling algorithm.</p>
-                </div>
-                <div id="look" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                    <h3 class="text-lg font-semibold mb-2">LOOK</h3>
-                    <p class="text-gray-700 text-sm">LOOK scheduling algorithm.</p>
-                </div>
-                <div id="clook" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                    <h3 class="text-lg font-semibold mb-2">C-LOOK</h3>
-                    <p class="text-gray-700 text-sm">C-LOOK scheduling algorithm.</p>
-                </div>
-                <div id="sstf" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                    <h3 class="text-lg font-semibold mb-2">SSTF</h3>
-                    <p class="text-gray-700 text-sm">Shortest Seek Time First scheduling algorithm.</p>
-                </div>
-            </section>
-
-            <!-- Input Parameters Form -->
-            <div class="text-center mt-8">
-                <form id="simulation-form" class="inline-block" autocomplete="off">
-                    <div class="mb-4">
-                        <label for="initial-head-position" class="block text-sm font-medium text-gray-700">Initial Head
-                            Position</label>
-                        <input type="number" id="initial-head-position" name="initialHeadPosition"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                            required>
+                <!-- Form Container -->
+                <div class="col-span-1 row-span-3 row-start-2 col-start-3">
+                    <div class="bg-gray-300 p-6 rounded shadow-md h-full">
+                        <form id="simulation-form" autocomplete="off" class="h-full flex flex-col justify-between">
+                            <div>
+                                <div class="mb-4">
+                                    <label for="initial-head-position"
+                                        class="block text-sm font-medium text-gray-700">Initial Head
+                                        Position</label>
+                                    <input type="number" id="initial-head-position" name="initialHeadPosition"
+                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                        required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="disk-request-sequence"
+                                        class="block text-sm font-medium text-gray-700">Disk Request
+                                        Sequence (comma-separated)</label>
+                                    <input type="text" id="disk-request-sequence" name="diskRequestSequence"
+                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                        required>
+                                </div>
+                            </div>
+                            <div>
+                                <button type="submit" id="start-simulation"
+                                    class="bg-gray-400 text-white py-2 px-4 rounded shadow-md cursor-not-allowed w-full mb-2"
+                                    disabled> Select
+                                    an algorithm
+                                </button>
+                                <button type="submit" id="compare-all"
+                                    class="bg-gray-400 text-white py-2 px-4 rounded shadow-md cursor-not-allowed w-full"
+                                    disabled>Enter
+                                    Parameters
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="mb-4">
-                        <label for="disk-request-sequence" class="block text-sm font-medium text-gray-700">Disk Request
-                            Sequence (comma-separated)</label>
-                        <input type="text" id="disk-request-sequence" name="diskRequestSequence"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                            required>
-                    </div>
-                    <button type="submit" id="start-simulation"
-                        class="bg-gray-400 text-white py-2 px-4 rounded shadow-md cursor-not-allowed" disabled> Select
-                        an algorithm
-                    </button>
-                    <button type="submit" id="compare-all"
-                        class="bg-gray-400 text-white py-2 px-4 rounded shadow-md cursor-not-allowed" disabled>Enter
-                        Parameters
-                    </button>
-                </form>
+                </div>
             </div>
         </article>
         <!-------------------- Run Single Simulation Page -------------------->
