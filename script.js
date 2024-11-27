@@ -50,11 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
     });
     homeButton.addEventListener('click', () => {
-        switchView("simulation-page", "home-page");
-        algorithms.forEach(algo => {
-            document.querySelector(`#${algo}`).classList.remove('glowing-border');
-        });
-        resetForm(startSimulationButton);
+       location.reload();
     });
 });
 /**
@@ -125,10 +121,6 @@ function validateUserInput(initialHeadPositionInput, diskRequestSequenceInput) {
 
     const isValidDiskRequestSequence = diskRequestSequence.every(num => 
                                 Number.isInteger(num) && num >= 0 && num <= 299);    
-    console.log(`diskRequestSequence ${diskRequestSequence}`);
-    if (diskRequestSequence == '') {console.log(`hi`);}
-    console.log(`initialHeadPosition: ${isValidHeadPosition}`);
-    console.log(`isValidDiskPos: ${isValidDiskRequestSequence}`);
 
     return isValidHeadPosition && isValidDiskRequestSequence;
 }
@@ -176,8 +168,23 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
         // Call the appropriate function for SCAN
         console.log('SCAN algorithm not implemented yet');
     }
-    //article.appendChild(heading);
-    //article.appendChild(description);
+    else if (algorithm === 'cscan') {
+        // Call the appropriate function for C-SCAN
+        console.log('C-SCAN algorithm not implemented yet');
+    }
+    else if (algorithm === 'look') {
+        // Call the appropriate function for LOOK
+        console.log('LOOK algorithm not implemented yet');
+    }
+    else if (algorithm === 'clook') {
+        // Call the appropriate function for C-LOOK
+        console.log('C-LOOK algorithm not implemented yet');
+    }
+    else if (algorithm === 'sstf') {
+        // Call the appropriate function for SSTF
+        console.log('SSTF algorithm not implemented yet');
+    }
+
     // Add other conditions for different algorithms
 }
 
@@ -187,11 +194,4 @@ function switchView(currentView, newView) {
 
     currentViewElement.classList.add('hidden');
     newViewElement.classList.remove('hidden');
-}
-function resetForm(button) {
-    document.querySelector('#simulation-form').reset();
-    button.disabled = true;
-    button.classList.add('bg-gray-400', 'cursor-not-allowed');
-    button.classList.remove('bg-blue-700', 'hover:bg-blue-800');
-    button.textContent = 'Enter Parameters';
 }
