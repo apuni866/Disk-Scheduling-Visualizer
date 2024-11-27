@@ -74,14 +74,23 @@
                         class="bg-gray-400 text-white py-2 px-4 rounded shadow-md cursor-not-allowed" disabled> Select
                         an algorithm</button>
                     <button type="submit" id="compare-all"
-                        class="bg-blue-700 text-white py-2 px-4 rounded shadow-md hover:bg-blue-800 transition">Compare
+                        class="bg-gray-400 text-white py-2 px-4 rounded shadow-md " disabled>Compare
                         All</button>
                 </form>
             </div>
         </article>
 <!-------------------- Run Single Simulation Page -------------------->
         <article id="simulation-page" class="hidden">
-            <h3 class="text-2xl font-semibold mb-4">Simulation Page</h3>
+            <h3 class="text-2xl font-semibold mb-4"></h3>
+            <div id="algorithm-description" class="mb-4">
+                <p class="text-lg font-medium text-gray-700">Description of the selected algorithm will go here.</p>
+            </div>
+            <div id="graph-container" class="bg-white p-4 rounded shadow-md">
+                <!-- Graph will be generated dynamically here -->
+            </div>
+            <div class="text-center mt-8">
+                <button id="home-button" class="bg-blue-700 text-white py-2 px-4 rounded shadow-md hover:bg-blue-800 transition">Home</button>
+            </div>
         </article>
 <!-------------------- Compare All Simulations Page -------------------->
     </main>
