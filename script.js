@@ -1,4 +1,4 @@
-import { Request, runFCFS } from './algorithms.js';
+import { Simulation, runFCFS, runScan} from './algorithms.js';
 /**
  * The main entry point for the application.
  * Uses DOM manipulation to add event listeners to the buttons and form elements.
@@ -168,7 +168,7 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
         heading.textContent = 'First-Come, First-Served (FCFS) Simulation';
         description.textContent = 'The First-Come, First-Served (FCFS) algorithm processes disk requests in the order they arrive. The disk head moves from the initial position to the first request in the sequence, then to the second request, and so on. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
         console.log('Starting FCFS simulation');
-        runFCFS(requests, initialHeadPosition);
+        let simulation = runFCFS(requests, initialHeadPosition);
     } else if (algorithm === 'scan') {
         // Call the appropriate function for SCAN
         console.log('SCAN algorithm not implemented yet');
@@ -189,6 +189,7 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
         // Call the appropriate function for SSTF
         console.log('SSTF algorithm not implemented yet');
     }
+
 
     // Add other conditions for different algorithms
 }
