@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startSimulationButton = document.querySelector('#start-simulation');
     const compareAllButton = document.querySelector('#compare-all');
     const homeButton = document.querySelector('#home-button');
-    
+
     const initialHeadPositionInput = document.querySelector('#initial-head-position');
     const diskRequestSequenceInput = document.querySelector('#disk-request-sequence');
     //switchView("home-page", "simulation-page");
@@ -40,16 +40,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.querySelector('#simulation-form').addEventListener('submit', (event) => {
         event.preventDefault();
-        if (selectedAlgorithm && 
-            validateUserInput(initialHeadPositionInput, diskRequestSequenceInput)){
+        if (selectedAlgorithm &&
+            validateUserInput(initialHeadPositionInput, diskRequestSequenceInput)) {
 
             const initialHeadPosition = parseInt(initialHeadPositionInput.value);
             const diskRequestSequence = diskRequestSequenceInput.value.split(',').map(Number);
             startSimulation(selectedAlgorithm, initialHeadPosition, diskRequestSequence);
-        } 
+        }
     });
     homeButton.addEventListener('click', () => {
-       location.reload();
+        //location.reload();
+        //^ this will just refresh the page, but it might be nice to keep the parameters
+        switchView("simulation-page", "home-page");
     });
 });
 /**
@@ -72,7 +74,7 @@ function updateButtonState(valid, isAllButton, button, selectedAlgorithm) {
         console.log(selectedAlgorithm);
         transformButton(false, `Start ${selectedAlgorithm.toUpperCase()} Simulation`, button);
         updateStartButton(button, selectedAlgorithm);
-    } 
+    }
     else {
         transformButton(true, 'Enter Parameters', button);
     }
@@ -107,19 +109,19 @@ function transformButton(disabledValue, text, button) {
 function validateUserInput(initialHeadPositionInput, diskRequestSequenceInput) {
     const initialHeadPosition = parseInt(initialHeadPositionInput.value);
     const diskRequestSequence = diskRequestSequenceInput.value
-                                .split(',')
-                                .filter(str => str.trim() !== '') // Filter out empty strings
-                                .map(Number);
+        .split(',')
+        .filter(str => str.trim() !== '') // Filter out empty strings
+        .map(Number);
 
     if (!initialHeadPosition) return false;
 
-    const isValidHeadPosition = Number.isInteger(initialHeadPosition) && 
-                                initialHeadPosition >= 1 && initialHeadPosition <= 99;
+    const isValidHeadPosition = Number.isInteger(initialHeadPosition) &&
+        initialHeadPosition >= 1 && initialHeadPosition <= 99;
 
     if (diskRequestSequence.length === 0) return false;
 
-    const isValidDiskRequestSequence = diskRequestSequence.every(num => 
-                                Number.isInteger(num) && num >= 0 && num <= 299);    
+    const isValidDiskRequestSequence = diskRequestSequence.every(num =>
+        Number.isInteger(num) && num >= 0 && num <= 299);
 
     return isValidHeadPosition && isValidDiskRequestSequence;
 }
@@ -154,10 +156,10 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
     const requests = diskRequestSequence.map(trackNumber => new Request(trackNumber));
     const homeButton = document.querySelector('#home-button');
     switchView("home-page", "simulation-page");
-    
+
     let heading = document.querySelector("#simulation-page h3");
     let description = document.querySelector("#simulation-page p");
-    
+
     if (algorithm === 'fcfs') {
         heading.textContent = 'First-Come, First-Served (FCFS) Simulation';
         description.textContent = 'The First-Come, First-Served (FCFS) algorithm processes disk requests in the order they arrive. The disk head moves from the initial position to the first request in the sequence, then to the second request, and so on. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';

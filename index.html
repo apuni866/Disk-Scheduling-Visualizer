@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="./styles.css">
     <script type="module" src="script.js"></script>
 </head>
+
 <body class="bg-gradient-to-r from-blue-50 to-blue-100 text-gray-900 min-h-screen flex flex-col">
 
     <!-- Header -->
@@ -18,14 +20,14 @@
     </header>
 
     <main class="container mx-auto px-4 py-8 max-w-5xl flex-grow">
-<!-------------------- Select Algorithm Page -------------------->
+        <!-------------------- Select Algorithm Page -------------------->
         <article id="home-page">
-            
+
             <p class="mt-2 text-sm md:text-base">This interactive tool lets you visualize the FCFS, SCAN, CSCAN, LOOK,
                 C-LOOK, and SSTF disk scheduling algorithms in action. Adjust parameters, view real-time metrics, and
                 see how scheduling decisions impact performance.
             </p>
-            
+
             <section class="algorithms grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div id="fcfs" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
                     <h3 class="text-lg font-semibold mb-2">FCFS</h3>
@@ -75,12 +77,13 @@
                         an algorithm
                     </button>
                     <button type="submit" id="compare-all"
-                        class="bg-gray-400 text-white py-2 px-4 rounded shadow-md " disabled>Enter Parameters
+                        class="bg-gray-400 text-white py-2 px-4 rounded shadow-md cursor-not-allowed" disabled>Enter
+                        Parameters
                     </button>
                 </form>
             </div>
         </article>
-<!-------------------- Run Single Simulation Page -------------------->
+        <!-------------------- Run Single Simulation Page -------------------->
         <article id="simulation-page" class="hidden">
             <h3 class="text-2xl font-semibold mb-4"></h3>
             <div id="algorithm-description" class="mb-4">
@@ -90,10 +93,11 @@
                 <!-- Graph will be generated dynamically here -->
             </div>
             <div class="text-center mt-8">
-                <button id="home-button" class="bg-blue-700 text-white py-2 px-4 rounded shadow-md hover:bg-blue-800 transition">Home</button>
+                <button id="home-button"
+                    class="bg-blue-700 text-white py-2 px-4 rounded shadow-md hover:bg-blue-800 transition">Home</button>
             </div>
         </article>
-<!-------------------- Compare All Simulations Page -------------------->
+        <!-------------------- Compare All Simulations Page -------------------->
     </main>
 
     <!-- Footer -->
@@ -103,4 +107,5 @@
         </div>
     </footer>
 </body>
+
 </html>
