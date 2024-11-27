@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateButtonState(valid, COMPARE_ALL_FLAG, compareAllButton, selectedAlgorithm);
         });
     });
-
     initialHeadPositionInput.addEventListener('input', () => {
         let valid = validateUserInput(initialHeadPositionInput, diskRequestSequenceInput);
         updateButtonState(valid, RUN_SINGLE_FLAG, startSimulationButton, selectedAlgorithm);
