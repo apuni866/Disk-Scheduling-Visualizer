@@ -12,23 +12,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const startSimulationButton = document.querySelector('#start-simulation');
     const compareAllButton = document.querySelector('#compare-all');
     const homeButton = document.querySelector('#home-button');
-    
+
     const initialHeadPositionInput = document.querySelector('#initial-head-position');
     const diskRequestSequenceInput = document.querySelector('#disk-request-sequence');
-    //switchView("home-page", "simulation-page");
+
     algorithms.forEach(algorithm => {
         document.querySelector(`#${algorithm}`).addEventListener('click', () => {
-            selectedAlgorithm = algorithm;
-            algorithms.forEach(algo => {
-                document.querySelector(`#${algo}`).classList.remove('glowing-border');
-            });
-            document.querySelector(`#${algorithm}`).classList.add('glowing-border');
+            if (selectedAlgorithm === algorithm) {
+                selectedAlgorithm = null;
+                document.querySelector(`#${algorithm}`).classList.remove('glowing-border');
+                transformButton(true, 'Select an Algorithm', startSimulationButton);
+            } else {
+                selectedAlgorithm = algorithm;
+                algorithms.forEach(algo => {
+                    document.querySelector(`#${algo}`).classList.remove('glowing-border');
+                });
+                document.querySelector(`#${algorithm}`).classList.add('glowing-border');
+            }
             let valid = validateUserInput(initialHeadPositionInput, diskRequestSequenceInput);
             updateButtonState(valid, RUN_SINGLE_FLAG, startSimulationButton, selectedAlgorithm);
             updateButtonState(valid, COMPARE_ALL_FLAG, compareAllButton, selectedAlgorithm);
         });
     });
-
     initialHeadPositionInput.addEventListener('input', () => {
         let valid = validateUserInput(initialHeadPositionInput, diskRequestSequenceInput);
         updateButtonState(valid, RUN_SINGLE_FLAG, startSimulationButton, selectedAlgorithm);
@@ -41,20 +46,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.querySelector('#simulation-form').addEventListener('submit', (event) => {
         event.preventDefault();
-        if (selectedAlgorithm && 
-            validateUserInput(initialHeadPositionInput, diskRequestSequenceInput)){
+        if (selectedAlgorithm &&
+            validateUserInput(initialHeadPositionInput, diskRequestSequenceInput)) {
 
             const initialHeadPosition = parseInt(initialHeadPositionInput.value);
             const diskRequestSequence = diskRequestSequenceInput.value.split(',').map(Number);
             startSimulation(selectedAlgorithm, initialHeadPosition, diskRequestSequence);
-        } 
+        }
     });
     homeButton.addEventListener('click', () => {
         switchView("simulation-page", "home-page");
-        algorithms.forEach(algo => {
-            document.querySelector(`#${algo}`).classList.remove('glowing-border');
-        });
-        resetForm(startSimulationButton);
     });
 });
 /**
@@ -77,7 +78,7 @@ function updateButtonState(valid, isAllButton, button, selectedAlgorithm) {
         console.log(selectedAlgorithm);
         transformButton(false, `Start ${selectedAlgorithm.toUpperCase()} Simulation`, button);
         updateStartButton(button, selectedAlgorithm);
-    } 
+    }
     else {
         transformButton(true, 'Enter Parameters', button);
     }
@@ -112,23 +113,19 @@ function transformButton(disabledValue, text, button) {
 function validateUserInput(initialHeadPositionInput, diskRequestSequenceInput) {
     const initialHeadPosition = parseInt(initialHeadPositionInput.value);
     const diskRequestSequence = diskRequestSequenceInput.value
-                                .split(',')
-                                .filter(str => str.trim() !== '') // Filter out empty strings
-                                .map(Number);
+        .split(',')
+        .filter(str => str.trim() !== '') // Filter out empty strings
+        .map(Number);
 
     if (!initialHeadPosition) return false;
 
-    const isValidHeadPosition = Number.isInteger(initialHeadPosition) && 
-                                initialHeadPosition >= 1 && initialHeadPosition <= 99;
+    const isValidHeadPosition = Number.isInteger(initialHeadPosition) &&
+        initialHeadPosition >= 1 && initialHeadPosition <= 99;
 
     if (diskRequestSequence.length === 0) return false;
 
-    const isValidDiskRequestSequence = diskRequestSequence.every(num => 
-                                Number.isInteger(num) && num >= 0 && num <= 299);    
-    console.log(`diskRequestSequence ${diskRequestSequence}`);
-    if (diskRequestSequence == '') {console.log(`hi`);}
-    console.log(`initialHeadPosition: ${isValidHeadPosition}`);
-    console.log(`isValidDiskPos: ${isValidDiskRequestSequence}`);
+    const isValidDiskRequestSequence = diskRequestSequence.every(num =>
+        Number.isInteger(num) && num >= 0 && num <= 299);
 
     return isValidHeadPosition && isValidDiskRequestSequence;
 }
@@ -163,10 +160,10 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
     const requests = diskRequestSequence.map(trackNumber => new Request(trackNumber));
     const homeButton = document.querySelector('#home-button');
     switchView("home-page", "simulation-page");
-    
+
     let heading = document.querySelector("#simulation-page h3");
     let description = document.querySelector("#simulation-page p");
-    
+
     if (algorithm === 'fcfs') {
         heading.textContent = 'First-Come, First-Served (FCFS) Simulation';
         description.textContent = 'The First-Come, First-Served (FCFS) algorithm processes disk requests in the order they arrive. The disk head moves from the initial position to the first request in the sequence, then to the second request, and so on. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
@@ -176,8 +173,23 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
         // Call the appropriate function for SCAN
         console.log('SCAN algorithm not implemented yet');
     }
-    //article.appendChild(heading);
-    //article.appendChild(description);
+    else if (algorithm === 'cscan') {
+        // Call the appropriate function for C-SCAN
+        console.log('C-SCAN algorithm not implemented yet');
+    }
+    else if (algorithm === 'look') {
+        // Call the appropriate function for LOOK
+        console.log('LOOK algorithm not implemented yet');
+    }
+    else if (algorithm === 'clook') {
+        // Call the appropriate function for C-LOOK
+        console.log('C-LOOK algorithm not implemented yet');
+    }
+    else if (algorithm === 'sstf') {
+        // Call the appropriate function for SSTF
+        console.log('SSTF algorithm not implemented yet');
+    }
+
     // Add other conditions for different algorithms
 }
 
@@ -187,11 +199,4 @@ function switchView(currentView, newView) {
 
     currentViewElement.classList.add('hidden');
     newViewElement.classList.remove('hidden');
-}
-function resetForm(button) {
-    document.querySelector('#simulation-form').reset();
-    button.disabled = true;
-    button.classList.add('bg-gray-400', 'cursor-not-allowed');
-    button.classList.remove('bg-blue-700', 'hover:bg-blue-800');
-    button.textContent = 'Enter Parameters';
 }
