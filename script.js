@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
     });
     homeButton.addEventListener('click', () => {
-        switchView("simulation-page", "home-page");
+        // switchView("simulation-page", "home-page");
         algorithms.forEach(algo => {
             document.querySelector(`#${algo}`).classList.remove('glowing-border');
         });
@@ -162,7 +162,8 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
     console.log(`Starting simulation with ${algorithm} algorithm`);
     const requests = diskRequestSequence.map(trackNumber => new Request(trackNumber));
     const homeButton = document.querySelector('#home-button');
-    switchView("home-page", "simulation-page");
+    // switchView("home-page", "simulation-page");
+    henry();
     
     let heading = document.querySelector("#simulation-page h3");
     let description = document.querySelector("#simulation-page p");
@@ -194,4 +195,10 @@ function resetForm(button) {
     button.classList.add('bg-gray-400', 'cursor-not-allowed');
     button.classList.remove('bg-blue-700', 'hover:bg-blue-800');
     button.textContent = 'Enter Parameters';
+}
+
+function henry(){
+    // let canvas = document.querySelector('canvas');
+    // console.log(canvas)
+    start()
 }
