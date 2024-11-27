@@ -15,14 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const initialHeadPositionInput = document.querySelector('#initial-head-position');
     const diskRequestSequenceInput = document.querySelector('#disk-request-sequence');
-    //switchView("home-page", "simulation-page");
+
     algorithms.forEach(algorithm => {
         document.querySelector(`#${algorithm}`).addEventListener('click', () => {
-            selectedAlgorithm = algorithm;
-            algorithms.forEach(algo => {
-                document.querySelector(`#${algo}`).classList.remove('glowing-border');
-            });
-            document.querySelector(`#${algorithm}`).classList.add('glowing-border');
+            if (selectedAlgorithm === algorithm) {
+                selectedAlgorithm = null;
+                document.querySelector(`#${algorithm}`).classList.remove('glowing-border');
+                transformButton(true, 'Select an Algorithm', startSimulationButton);
+            } else {
+                selectedAlgorithm = algorithm;
+                algorithms.forEach(algo => {
+                    document.querySelector(`#${algo}`).classList.remove('glowing-border');
+                });
+                document.querySelector(`#${algorithm}`).classList.add('glowing-border');
+            }
             let valid = validateUserInput(initialHeadPositionInput, diskRequestSequenceInput);
             updateButtonState(valid, RUN_SINGLE_FLAG, startSimulationButton, selectedAlgorithm);
             updateButtonState(valid, COMPARE_ALL_FLAG, compareAllButton, selectedAlgorithm);
@@ -49,8 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     homeButton.addEventListener('click', () => {
-        //location.reload();
-        //^ this will just refresh the page, but it might be nice to keep the parameters
         switchView("simulation-page", "home-page");
     });
 });
