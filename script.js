@@ -198,7 +198,20 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
 
     // Add other conditions for different algorithms
 }
+function displaySimulationResults(simulation) {
+    if (!simulation) return;
 
+    const seekTimeElement = document.querySelector('#seek-time');
+    const drawingElement = document.querySelector('#drawing');
+
+    seekTimeElement.textContent = `Total Seek Time: ${simulation.seekTime}`;
+    drawingElement.textContent = `Drawing Sequence: ${simulation.drawingSequence.join(' -> ')}`;
+}
+/**
+ * Manipulates the DOM to display other pages.
+ * @param {string} currentView 
+ * @param {string} newView 
+ */
 function switchView(currentView, newView) {
     const currentViewElement = document.querySelector(`#${currentView}`);
     const newViewElement = document.querySelector(`#${newView}`);
