@@ -1,4 +1,4 @@
-import { Simulation, runFCFS, runScan} from './algorithms.js';
+import { Simulation, runFCFS, runScan } from './algorithms.js';
 /**
  * The main entry point for the application.
  * Uses DOM manipulation to add event listeners to the buttons and form elements.
@@ -163,14 +163,18 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
 
     let heading = document.querySelector("#simulation-page h3");
     let description = document.querySelector("#simulation-page p");
+    let simulation = null;
 
     if (algorithm === 'fcfs') {
         heading.textContent = 'First-Come, First-Served (FCFS) Simulation';
         description.textContent = 'The First-Come, First-Served (FCFS) algorithm processes disk requests in the order they arrive. The disk head moves from the initial position to the first request in the sequence, then to the second request, and so on. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
         console.log('Starting FCFS simulation');
-        let simulation = runFCFS(requests, initialHeadPosition);
+        //simulation = runFCFS(requests, initialHeadPosition);
     } else if (algorithm === 'scan') {
         // Call the appropriate function for SCAN
+        heading.textContent = 'SCAN Simulation';
+        description.textContent = 'The SCAN algorithm processes disk requests in a linear fashion. The disk head moves from the initial position to the end of the disk, then reverses direction and moves to the other end. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
+        simulation = runScan(requests, initialHeadPosition);
         console.log('SCAN algorithm not implemented yet');
     }
     else if (algorithm === 'cscan') {
@@ -189,6 +193,7 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
         // Call the appropriate function for SSTF
         console.log('SSTF algorithm not implemented yet');
     }
+    displaySimulationResults(simulation);
 
 
     // Add other conditions for different algorithms
