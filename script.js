@@ -93,7 +93,7 @@ function updateButtonState(valid, isAllButton, button, selectedAlgorithm) {
 function transformButton(disabledValue, text, button) {
     button.disabled = disabledValue;
     if (disabledValue) {
-        button.classList.add('bg-gray-400', 'cursor-not-allowed');
+        button.classList.add('bg-gray-500', 'cursor-not-allowed');
         button.classList.remove('bg-blue-700', 'hover:bg-blue-800');
     }
     else {
