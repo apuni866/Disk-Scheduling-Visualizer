@@ -80,7 +80,7 @@ class Simulation {
       this.drawingSequence = [];
     }
 }
-/* Amtooj do this */
+/* * * * * * * * * *  Amtoj do this * * * * * * * */
     function runScan(queue, head) {
 
         const MAX = 200;
@@ -90,7 +90,6 @@ class Simulation {
         let left = [];
         let right = [];
 
-        // Separate the elements into left and right based on the head position
         queue.forEach((qElement) => {
             if (qElement < head) {
                 left.push(qElement);
@@ -99,17 +98,16 @@ class Simulation {
             }
         });
 
-        // Sort the left array in descending order and right array in ascending order
         left.sort((a, b) => b - a);
         right.sort((a, b) => a - b);
 
-        // Create the full sequence of traversal
+
         let fullSequence = [head];
         fullSequence.push(...left);
-        fullSequence.push(0); // Since we're doing a left traversal, include 0
+        fullSequence.push(0); 
         fullSequence.push(...right);
 
-        // Calculate seek time
+
         let seekTime = this.calculateSeekTime(fullSequence, head);
 
         console.log("Left Array:", left);
@@ -117,9 +115,132 @@ class Simulation {
         console.log("Full Sequence:", fullSequence);
         console.log("Seek time was:", seekTime);
 
-        return new Simulation(oldqueue, queue, seekTime, queue); // Fully built array
+        return new Simulation(oldqueue, queue, seekTime, queue); 
+    }
+    function runCScan(queue, head) {
+        const MAX = 200; 
+    
+        console.log("* * * * * Running the C-SCAN algorithm * * * * *\n");
+        let oldqueue = Array.from(queue);
+        let left = [];
+        let right = [];
+    
+        
+        queue.forEach((qElement) => {
+            if (qElement < head) {
+                left.push(qElement);
+            } else {
+                right.push(qElement);
+            }
+        });
+    
+        left.sort((a, b) => a - b);
+        right.sort((a, b) => a - b);
+    
+        let fullSequence = [head];
+        fullSequence.push(...right); 
+        fullSequence.push(MAX - 1); 
+        fullSequence.push(0);       
+        fullSequence.push(...left); 
+    
+        let seekTime = this.calculateSeekTime(fullSequence, head);
+    
+        console.log("Left Array:", left);
+        console.log("Right Array:", right);
+        console.log("Full Sequence:", fullSequence);
+        console.log("Seek time was:", seekTime);
+    
+        return new Simulation(oldqueue, queue, seekTime, queue); 
     }
 
+    function runLook(queue, head) {
+        console.log("* * * * * Running the LOOK algorithm * * * * *\n");
+    
+        let oldqueue = Array.from(queue);
+        let left = [];
+        let right = [];
+    
+        queue.forEach((qElement) => {
+            if (qElement < head) {
+                left.push(qElement);
+            } else {
+                right.push(qElement);
+            }
+        });
+    
+        left.sort((a, b) => b - a);
+        right.sort((a, b) => a - b);
+    
+        let fullSequence = [head];
+        fullSequence.push(...right); 
+        fullSequence.push(...left); 
+    
+        let seekTime = this.calculateSeekTime(fullSequence, head);
+    
+        console.log("Left Array:", left);
+        console.log("Right Array:", right);
+        console.log("Full Sequence:", fullSequence);
+        console.log("Seek time was:", seekTime);
+    
+        return new Simulation(oldqueue, queue, seekTime, queue); 
+    }
+    
+    function runCLook(queue, head) {
+        console.log("* * * * * Running the C-LOOK algorithm * * * * *\n");
+    
+        let oldqueue = Array.from(queue);
+        let left = [];
+        let right = [];
+    
+
+        queue.forEach((qElement) => {
+            if (qElement < head) {
+                left.push(qElement);
+            } else {
+                right.push(qElement);
+            }
+        });
+    
+
+        left.sort((a, b) => a - b);
+        right.sort((a, b) => a - b);
+    
+
+        let fullSequence = [head];
+        fullSequence.push(...right); 
+        fullSequence.push(...left); 
+    
+        let seekTime = this.calculateSeekTime(fullSequence, head);
+    
+        console.log("Left Array:", left);
+        console.log("Right Array:", right);
+        console.log("Full Sequence:", fullSequence);
+        console.log("Seek time was:", seekTime);
+    
+        return new Simulation(oldqueue, queue, seekTime, queue); 
+    }
+
+    function runFCFS(queue, head) {
+        console.log("* * * * * Running the FCFS algorithm * * * * *\n");
+    
+        let seekCounter = 0;
+        let distance = 0;
+        let fullSequence = [head]; 
+    
+        queue.forEach((currentLocation) => {
+            distance = Math.abs(head - currentLocation); 
+            seekCounter += distance; 
+            head = currentLocation; 
+            fullSequence.push(currentLocation); 
+        });
+    
+        console.log("Total Number of seek operations =", seekCounter);
+        console.log("The Seek Sequence is:");
+        console.log(fullSequence.join(" -> ")); 
+    
+        return new Simulation(queue, queue, seekCounter, fullSequence); 
+    }
+    
     /**
      * Calculates the total seek time and generates the seek sequence.
      *
