@@ -200,5 +200,16 @@ function resetForm(button) {
 function henry(){
     // let canvas = document.querySelector('canvas');
     // console.log(canvas)
-    start()
+    randomY = []
+    randomX = []
+    for(let i =0; i< 25; i++){
+        randomY.push(p.random(100,300)); 
+    }
+    for(let i =0; i< 25; i++){
+        randomX.push(p2.random(100,300)); 
+    }
+    // draw()
 }
+
+start()
+
