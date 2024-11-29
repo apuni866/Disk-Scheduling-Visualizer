@@ -1,4 +1,4 @@
-import { Simulation, runFCFS, runScan} from './algorithms.js';
+import { Simulation, runFCFS, runScan } from './algorithms.js';
 /**
  * The main entry point for the application.
  * Uses DOM manipulation to add event listeners to the buttons and form elements.
@@ -93,11 +93,11 @@ function updateButtonState(valid, isAllButton, button, selectedAlgorithm) {
 function transformButton(disabledValue, text, button) {
     button.disabled = disabledValue;
     if (disabledValue) {
-        button.classList.add('bg-gray-400', 'cursor-not-allowed');
+        button.classList.add('bg-gray-500', 'cursor-not-allowed');
         button.classList.remove('bg-blue-700', 'hover:bg-blue-800');
     }
     else {
-        button.classList.remove('bg-gray-400', 'cursor-not-allowed');
+        button.classList.remove('bg-gray-500', 'cursor-not-allowed');
         button.classList.add('bg-blue-700', 'hover:bg-blue-800');
     }
     button.textContent = text;
@@ -157,20 +157,28 @@ function updateStartButton(button, selectedAlgorithm) {
  */
 function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
     console.log(`Starting simulation with ${algorithm} algorithm`);
-    const requests = diskRequestSequence.map(trackNumber => new Request(trackNumber));
+    //const requests = diskRequestSequence.map(trackNumber => new Request(trackNumber));
     const homeButton = document.querySelector('#home-button');
+
     switchView("home-page", "simulation-page");
 
     let heading = document.querySelector("#simulation-page h3");
     let description = document.querySelector("#simulation-page p");
+    //let simulation = null;
+    let simulation = new Simulation([12,34,24,76,10], [31,12,32,13,42], 42, [31,12,32,13,42]);
+    //Remove this later
 
     if (algorithm === 'fcfs') {
         heading.textContent = 'First-Come, First-Served (FCFS) Simulation';
         description.textContent = 'The First-Come, First-Served (FCFS) algorithm processes disk requests in the order they arrive. The disk head moves from the initial position to the first request in the sequence, then to the second request, and so on. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
         console.log('Starting FCFS simulation');
-        let simulation = runFCFS(requests, initialHeadPosition);
+        //simulation = runFCFS(requests, initialHeadPosition);
     } else if (algorithm === 'scan') {
         // Call the appropriate function for SCAN
+        heading.textContent = 'SCAN Simulation';
+        description.textContent = 'The SCAN algorithm processes disk requests in a linear fashion. The disk head moves from the initial position to the end of the disk, then reverses direction and moves to the other end. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
+        //simulation = runScan(requests, initialHeadPosition);
+        
         console.log('SCAN algorithm not implemented yet');
     }
     else if (algorithm === 'cscan') {
@@ -189,11 +197,33 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
         // Call the appropriate function for SSTF
         console.log('SSTF algorithm not implemented yet');
     }
+    displaySimulationResults(simulation);
+
 
 
     // Add other conditions for different algorithms
 }
+function displaySimulationResults(simulation) {
+    if (!simulation) return;
+    const oldSequence = document.querySelector('#old-sequence');
+    const newSequence = document.querySelector('#new-sequence');
+    const totalTime = document.querySelector('#total-seek-time');
 
+    // const seekTimeElement = document.querySelector('#seek-time');
+    // const drawingElement = document.querySelector('#drawing');
+ 
+    // seekTimeElement.textContent = `Total Seek Time: ${simulation.seekTime}`;
+    // drawingElement.textContent = `Drawing Sequence: ${simulation.drawingSequence.join(' -> ')}`;
+
+    oldSequence.textContent = simulation.originalSequence;
+    newSequence.textContent = simulation.newSequence;
+    totalTime.textContent = simulation.seekTime;
+}
+/**
+ * Manipulates the DOM to display other pages.
+ * @param {string} currentView 
+ * @param {string} newView 
+ */
 function switchView(currentView, newView) {
     const currentViewElement = document.querySelector(`#${currentView}`);
     const newViewElement = document.querySelector(`#${newView}`);
