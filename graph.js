@@ -1,5 +1,5 @@
-const W = 650, H = 1000; // dimensions of canvas
-const padding_up = 50, padding_down = 50;
+const W = 650, H = 650; // dimensions of canvas
+const padding = 10;
 const time = W; // number of x tick values
 const step = W/time; // time step
 
@@ -7,7 +7,7 @@ let data = []; // to store number of infected people
 let count = 0; // steps counter
 let posy, fy, fx, c, infected, colors, maxH, l, f;
 
-let sequence = [10, 20, 40, 200, 50, 75, 20, 175, 155, 170, 0, 20, 40, 200, 50, 75, 20, 175, 155, 170]
+let sequence = [10, 20, 40, 199, 50, 75, 20, 175, 155, 170, 0, 20, 40, 199, 50, 75, 20, 175, 155, 170]
 let head = 30;
 let index = 0;
 let target = sequence[index];
@@ -22,11 +22,11 @@ function setup() {
   console.log(graph_container.offsetWidth);
   let canvas = document.querySelector('canvas');
   
-  graph_container.append(canvas);
+  // graph_container.append(canvas);
 
 
   // array containing the x positions of the line graph, scaled to fit the canvas
-  posy = Float32Array.from({ length: time }, (_, i) => map(i, 0, time, padding_up, W));
+  posy = Float32Array.from({ length: time }, (_, i) => map(i, 0, time, padding, W));
   
   // function to map the number of infected people to a specifiec height (here the height of the canvas)
   fy = _ => map(_, 3, 0, H, 10);
@@ -38,6 +38,8 @@ function setup() {
 
 function get_new_target(){
   target = sequence[++index]
+  if(target == undefined)
+    console.log('done'); /////// this is where i stop the drawing.
 }
 function draw() {
   background('#fff');
@@ -53,13 +55,14 @@ function draw() {
   // infected = (exp(-c*c/2.0) / sqrt(TWO_PI) / 0.2)  + map(noise(f*0.02), 0, 1, -1, 1);
   
   if(left && head > target)
-    head -= 2;
+    head -= 1.5;
   else if(!left && head < target)
-    head +=2;
+    head += 1.5;
   else{
     get_new_target();
     left = (target < head)
-    points.push((head,posy))
+    points.push({'x': head,'y':posy[l]});
+    // console.log(points)
   }
 
   // store that number at each step (the x-axis tick values)
@@ -86,16 +89,15 @@ function draw() {
     line(x1, y1, x2, y2);
     
   }
-  // console.log(points)
-  // for (let i = 0 ; i < points.length - 1 ; i++){
-  //   x1 = fx(points[i]);
-  //   x2 = fx(points[i+1]);
-  //   y1 = points[i];
-  //   y2 = points[i+1];
 
-  //   strokeWeight(0.2);
-  //   line(x1, 0, x1, y1 + 2);
-  // }
+  for (let i = 0 ; i < points.length ; i++){
+    x1 = fx(points[i].x);
+    y1 = points[i].y;
+
+    strokeWeight(0.2);
+    line(x1, 0, x1, y1);
+    ellipse(x1, y1, 10, 10);
+  }
   // draw ellispe at last data point
   if (count > 1) {
     ellipse(fx(data[l]), posy[l], 4, 4);
