@@ -246,4 +246,8 @@ function henry(){
     // draw()
 }
 
-
+// function start(){
+//     setup();
+//     draw();
+// }
+// start();
