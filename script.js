@@ -76,10 +76,16 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 function updateButtonState(valid, isAllButton, button, selectedAlgorithm) {
 
-    if (isAllButton && valid) {
-        transformButton(false, `Compare All`, button);
+    if (isAllButton) {
+        if (valid){
+            transformButton(false, `Compare All`, button);
+        }
+        else {
+            transformButton(true, "Enter Parameters", button);
+        }
         return;
     }
+    
     if (!selectedAlgorithm) return;
 
     if (valid) {
@@ -121,12 +127,14 @@ function transformButton(disabledValue, text, button) {
 function validateUserInput(initialHeadPositionInput, diskRequestSequenceInput) {
     const initialHeadPosition = parseFloat(initialHeadPositionInput.value);  // Parse as float
     const diskRequestSequence = diskRequestSequenceInput.value
-        .split(',')
-        .filter(str => str.trim() !== '') // Filter out empty strings
-        .map(Number);
-
+    .split(',')
+    .filter(str => str.trim() !== '') // Filter out empty strings
+    .map(Number);
+    
+    console.log(`pos: ${initialHeadPosition}, seq: ${diskRequestSequence}`);
     // Check if initialHeadPosition is a valid integer and falls within the valid range
-    if (!Number.isInteger(initialHeadPosition) || initialHeadPosition < 1 || initialHeadPosition > 99) {
+    if (!Number.isInteger(initialHeadPosition) || initialHeadPosition < 0 || initialHeadPosition > 99 || !initialHeadPositionInput) {
+        console.log("bye");
         return false;
     }
 
