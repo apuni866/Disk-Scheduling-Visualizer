@@ -61,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 compareAllSimulations(initialHeadPosition, diskRequestSequence);
             }
         }
-
     });
     homeButton.addEventListener('click', () => {
         switchView("simulation-page", "home-page");
@@ -120,23 +119,23 @@ function transformButton(disabledValue, text, button) {
  * @returns {boolean} - Returns true if the input is valid, otherwise false.
  */
 function validateUserInput(initialHeadPositionInput, diskRequestSequenceInput) {
-    const initialHeadPosition = parseInt(initialHeadPositionInput.value);
+    const initialHeadPosition = parseFloat(initialHeadPositionInput.value);  // Parse as float
     const diskRequestSequence = diskRequestSequenceInput.value
         .split(',')
         .filter(str => str.trim() !== '') // Filter out empty strings
         .map(Number);
 
-    if (!initialHeadPosition) return false;
-
-    const isValidHeadPosition = Number.isInteger(initialHeadPosition) &&
-        initialHeadPosition >= 1 && initialHeadPosition <= 99;
+    // Check if initialHeadPosition is a valid integer and falls within the valid range
+    if (!Number.isInteger(initialHeadPosition) || initialHeadPosition < 1 || initialHeadPosition > 99) {
+        return false;
+    }
 
     if (diskRequestSequence.length === 0) return false;
 
     const isValidDiskRequestSequence = diskRequestSequence.every(num =>
         Number.isInteger(num) && num >= 0 && num <= 299);
 
-    return isValidHeadPosition && isValidDiskRequestSequence;
+    return isValidDiskRequestSequence;
 }
 
 /**
