@@ -244,7 +244,7 @@ function compareAllSimulations(initialHeadPosition, diskRequestSequence) {
     }
     let minValue = Math.min(...seekTimes);
     console.log(`min val is: ${minValue}`);
-    writeTotalSeekTimes(simulations);
+    displayAllResults(simulations, initialHeadPosition, diskRequestSequence);
     // ^ remove that later, just for testing before algorithms are implemented.
 
     //rest goes here
@@ -265,10 +265,15 @@ function displaySimulationResults(simulation) {
     newSequence.textContent = simulation.newSequence;
     totalTime.textContent = simulation.seekTime;
 }
-function displayAllResults(simulations) {
+function displayAllResults(simulations, position, sequence) {
     const oldSequence = document.querySelector('#old-sequence');
+    writeStartingSequence(oldSequence, sequence);
+    writeTotalSeekTimes(simulations);
 
 
+}
+function writeStartingSequence(element, sequence) {
+    element.textContent = `${sequence}`;
 }
 function writeTotalSeekTimes(simulations) {
     const resultsContainer = document.querySelector("#total-seek-times-all");
