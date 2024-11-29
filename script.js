@@ -97,7 +97,7 @@ function transformButton(disabledValue, text, button) {
         button.classList.remove('bg-blue-700', 'hover:bg-blue-800');
     }
     else {
-        button.classList.remove('bg-gray-400', 'cursor-not-allowed');
+        button.classList.remove('bg-gray-500', 'cursor-not-allowed');
         button.classList.add('bg-blue-700', 'hover:bg-blue-800');
     }
     button.textContent = text;
