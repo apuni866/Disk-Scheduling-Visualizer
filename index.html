@@ -130,7 +130,7 @@
                     <!-- Old Sequence -->
                     <div class="col-span-1 row-span-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md h-auto">
                         <div class="mb-4">
-                            <h4 class="text-lg font-semibold text-gray-300">Old Sequence</h4>
+                            <h4 class="text-lg font-semibold text-gray-300">Starting Sequence</h4>
                             <p id="old-sequence" class="text-gray-300">[Old sequence will be displayed here]</p>
                         </div>
                     </div>
@@ -159,6 +159,52 @@
                 </div>
             </article>
             <!-------------------- Compare All Simulations Page -------------------->
+            <article id="simulation-page-all" class="hidden text-gray-300">
+                <div class="grid grid-cols-3 grid-rows-4 gap-4">
+                    <!-- Heading and Description -->
+                    <div class="col-span-3  bg-gray-800 bg-opacity-75 rounded shadow-md text-gray-300">
+                        <h3 class="p-4 font-bold text-2xl text-gray-300">Comparison for all Algorithms</h3>
+                        <div id="algorithm-description" class=" text-gray-300">
+                            <p class="p-4 text-sm font-medium text-gray-300">Henrys cute ass can explain this smexy graph</p>
+                        </div>
+                    </div>
+
+                    <!-- Graph Container -->
+                    <div id="graph-container" class="col-span-2 row-span-3 p-4 bg-white rounded shadow-md">
+                        <!-- Graph will be generated dynamically here -->
+                    </div>
+
+                    <!-- Old Sequence -->
+                    <div class="col-span-1 row-span-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md h-auto">
+                        <div class="mb-4">
+                            <h4 class="text-lg font-semibold text-gray-300">Starting Sequence</h4>
+                            <p id="starting-sequence-all" class="text-gray-300"></p>
+                        </div>
+                    </div>
+
+                    <!-- New Sequence -->
+                    <div class="col-span-1 row-span-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
+                        <div class="mb-4">
+                            <h4 class="text-lg font-semibold">Total Seek Time</h4>
+                            <p id="total-seek-time-all" class="text-gray-300"></p>
+                        </div>
+                    </div>
+
+                    <!-- Total Seek Time -->
+                    <div class="col-span-1 row-span-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
+                        <div>
+                            <h4 class="text-lg font-semibold">Minimum Seek Time</h4>
+                            <p id="minimum-seek-time-all" class="text-gray-300"></p>
+                        </div>
+                    </div>
+
+                    <!-- Home Button -->
+                    <div class="col-span-3 mt-8 text-center">
+                        <button id="home-button"
+                            class="px-4 py-2 text-white transition bg-blue-700 rounded shadow-md hover:bg-blue-800">Home</button>
+                    </div>
+                </div>
+            </article>
         </main>
     </div>
 

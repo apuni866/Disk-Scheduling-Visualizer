@@ -46,13 +46,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.querySelector('#simulation-form').addEventListener('submit', (event) => {
         event.preventDefault();
-        if (selectedAlgorithm &&
-            validateUserInput(initialHeadPositionInput, diskRequestSequenceInput)) {
-
+        const clickedButton = event.submitter;
+    
+        if (validateUserInput(initialHeadPositionInput, diskRequestSequenceInput)) {
             const initialHeadPosition = parseInt(initialHeadPositionInput.value);
             const diskRequestSequence = diskRequestSequenceInput.value.split(',').map(Number);
-            startSimulation(selectedAlgorithm, initialHeadPosition, diskRequestSequence);
+    
+            // Check which button was clicked based on its ID
+            if (clickedButton.id === 'start-simulation' && selectedAlgorithm) {
+                // Handle the logic for the 'start-simulation' button
+                startSimulation(selectedAlgorithm, initialHeadPosition, diskRequestSequence);
+            } else if (clickedButton.id === 'compare-all') {
+                // Handle the logic for the 'compare-all' button
+                compareAllSimulations(initialHeadPosition, diskRequestSequence);
+            }
         }
+
     });
     homeButton.addEventListener('click', () => {
         switchView("simulation-page", "home-page");
@@ -202,6 +211,36 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
 
 
     // Add other conditions for different algorithms
+}
+function compareAllSimulations(initialHeadPosition, diskRequestSequence) {
+    const homeButton = document.querySelector('#home-button');
+
+    switchView("home-page", "simulation-page-all");
+    console.log("click");
+    const seekTimes = [];
+
+    //const simulations = {};
+    //simulations['FCFS'] = runFCFS(diskRequestSequence, initialHeadPosition);
+    
+    const simulations = {
+        "FCFS": new Simulation([45, 20, 10, 80, 30], [10, 20, 30, 45, 80], 250, [45, 20, 10, 80, 30]),
+        "SCAN": new Simulation([75, 30, 60, 20, 40], [20, 30, 40, 60, 75], 300, [40, 30, 60, 20, 75]),
+        "CSCAN": new Simulation([50, 10, 90, 30, 60], [10, 30, 50, 60, 90], 280, [50, 10, 90, 30, 60]),
+        "LOOK": new Simulation([40, 10, 80, 60, 30], [10, 30, 40, 60, 80], 260, [40, 10, 80, 60, 30]),
+        "C-LOOK": new Simulation([25, 55, 100, 85, 10], [10, 25, 55, 85, 100], 220, [55, 100, 85, 10, 25]),
+        "SSTF": new Simulation([60, 80, 20, 40, 70], [20, 40, 60, 70, 80], 150, [60, 80, 20, 40, 70])
+    };
+    
+    console.log("All Seek times:");
+    for (let algorithm in simulations) {
+        seekTimes.push(simulations[algorithm].seekTime);
+        console.log(`${simulations[algorithm].seekTime}`);
+    }
+    let minValue = Math.min(...seekTimes);
+    console.log(`min val is: ${minValue}`);
+    // ^ remove that later, just for testing before algorithms are implemented.
+
+    //rest goes here
 }
 function displaySimulationResults(simulation) {
     if (!simulation) return;
