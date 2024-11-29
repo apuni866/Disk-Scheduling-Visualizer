@@ -145,7 +145,6 @@ function validateUserInput(initialHeadPositionInput, diskRequestSequenceInput) {
 
     return isValidDiskRequestSequence;
 }
-
 /**
  * Updates the text content of the start button to indicate the selected disk scheduling algorithm.
  *
@@ -245,6 +244,7 @@ function compareAllSimulations(initialHeadPosition, diskRequestSequence) {
     }
     let minValue = Math.min(...seekTimes);
     console.log(`min val is: ${minValue}`);
+    writeTotalSeekTimes(simulations);
     // ^ remove that later, just for testing before algorithms are implemented.
 
     //rest goes here
@@ -264,6 +264,37 @@ function displaySimulationResults(simulation) {
     oldSequence.textContent = simulation.originalSequence;
     newSequence.textContent = simulation.newSequence;
     totalTime.textContent = simulation.seekTime;
+}
+function displayAllResults(simulations) {
+    const oldSequence = document.querySelector('#old-sequence');
+
+
+}
+function writeTotalSeekTimes(simulations) {
+    const resultsContainer = document.querySelector("#total-seek-times-all");
+    
+    // Clear any existing content
+    resultsContainer.textContent = '';
+
+    const header = document.createElement('h4');
+    header.classList.add('text-lg', 'font-semibold'); // Adding classes for styling
+    header.textContent = 'Total Seek Times'; // Set the text of the header
+    resultsContainer.appendChild(header);
+
+    // Iterate over the 'simulations' object
+    for (let key in simulations) {
+        if (simulations.hasOwnProperty(key)) {
+            // Access the seekTime for each simulation (the third property in the Simulation constructor)
+            let seekTime = simulations[key].seekTime;
+            
+            // Create a new text node with the key and seekTime
+            const textNode = document.createElement('p');
+            textNode.textContent = `${key}: ${seekTime}`;
+            
+            // Append the text node to the results container
+            resultsContainer.appendChild(textNode);
+        }
+    }
 }
 /**
  * Manipulates the DOM to display other pages.
