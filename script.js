@@ -46,12 +46,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.querySelector('#simulation-form').addEventListener('submit', (event) => {
         event.preventDefault();
-        if (selectedAlgorithm &&
-            validateUserInput(initialHeadPositionInput, diskRequestSequenceInput)) {
-
+        const clickedButton = event.submitter;
+    
+        if (validateUserInput(initialHeadPositionInput, diskRequestSequenceInput)) {
             const initialHeadPosition = parseInt(initialHeadPositionInput.value);
             const diskRequestSequence = diskRequestSequenceInput.value.split(',').map(Number);
-            startSimulation(selectedAlgorithm, initialHeadPosition, diskRequestSequence);
+    
+            // Check which button was clicked based on its ID
+            if (clickedButton.id === 'start-simulation' && selectedAlgorithm) {
+                // Handle the logic for the 'start-simulation' button
+                startSimulation(selectedAlgorithm, initialHeadPosition, diskRequestSequence);
+            } else if (clickedButton.id === 'compare-all') {
+                // Handle the logic for the 'compare-all' button
+                compareAllSimulations(initialHeadPosition, diskRequestSequence);
+            }
         }
     });
     homeButton.addEventListener('click', () => {
@@ -68,10 +76,16 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 function updateButtonState(valid, isAllButton, button, selectedAlgorithm) {
 
-    if (isAllButton && valid) {
-        transformButton(false, `Compare All`, button);
+    if (isAllButton) {
+        if (valid){
+            transformButton(false, `Compare All`, button);
+        }
+        else {
+            transformButton(true, "Enter Parameters", button);
+        }
         return;
     }
+    
     if (!selectedAlgorithm) return;
 
     if (valid) {
@@ -111,25 +125,26 @@ function transformButton(disabledValue, text, button) {
  * @returns {boolean} - Returns true if the input is valid, otherwise false.
  */
 function validateUserInput(initialHeadPositionInput, diskRequestSequenceInput) {
-    const initialHeadPosition = parseInt(initialHeadPositionInput.value);
+    const initialHeadPosition = parseFloat(initialHeadPositionInput.value);  // Parse as float
     const diskRequestSequence = diskRequestSequenceInput.value
-        .split(',')
-        .filter(str => str.trim() !== '') // Filter out empty strings
-        .map(Number);
-
-    if (!initialHeadPosition) return false;
-
-    const isValidHeadPosition = Number.isInteger(initialHeadPosition) &&
-        initialHeadPosition >= 1 && initialHeadPosition <= 99;
+    .split(',')
+    .filter(str => str.trim() !== '') // Filter out empty strings
+    .map(Number);
+    
+    console.log(`pos: ${initialHeadPosition}, seq: ${diskRequestSequence}`);
+    // Check if initialHeadPosition is a valid integer and falls within the valid range
+    if (!Number.isInteger(initialHeadPosition) || initialHeadPosition < 0 || initialHeadPosition > 99 || !initialHeadPositionInput) {
+        console.log("bye");
+        return false;
+    }
 
     if (diskRequestSequence.length === 0) return false;
 
     const isValidDiskRequestSequence = diskRequestSequence.every(num =>
         Number.isInteger(num) && num >= 0 && num <= 299);
 
-    return isValidHeadPosition && isValidDiskRequestSequence;
+    return isValidDiskRequestSequence;
 }
-
 /**
  * Updates the text content of the start button to indicate the selected disk scheduling algorithm.
  *
@@ -203,6 +218,37 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
 
     // Add other conditions for different algorithms
 }
+function compareAllSimulations(initialHeadPosition, diskRequestSequence) {
+    const homeButton = document.querySelector('#home-button');
+
+    switchView("home-page", "simulation-page-all");
+    console.log("click");
+    const seekTimes = [];
+
+    //const simulations = {};
+    //simulations['FCFS'] = runFCFS(diskRequestSequence, initialHeadPosition);
+    
+    const simulations = {
+        "FCFS": new Simulation([45, 20, 10, 80, 30], [10, 20, 30, 45, 80], 250, [45, 20, 10, 80, 30]),
+        "SCAN": new Simulation([75, 30, 60, 20, 40], [20, 30, 40, 60, 75], 300, [40, 30, 60, 20, 75]),
+        "CSCAN": new Simulation([50, 10, 90, 30, 60], [10, 30, 50, 60, 90], 280, [50, 10, 90, 30, 60]),
+        "LOOK": new Simulation([40, 10, 80, 60, 30], [10, 30, 40, 60, 80], 260, [40, 10, 80, 60, 30]),
+        "C-LOOK": new Simulation([25, 55, 100, 85, 10], [10, 25, 55, 85, 100], 220, [55, 100, 85, 10, 25]),
+        "SSTF": new Simulation([60, 80, 20, 40, 70], [20, 40, 60, 70, 80], 150, [60, 80, 20, 40, 70])
+    };
+    
+    console.log("All Seek times:");
+    for (let algorithm in simulations) {
+        seekTimes.push(simulations[algorithm].seekTime);
+        console.log(`${simulations[algorithm].seekTime}`);
+    }
+    let minValue = Math.min(...seekTimes);
+    console.log(`min val is: ${minValue}`);
+    writeTotalSeekTimes(simulations);
+    // ^ remove that later, just for testing before algorithms are implemented.
+
+    //rest goes here
+}
 function displaySimulationResults(simulation) {
     if (!simulation) return;
     const oldSequence = document.querySelector('#old-sequence');
@@ -218,6 +264,37 @@ function displaySimulationResults(simulation) {
     oldSequence.textContent = simulation.originalSequence;
     newSequence.textContent = simulation.newSequence;
     totalTime.textContent = simulation.seekTime;
+}
+function displayAllResults(simulations) {
+    const oldSequence = document.querySelector('#old-sequence');
+
+
+}
+function writeTotalSeekTimes(simulations) {
+    const resultsContainer = document.querySelector("#total-seek-times-all");
+    
+    // Clear any existing content
+    resultsContainer.textContent = '';
+
+    const header = document.createElement('h4');
+    header.classList.add('text-lg', 'font-semibold'); // Adding classes for styling
+    header.textContent = 'Total Seek Times'; // Set the text of the header
+    resultsContainer.appendChild(header);
+
+    // Iterate over the 'simulations' object
+    for (let key in simulations) {
+        if (simulations.hasOwnProperty(key)) {
+            // Access the seekTime for each simulation (the third property in the Simulation constructor)
+            let seekTime = simulations[key].seekTime;
+            
+            // Create a new text node with the key and seekTime
+            const textNode = document.createElement('p');
+            textNode.textContent = `${key}: ${seekTime}`;
+            
+            // Append the text node to the results container
+            resultsContainer.appendChild(textNode);
+        }
+    }
 }
 /**
  * Manipulates the DOM to display other pages.

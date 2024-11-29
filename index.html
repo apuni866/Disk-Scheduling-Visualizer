@@ -131,7 +131,7 @@
                     <!-- Old Sequence -->
                     <div class="col-span-1 row-span-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md h-auto">
                         <div class="mb-4">
-                            <h4 class="text-lg font-semibold text-gray-300">Old Sequence</h4>
+                            <h4 class="text-lg font-semibold text-gray-300">Starting Sequence</h4>
                             <p id="old-sequence" class="text-gray-300">[Old sequence will be displayed here]</p>
                         </div>
                     </div>
@@ -160,6 +160,50 @@
                 </div>
             </article>
             <!-------------------- Compare All Simulations Page -------------------->
+            <article id="simulation-page-all" class="hidden text-gray-300">
+                <!-- Heading above the layout -->
+                <div class="w-full bg-gray-800 bg-opacity-75 rounded shadow-md text-gray-300">
+                    <h3 class="p-4 font-bold text-2xl text-gray-300">Comparison for all Algorithms</h3>
+                    <div id="algorithm-description" class="text-gray-300">
+                        <p class="p-4 text-sm font-medium text-gray-300">Henrys cute ass can explain this smexy graph</p>
+                    </div>
+                </div>
+            
+                <!-- Flex Container for Graph and Three Divs -->
+                <div class="flex gap-4 mt-4">
+                    <!-- Left Panel (Graph Container) -->
+                    <div id="graph-container" class="flex-grow p-4 bg-white rounded shadow-md">
+                        <!-- Graph will be dynamically generated here -->
+                    </div>
+            
+                    <!-- Right Panel (Three Divs) -->
+                    <div class="flex flex-col gap-4">
+                        <!-- Old Sequence -->
+                        <div class="flex-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
+                            <div class="mb-4">
+                                <h4 class="text-lg font-semibold text-gray-300">Starting Sequence</h4>
+                                <p id="starting-sequence-all" class="text-gray-300"></p>
+                            </div>
+                        </div>
+            
+                        <!-- Seek Times -->
+                        <div class="flex-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
+                            <div id="total-seek-times-all" class="mb-4">
+                                <!-- Seek times will be displayed here -->
+                            </div>
+                        </div>
+            
+                        <!-- Minimum Seek Time -->
+                        <div class="flex-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
+                            <div>
+                                <h4 class="text-lg font-semibold">Minimum Seek Time</h4>
+                                <p id="minimum-seek-time-all" class="text-gray-300"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
         </main>
     </div>
 
