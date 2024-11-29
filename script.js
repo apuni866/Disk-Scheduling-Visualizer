@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const COMPARE_ALL_FLAG = true;
     const RUN_SINGLE_FLAG = false;
 
-    const algorithms = ['fcfs', 'scan', 'cscan', 'look', 'clook', 'sstf'];
     const startSimulationButton = document.querySelector('#start-simulation');
+    const algorithms = ['fcfs', 'scan', 'cscan', 'look', 'clook', 'sstf'];
     const compareAllButton = document.querySelector('#compare-all');
     const homeButton = document.querySelector('#home-button');
     const homeButtonAll = document.querySelector('#home-button-all');
@@ -224,7 +224,7 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
     // Add other conditions for different algorithms
 }
 function compareAllSimulations(initialHeadPosition, diskRequestSequence) {
-    const homeButton = document.querySelector('#home-button');
+    //const homeButton = document.querySelector('#home-button');
 
     switchView("home-page", "simulation-page-all");
     console.log("click");
@@ -249,7 +249,7 @@ function compareAllSimulations(initialHeadPosition, diskRequestSequence) {
     }
     let minValue = Math.min(...seekTimes);
     console.log(`min val is: ${minValue}`);
-    displayAllResults(simulations, initialHeadPosition, diskRequestSequence);
+    displayAllResults(simulations, initialHeadPosition, diskRequestSequence, minValue);
     // ^ remove that later, just for testing before algorithms are implemented.
 
     //rest goes here
@@ -270,15 +270,16 @@ function displaySimulationResults(simulation) {
     newSequence.textContent = simulation.newSequence;
     totalTime.textContent = simulation.seekTime;
 }
-function displayAllResults(simulations, position, sequence) {
-    const oldSequence = document.querySelector('#old-sequence');
-    writeStartingSequence(oldSequence, sequence);
+function displayAllResults(simulations, position, sequence, minValue) {
+    const oldSequence = document.querySelector('#old-sequence-all');
+    writeTextContent(oldSequence, sequence);
     writeTotalSeekTimes(simulations);
+    writeTextContent(document.querySelector('#minimum-seek-time-all'), minValue);
 
 
 }
-function writeStartingSequence(element, sequence) {
-    element.textContent = `${sequence}`;
+function writeTextContent(element, content) {
+    element.textContent = `${content}`;
 }
 function writeTotalSeekTimes(simulations) {
     const resultsContainer = document.querySelector("#total-seek-times-all");
