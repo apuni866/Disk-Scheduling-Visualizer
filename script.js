@@ -157,13 +157,16 @@ function updateStartButton(button, selectedAlgorithm) {
  */
 function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
     console.log(`Starting simulation with ${algorithm} algorithm`);
-    const requests = diskRequestSequence.map(trackNumber => new Request(trackNumber));
+    //const requests = diskRequestSequence.map(trackNumber => new Request(trackNumber));
     const homeButton = document.querySelector('#home-button');
+
     switchView("home-page", "simulation-page");
 
     let heading = document.querySelector("#simulation-page h3");
     let description = document.querySelector("#simulation-page p");
-    let simulation = null;
+    //let simulation = null;
+    let simulation = new Simulation([12,34,24,76,10], [31,12,32,13,42], 42, [31,12,32,13,42]);
+    //Remove this later
 
     if (algorithm === 'fcfs') {
         heading.textContent = 'First-Come, First-Served (FCFS) Simulation';
@@ -174,7 +177,8 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
         // Call the appropriate function for SCAN
         heading.textContent = 'SCAN Simulation';
         description.textContent = 'The SCAN algorithm processes disk requests in a linear fashion. The disk head moves from the initial position to the end of the disk, then reverses direction and moves to the other end. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
-        simulation = runScan(requests, initialHeadPosition);
+        //simulation = runScan(requests, initialHeadPosition);
+        
         console.log('SCAN algorithm not implemented yet');
     }
     else if (algorithm === 'cscan') {
@@ -196,16 +200,24 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
     displaySimulationResults(simulation);
 
 
+
     // Add other conditions for different algorithms
 }
 function displaySimulationResults(simulation) {
     if (!simulation) return;
+    const oldSequence = document.querySelector('#old-sequence');
+    const newSequence = document.querySelector('#new-sequence');
+    const totalTime = document.querySelector('#total-seek-time');
 
-    const seekTimeElement = document.querySelector('#seek-time');
-    const drawingElement = document.querySelector('#drawing');
+    // const seekTimeElement = document.querySelector('#seek-time');
+    // const drawingElement = document.querySelector('#drawing');
+ 
+    // seekTimeElement.textContent = `Total Seek Time: ${simulation.seekTime}`;
+    // drawingElement.textContent = `Drawing Sequence: ${simulation.drawingSequence.join(' -> ')}`;
 
-    seekTimeElement.textContent = `Total Seek Time: ${simulation.seekTime}`;
-    drawingElement.textContent = `Drawing Sequence: ${simulation.drawingSequence.join(' -> ')}`;
+    oldSequence.textContent = simulation.originalSequence;
+    newSequence.textContent = simulation.newSequence;
+    totalTime.textContent = simulation.seekTime;
 }
 /**
  * Manipulates the DOM to display other pages.
