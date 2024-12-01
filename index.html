@@ -25,7 +25,7 @@
             <article id="home-page">
                 <div class="grid grid-cols-3 grid-rows-4 gap-4">
                     <!-- Description Container -->
-                    <div class="col-span-3 row-span-1 mb-8 bg-gray-300/80 rounded shadow-md">
+                    <div class="col-span-3 row-span-1 rounded shadow-md bg-gray-300/80">
                         <p class="container h-full p-6 mt-2 text-sm text-center rounded shadow-md md:text-base">
                             This
                             interactive tool lets you visualize the FCFS,
@@ -33,12 +33,15 @@
                             C-LOOK, and SSTF disk scheduling algorithms in action. Adjust parameters, view real-time
                             metrics, and
                             see how scheduling decisions impact performance.
+                            Select an algorithm below, or see how the 6 algorithms compare with a single data set.
+                            This website was made for COMP 3659 at
+                            Mount Royal University.
                         </p>
                     </div>
 
                     <!-- Algorithms Container -->
                     <div
-                        class="container flex flex-col justify-center col-span-2 row-span-3 row-start-2 p-6 bg-gray-300/80 rounded shadow-md">
+                        class="container flex flex-col justify-center col-span-2 row-span-3 row-start-2 p-6 rounded shadow-md bg-gray-300/80">
                         <section class="grid grid-cols-1 gap-4 algorithms md:grid-cols-2">
                             <div id="fcfs"
                                 class="p-4 transition bg-white rounded shadow-md cursor-pointer hover:shadow-lg">
@@ -75,13 +78,15 @@
 
                     <!-- Form Container -->
                     <div class="col-span-1 col-start-3 row-span-3 row-start-2">
-                        <div class="container h-full p-6 bg-gray-300/80 rounded shadow-md">
+                        <div class="container h-full p-6 rounded shadow-md bg-gray-300/80">
                             <form id="simulation-form" autocomplete="off" class="flex flex-col justify-between h-full">
                                 <div>
                                     <div class="mb-4">
                                         <label for="initial-head-position"
                                             class="block text-sm font-medium text-gray-800">Initial Head
                                             Position</label>
+                                        <label for="initial-head-position"
+                                            class="block text-sm font-medium text-gray-800">(0 - 99)</label>
                                         <input type="number" id="initial-head-position" name="initialHeadPosition"
                                             class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                             required>
@@ -89,7 +94,10 @@
                                     <div class="mb-4">
                                         <label for="disk-request-sequence"
                                             class="block text-sm font-medium text-gray-800">Disk Request
-                                            Sequence (comma-separated)</label>
+                                            Sequence</label>
+                                        <label for="disk-request-sequence"
+                                            class="block text-sm font-medium text-gray-800">(0 - 299)
+                                            comma-separated</label>
                                         <input type="text" id="disk-request-sequence" name="diskRequestSequence"
                                             class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                             required>
@@ -116,9 +124,9 @@
             <article id="simulation-page" class="hidden text-gray-300">
                 <div class="grid grid-cols-3 grid-rows-4 gap-4">
                     <!-- Heading and Description -->
-                    <div class="col-span-3  bg-gray-800 bg-opacity-75 rounded shadow-md text-gray-300">
-                        <h3 class="p-4 font-bold text-2xl text-gray-300"></h3>
-                        <div id="algorithm-description" class=" text-gray-300">
+                    <div class="col-span-3 text-gray-300 bg-gray-800 bg-opacity-75 rounded shadow-md">
+                        <h3 class="p-4 text-2xl font-bold text-gray-300"></h3>
+                        <div id="algorithm-description" class="text-gray-300 ">
                             <p class="p-4 text-sm font-medium text-gray-300"></p>
                         </div>
                     </div>
@@ -129,7 +137,8 @@
                     </div>
 
                     <!-- Old Sequence -->
-                    <div class="col-span-1 row-span-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md h-auto">
+                    <div
+                        class="h-auto col-span-1 row-span-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
                         <div class="mb-4">
                             <h4 class="text-lg font-semibold text-gray-300">Starting Sequence</h4>
                             <p id="old-sequence" class="text-gray-300">[Old sequence will be displayed here]</p>
@@ -162,37 +171,38 @@
             <!-------------------- Compare All Simulations Page -------------------->
             <article id="simulation-page-all" class="hidden text-gray-300">
                 <!-- Heading above the layout -->
-                <div class="w-full bg-gray-800 bg-opacity-75 rounded shadow-md text-gray-300">
-                    <h3 class="p-4 font-bold text-2xl text-gray-300">Comparison for all Algorithms</h3>
+                <div class="w-full mb-4 text-gray-300 bg-gray-800 bg-opacity-75 rounded shadow-md">
+                    <h3 class="p-4 text-2xl font-bold text-gray-300">Comparison for all Algorithms</h3>
                     <div id="algorithm-description" class="text-gray-300">
-                        <p class="p-4 text-sm font-medium text-gray-300">Henrys cute ass can explain this smexy graph</p>
+                        <p class="p-4 text-sm font-medium text-gray-300">Henrys cute ass can explain this smexy graph
+                        </p>
                     </div>
                 </div>
-            
+
                 <!-- Flex Container for Graph and Three Divs -->
                 <div class="flex gap-4 mt-4">
                     <!-- Left Panel (Graph Container) -->
-                    <div id="graph-container-all" class="flex-grow p-4 bg-white rounded shadow-md">
+                    <div id="graph-container-all" class="flex-grow p-6 bg-white rounded shadow-md max-w">
                         <!-- Graph will be dynamically generated here -->
                     </div>
-            
+
                     <!-- Right Panel (Three Divs) -->
                     <div class="flex flex-col gap-4">
                         <!-- Old Sequence -->
                         <div class="flex-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
                             <div class="mb-4">
                                 <h4 class="text-lg font-semibold text-gray-300">Starting Sequence</h4>
-                                <p id="starting-sequence-all" class="text-gray-300"></p>
+                                <p id="old-sequence-all" class="text-gray-300"></p>
                             </div>
                         </div>
-            
+
                         <!-- Seek Times -->
                         <div class="flex-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
                             <div id="total-seek-times-all" class="mb-4">
                                 <!-- Seek times will be displayed here -->
                             </div>
                         </div>
-            
+
                         <!-- Minimum Seek Time -->
                         <div class="flex-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
                             <div>
@@ -202,8 +212,13 @@
                         </div>
                     </div>
                 </div>
+                <!-- Home Button -->
+                <div class="col-span-3 mt-8 text-center">
+                    <button id="home-button-all"
+                        class="px-4 py-2 text-white transition bg-blue-700 rounded shadow-md hover:bg-blue-800">Home</button>
+                </div>
             </article>
-            
+
         </main>
     </div>
 

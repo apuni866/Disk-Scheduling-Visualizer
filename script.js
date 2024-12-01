@@ -8,10 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const COMPARE_ALL_FLAG = true;
     const RUN_SINGLE_FLAG = false;
 
-    const algorithms = ['fcfs', 'scan', 'cscan', 'look', 'clook', 'sstf'];
     const startSimulationButton = document.querySelector('#start-simulation');
+    const algorithms = ['fcfs', 'scan', 'cscan', 'look', 'clook', 'sstf'];
     const compareAllButton = document.querySelector('#compare-all');
     const homeButton = document.querySelector('#home-button');
+    const homeButtonAll = document.querySelector('#home-button-all');
+    //const homeButtons = document.querySelectorAll('.home-button');
 
     const initialHeadPositionInput = document.querySelector('#initial-head-position');
     const diskRequestSequenceInput = document.querySelector('#disk-request-sequence');
@@ -47,11 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#simulation-form').addEventListener('submit', (event) => {
         event.preventDefault();
         const clickedButton = event.submitter;
-    
+
         if (validateUserInput(initialHeadPositionInput, diskRequestSequenceInput)) {
             const initialHeadPosition = parseInt(initialHeadPositionInput.value);
             const diskRequestSequence = diskRequestSequenceInput.value.split(',').map(Number);
-    
+
             // Check which button was clicked based on its ID
             if (clickedButton.id === 'start-simulation' && selectedAlgorithm) {
                 // Handle the logic for the 'start-simulation' button
@@ -65,6 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
     homeButton.addEventListener('click', () => {
         switchView("simulation-page", "home-page");
     });
+    homeButtonAll.addEventListener('click', () => {
+        switchView("simulation-page-all", "home-page");
+    });
 });
 /**
  * Updates the state of a button based on the validity of input and the selected algorithm.
@@ -77,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function updateButtonState(valid, isAllButton, button, selectedAlgorithm) {
 
     if (isAllButton) {
-        if (valid){
+        if (valid) {
             transformButton(false, `Compare All`, button);
         }
         else {
@@ -85,7 +90,7 @@ function updateButtonState(valid, isAllButton, button, selectedAlgorithm) {
         }
         return;
     }
-    
+
     if (!selectedAlgorithm) return;
 
     if (valid) {
@@ -127,10 +132,10 @@ function transformButton(disabledValue, text, button) {
 function validateUserInput(initialHeadPositionInput, diskRequestSequenceInput) {
     const initialHeadPosition = parseFloat(initialHeadPositionInput.value);  // Parse as float
     const diskRequestSequence = diskRequestSequenceInput.value
-    .split(',')
-    .filter(str => str.trim() !== '') // Filter out empty strings
-    .map(Number);
-    
+        .split(',')
+        .filter(str => str.trim() !== '') // Filter out empty strings
+        .map(Number);
+
     console.log(`pos: ${initialHeadPosition}, seq: ${diskRequestSequence}`);
     // Check if initialHeadPosition is a valid integer and falls within the valid range
     if (!Number.isInteger(initialHeadPosition) || initialHeadPosition < 0 || initialHeadPosition > 99 || !initialHeadPositionInput) {
@@ -180,7 +185,7 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
     let heading = document.querySelector("#simulation-page h3");
     let description = document.querySelector("#simulation-page p");
     //let simulation = null;
-    let simulation = new Simulation([12,34,24,76,10], [31,12,32,13,42], 42, [31,12,32,13,42]);
+    let simulation = new Simulation([12, 34, 24, 76, 10], [31, 12, 32, 13, 42], 42, [31, 12, 32, 13, 42]);
     //Remove this later
 
     if (algorithm === 'fcfs') {
@@ -193,7 +198,7 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
         heading.textContent = 'SCAN Simulation';
         description.textContent = 'The SCAN algorithm processes disk requests in a linear fashion. The disk head moves from the initial position to the end of the disk, then reverses direction and moves to the other end. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
         //simulation = runScan(requests, initialHeadPosition);
-        
+
         console.log('SCAN algorithm not implemented yet');
     }
     else if (algorithm === 'cscan') {
@@ -219,7 +224,7 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
     // Add other conditions for different algorithms
 }
 function compareAllSimulations(initialHeadPosition, diskRequestSequence) {
-    const homeButton = document.querySelector('#home-button');
+    //const homeButton = document.querySelector('#home-button');
 
     switchView("home-page", "simulation-page-all");
     console.log("click");
@@ -227,7 +232,7 @@ function compareAllSimulations(initialHeadPosition, diskRequestSequence) {
 
     //const simulations = {};
     //simulations['FCFS'] = runFCFS(diskRequestSequence, initialHeadPosition);
-    
+
     const simulations = {
         "FCFS": new Simulation([45, 20, 10, 80, 30], [10, 20, 30, 45, 80], 250, [45, 20, 10, 80, 30]),
         "SCAN": new Simulation([75, 30, 60, 20, 40], [20, 30, 40, 60, 75], 300, [40, 30, 60, 20, 75]),
@@ -236,7 +241,7 @@ function compareAllSimulations(initialHeadPosition, diskRequestSequence) {
         "C-LOOK": new Simulation([25, 55, 100, 85, 10], [10, 25, 55, 85, 100], 220, [55, 100, 85, 10, 25]),
         "SSTF": new Simulation([60, 80, 20, 40, 70], [20, 40, 60, 70, 80], 150, [60, 80, 20, 40, 70])
     };
-    
+
     console.log("All Seek times:");
     for (let algorithm in simulations) {
         seekTimes.push(simulations[algorithm].seekTime);
@@ -244,7 +249,7 @@ function compareAllSimulations(initialHeadPosition, diskRequestSequence) {
     }
     let minValue = Math.min(...seekTimes);
     console.log(`min val is: ${minValue}`);
-    writeTotalSeekTimes(simulations);
+    displayAllResults(simulations, initialHeadPosition, diskRequestSequence, minValue);
     // ^ remove that later, just for testing before algorithms are implemented.
 
     //rest goes here
@@ -257,7 +262,7 @@ function displaySimulationResults(simulation) {
 
     // const seekTimeElement = document.querySelector('#seek-time');
     // const drawingElement = document.querySelector('#drawing');
- 
+
     // seekTimeElement.textContent = `Total Seek Time: ${simulation.seekTime}`;
     // drawingElement.textContent = `Drawing Sequence: ${simulation.drawingSequence.join(' -> ')}`;
 
@@ -265,14 +270,20 @@ function displaySimulationResults(simulation) {
     newSequence.textContent = simulation.newSequence;
     totalTime.textContent = simulation.seekTime;
 }
-function displayAllResults(simulations) {
-    const oldSequence = document.querySelector('#old-sequence');
+function displayAllResults(simulations, position, sequence, minValue) {
+    const oldSequence = document.querySelector('#old-sequence-all');
+    writeTextContent(oldSequence, sequence);
+    writeTotalSeekTimes(simulations);
+    writeTextContent(document.querySelector('#minimum-seek-time-all'), minValue);
 
 
 }
+function writeTextContent(element, content) {
+    element.textContent = `${content}`;
+}
 function writeTotalSeekTimes(simulations) {
     const resultsContainer = document.querySelector("#total-seek-times-all");
-    
+
     // Clear any existing content
     resultsContainer.textContent = '';
 
@@ -286,11 +297,11 @@ function writeTotalSeekTimes(simulations) {
         if (simulations.hasOwnProperty(key)) {
             // Access the seekTime for each simulation (the third property in the Simulation constructor)
             let seekTime = simulations[key].seekTime;
-            
+
             // Create a new text node with the key and seekTime
             const textNode = document.createElement('p');
             textNode.textContent = `${key}: ${seekTime}`;
-            
+
             // Append the text node to the results container
             resultsContainer.appendChild(textNode);
         }
