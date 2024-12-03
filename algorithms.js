@@ -137,6 +137,8 @@ function runScan(queue, head) {
     fullSequence.push(0); // Since we're doing a left traversal, include 0
     fullSequence.push(...right);
 
+
+
     // Calculate seek time
     let simulation = new Simulation(oldqueue, fullSequence, 0, queue);
     //let seekTime = this.calculateSeekTime(fullSequence, head);
@@ -150,7 +152,150 @@ function runScan(queue, head) {
     //return new Simulation(oldqueue, queue, seekTime, queue); // Fully built array
     return simulation;
 }
+function runCScan(queue, head) {
+    const MAX = 200; 
 
+    console.log("* * * * * Running the C-SCAN algorithm * * * * *\n");
+    let oldqueue = Array.from(queue);
+    let left = [];
+    let right = [];
+
+    
+    queue.forEach((qElement) => {
+        if (qElement < head) {
+            left.push(qElement);
+        } else {
+            right.push(qElement);
+        }
+    });
+
+    left.sort((a, b) => b - a);
+    right.sort((a, b) => b - a);
+
+    let fullSequence = [head];
+    fullSequence.push(...left); 
+    fullSequence.push(0);       
+    fullSequence.push(MAX - 1); 
+    fullSequence.push(...right); 
+
+
+
+    let simulation = new Simulation(oldqueue, fullSequence, 0, queue);
+    simulation.calculateSeekTime();
+    //let seekTime = this.calculateSeekTime(fullSequence, head);
+
+    console.log("Left Array:", left);
+    console.log("Right Array:", right);
+    console.log("Full Sequence:", fullSequence);
+    //console.log("Seek time was:", seekTime);
+
+    return simulation; 
+}
+
+function runLook(queue, head) {
+    console.log("* * * * * Running the LOOK algorithm * * * * *\n");
+
+    let oldqueue = Array.from(queue);
+    let left = [];
+    let right = [];
+
+    queue.forEach((qElement) => {
+        if (qElement < head) {
+            left.push(qElement);
+        } else {
+            right.push(qElement);
+        }
+    });
+
+    left.sort((a, b) => b - a);
+    right.sort((a, b) => a - b);
+
+    let fullSequence = [head];
+    fullSequence.push(...right); 
+    fullSequence.push(...left); 
+
+    let simulation = new Simulation(oldqueue, fullSequence, 0, queue);
+    simulation.calculateSeekTime();
+    //let seekTime = this.calculateSeekTime(fullSequence, head);
+
+    console.log("Left Array:", left);
+    console.log("Right Array:", right);
+    console.log("Full Sequence:", fullSequence);
+    console.log("Seek time was:", seekTime);
+
+    return simulation; 
+}
+function runCLook(queue, head) {
+    console.log("* * * * * Running the C-LOOK algorithm * * * * *\n");
+
+    let oldqueue = Array.from(queue);
+    let left = [];
+    let right = [];
+
+
+    queue.forEach((qElement) => {
+        if (qElement < head) {
+            left.push(qElement);
+        } else {
+            right.push(qElement);
+        }
+    });
+
+
+    left.sort((a, b) => a - b);
+    right.sort((a, b) => a - b);
+
+
+    let fullSequence = [head];
+    fullSequence.push(...right); 
+    fullSequence.push(...left); 
+
+    //let seekTime = this.calculateSeekTime(fullSequence, head);
+    let simulation = new Simulation(oldqueue, fullSequence, 0, queue);
+    simulation.calculateSeekTime();
+
+    console.log("Left Array:", left);
+    console.log("Right Array:", right);
+    console.log("Full Sequence:", fullSequence);
+    console.log("Seek time was:", seekTime);
+
+    return simulation; 
+}
+function runSSTF(queue, head) {
+    console.log("* * * * * Running the SSTF algorithm * * * * *\n");
+
+    let oldqueue = Array.from(queue);
+    let sortedRequests = Array.from(queue);
+    let fullSequence = [head];
+    let totalSeekTime = 0;
+
+    while (sortedRequests.length > 0) {
+        let minDiff = Number.MAX_SAFE_INTEGER;
+        let minIndex = -1;
+
+        sortedRequests.forEach((qElement, index) => {
+            let diff = Math.abs(head - qElement);
+            if (diff < minDiff) {
+                minDiff = diff;
+                minIndex = index;
+            }
+        });
+
+        totalSeekTime += minDiff;
+        head = sortedRequests[minIndex];
+        fullSequence.push(head);
+        sortedRequests.splice(minIndex, 1);
+    }
+
+    //let seekTime = this.calculateSeekTime(fullSequence, fullSequence[0]);
+    let simulation = new Simulation(oldqueue, fullSequence, 0, queue);
+    simulation.calculateSeekTime();
+
+    console.log("Full Sequence:", fullSequence);
+    //console.log("Seek time was:", seekTime);
+
+    return simulation;
+}
 /**
  * Calculates the total seek time and generates the seek sequence.
  *
@@ -178,4 +323,4 @@ function runScan(queue, head) {
 //const result = SCAN.runScan(queue, head);
 //
 //console.log("Resulting sequence:", result);
-export { Simulation, runFCFS, runScan };
+export { Simulation, runFCFS, runScan, runCScan, runLook, runCLook, runSSTF };

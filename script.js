@@ -1,4 +1,4 @@
-import { Simulation, runFCFS, runScan } from './algorithms.js';
+import { Simulation, runFCFS, runScan, runCScan, runCLook, runSSTF, runLook } from './algorithms.js';
 /**
  * The main entry point for the application.
  * Uses DOM manipulation to add event listeners to the buttons and form elements.
@@ -194,26 +194,34 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
         console.log('Starting FCFS simulation');
         simulation = runFCFS(diskRequestSequence, initialHeadPosition);
     } else if (algorithm === 'scan') {
-        // Call the appropriate function for SCAN
+        
         heading.textContent = 'SCAN Simulation';
         description.textContent = 'The SCAN algorithm processes disk requests in a linear fashion. The disk head moves from the initial position to the end of the disk, then reverses direction and moves to the other end. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
         simulation = runScan(diskRequestSequence, initialHeadPosition);
     }
     else if (algorithm === 'cscan') {
-        // Call the appropriate function for C-SCAN
-        console.log('C-SCAN algorithm not implemented yet');
+        
+        heading.textContent = 'C-SCAN Simulation';
+        description.textContent = 'The C-SCAN algorithm processes disk requests in a circular fashion. The disk head moves from the initial position to the end of the disk, then jumps to the other end without servicing any requests in between. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
+        simulation = runCScan(diskRequestSequence, initialHeadPosition);
     }
     else if (algorithm === 'look') {
-        // Call the appropriate function for LOOK
-        console.log('LOOK algorithm not implemented yet');
+        
+        heading.textContent = 'LOOK Simulation';
+        description.textContent = 'The LOOK algorithm processes disk requests in a linear fashion. The disk head moves from the initial position to the end of the disk, then reverses direction and moves to the other end. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
+        simulation = runLook(diskRequestSequence, initialHeadPosition);
     }
-    else if (algorithm === 'clook') {
-        // Call the appropriate function for C-LOOK
-        console.log('C-LOOK algorithm not implemented yet');
+    else if (algorithm === 'clook') { 
+            heading.textContent = 'C-LOOK Simulation';
+            description.textContent = 'The C-LOOK algorithm processes disk requests in a circular fashion. The disk head moves from the initial position to the end of the disk, then jumps to the other end without servicing any requests in between. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
+            simulation = runCLook(diskRequestSequence, initialHeadPosition);
+        
     }
     else if (algorithm === 'sstf') {
-        // Call the appropriate function for SSTF
-        console.log('SSTF algorithm not implemented yet');
+            
+            heading.textContent = 'Shortest Seek Time First (SSTF) Simulation';
+            description.textContent = 'The Shortest Seek Time First (SSTF) algorithm processes disk requests based on the shortest seek time. The disk head moves to the closest request in the sequence before moving to the next closest request. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
+            simulation = runSSTF(diskRequestSequence, initialHeadPosition);
     }
     displaySimulationResults(simulation);
 
