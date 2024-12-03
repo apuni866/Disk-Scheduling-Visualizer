@@ -54,3 +54,26 @@
 - **Expected Result**: `false`
 - **Actual Result**: `false`
 
+
+### Test Case 9: Single Request
+- **Initial Head Position**: `50`
+- **Disk Request Sequence**: `100`
+- **For All Algorithms**:
+- **Expected Result**: `50`
+- **Actual Result**: `50`
+
+### Test Case 10: Empty Queue With Head Position
+- **Initial Head Position**: `"50"`
+- **Disk Request Sequence**: `" "`
+- **This will not get past the front end error handling**:
+
+### Test Case 11: Empty Queue With Empty Head Position
+- **Initial Head Position**: `" "`
+- **Disk Request Sequence**: `" "`
+- **This will not get past the front end error handling**:
+
+
+
+
+
+
