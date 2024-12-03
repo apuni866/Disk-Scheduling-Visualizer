@@ -179,7 +179,6 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
     console.log(`Starting simulation with ${algorithm} algorithm`);
     //const requests = diskRequestSequence.map(trackNumber => new Request(trackNumber));
     const homeButton = document.querySelector('#home-button');
-
     switchView("home-page", "simulation-page");
 
     let heading = document.querySelector("#simulation-page h3");
@@ -217,6 +216,7 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
         // Call the appropriate function for SSTF
         console.log('SSTF algorithm not implemented yet');
     }
+    start_single_draw(simulation);
     displaySimulationResults(simulation);
 
 
@@ -320,18 +320,10 @@ function switchView(currentView, newView) {
     newViewElement.classList.remove('hidden');
 }
 
-function henry(){
-    // let canvas = document.querySelector('canvas');
-    // console.log(canvas)
-    randomY = []
-    randomX = []
-    for(let i =0; i< 25; i++){
-        randomY.push(p.random(100,300)); 
-    }
-    for(let i =0; i< 25; i++){
-        randomX.push(p2.random(100,300)); 
-    }
-    // draw()
+function start_single_draw(simulation){
+    // sequence = simulation.newSequence; 
+    // print(sequence)
+    start_drawing();
 }
 
 // function start(){

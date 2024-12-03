@@ -80,7 +80,7 @@ class Simulation {
         this.drawingSequence = [];
     }
 }
-function runFCFS(queue, head) { return null; }
+// function runFCFS(queue, head) { return null; }
 /* Amtooj do this */
 function runScan(queue, head) {
 
