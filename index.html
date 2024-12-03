@@ -1,131 +1,230 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Disk Scheduling Algorithm Visualizer</title>
-    <link href="/dist/output.css" rel="stylesheet">
+    <link href="src/output.css" rel="stylesheet">
+    <script src="libraries/p5.min.js"></script>
     <script type="module" src="script.js"></script>
+    <script src="graph.js"></script>
 </head>
 
-<body class="bg-home-background bg-cover bg-center text-gray-900 min-h-screen flex flex-col">
+<body class="flex flex-col min-h-screen">
+    <div class="min-h-screen bg-center bg-cover" style="background-image: url(images/alt1.jpg);">
+        <!-- Header -->
+        <header class="py-4 mb-8 text-white">
+            <div class="max-w-4xl px-4 mx-auto text-center">
+                <h1 class="text-3xl font-extrabold md:text-3xl">Disk Scheduling Algorithm Visualizer</h1>
+            </div>
+        </header>
 
-    <!-- Header -->
-    <header class="header-fade text-white py-4 mb-8">
-        <div class="container mx-auto px-4 text-center max-w-4xl">
-            <h1 class="text-2xl md:text-3xl font-extrabold">Disk Scheduling Algorithm Visualizer</h1>
-        </div>
-    </header>
+        <main class="flex-grow max-w-5xl px-4 py-8 mx-auto">
+            <!-------------------- Select Algorithm Page -------------------->
+            <article id="home-page">
+                <div class="grid grid-cols-3 grid-rows-4 gap-4">
+                    <!-- Description Container -->
+                    <div class="col-span-3 row-span-1 rounded shadow-md bg-gray-300/80">
+                        <p class="container h-full p-6 mt-2 text-sm text-center rounded shadow-md md:text-base">
+                            This
+                            interactive tool lets you visualize the FCFS,
+                            SCAN, CSCAN, LOOK,
+                            C-LOOK, and SSTF disk scheduling algorithms in action. Adjust parameters, view real-time
+                            metrics, and
+                            see how scheduling decisions impact performance.
+                            Select an algorithm below, or see how the 6 algorithms compare with a single data set.
+                            This website was made for COMP 3659 at
+                            Mount Royal University.
+                        </p>
+                    </div>
 
-    <main class="container mx-auto px-4 py-8 max-w-5xl flex-grow">
-        <!-------------------- Select Algorithm Page -------------------->
-        <article id="home-page">
-            <div class="grid grid-cols-3 grid-rows-4 gap-4">
-                <!-- Description Container -->
-                <div class="col-span-3 row-span-1 mb-8">
-                    <p class="container bg-gray-300 mt-2 text-sm md:text-base text-center p-6 rounded shadow-md h-full">This
-                        interactive tool lets you visualize the FCFS,
-                        SCAN, CSCAN, LOOK,
-                        C-LOOK, and SSTF disk scheduling algorithms in action. Adjust parameters, view real-time
-                        metrics, and
-                        see how scheduling decisions impact performance.
-                    </p>
-                </div>
-
-                <!-- Algorithms Container -->
-                <div
-                    class="container bg-gray-300 col-span-2 row-span-3 row-start-2 p-6 rounded shadow-md flex flex-col justify-center">
-                    <section class="algorithms grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div id="fcfs"
-                            class=" bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                            <h3 class="text-lg font-semibold mb-2">FCFS</h3>
-                            <p class="text-gray-700 text-sm">First-Come, First-Served scheduling algorithm.</p>
-                        </div>
-                        <div id="scan" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                            <h3 class="text-lg font-semibold mb-2">SCAN</h3>
-                            <p class="text-gray-700 text-sm">SCAN scheduling algorithm.</p>
-                        </div>
-                        <div id="cscan"
-                            class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                            <h3 class="text-lg font-semibold mb-2">CSCAN</h3>
-                            <p class="text-gray-700 text-sm">C-SCAN scheduling algorithm.</p>
-                        </div>
-                        <div id="look" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                            <h3 class="text-lg font-semibold mb-2">LOOK</h3>
-                            <p class="text-gray-700 text-sm">LOOK scheduling algorithm.</p>
-                        </div>
-                        <div id="clook"
-                            class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                            <h3 class="text-lg font-semibold mb-2">C-LOOK</h3>
-                            <p class="text-gray-700 text-sm">C-LOOK scheduling algorithm.</p>
-                        </div>
-                        <div id="sstf" class="bg-white p-4 rounded shadow-md hover:shadow-lg transition cursor-pointer">
-                            <h3 class="text-lg font-semibold mb-2">SSTF</h3>
-                            <p class="text-gray-700 text-sm">Shortest Seek Time First scheduling algorithm.</p>
-                        </div>
-                    </section>
-                </div>
-
-                <!-- Form Container -->
-                <div class="col-span-1 row-span-3 row-start-2 col-start-3">
-                    <div class="container bg-gray-300 p-6 rounded shadow-md h-full">
-                        <form id="simulation-form" autocomplete="off" class="h-full flex flex-col justify-between">
-                            <div>
-                                <div class="mb-4">
-                                    <label for="initial-head-position"
-                                        class="block text-sm font-medium text-gray-700">Initial Head
-                                        Position</label>
-                                    <input type="number" id="initial-head-position" name="initialHeadPosition"
-                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                        required>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="disk-request-sequence"
-                                        class="block text-sm font-medium text-gray-700">Disk Request
-                                        Sequence (comma-separated)</label>
-                                    <input type="text" id="disk-request-sequence" name="diskRequestSequence"
-                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                        required>
-                                </div>
+                    <!-- Algorithms Container -->
+                    <div
+                        class="container flex flex-col justify-center col-span-2 row-span-3 row-start-2 p-6 rounded shadow-md bg-gray-300/80">
+                        <section class="grid grid-cols-1 gap-4 algorithms md:grid-cols-2">
+                            <div id="fcfs"
+                                class="p-4 transition bg-white rounded shadow-md cursor-pointer hover:shadow-lg">
+                                <h3 class="mb-2 text-lg font-semibold">FCFS</h3>
+                                <p class="text-sm text-gray-700">First-Come, First-Served scheduling algorithm.</p>
                             </div>
-                            <div>
-                                <button type="submit" id="start-simulation"
-                                    class="bg-gray-400 text-white py-2 px-4 rounded shadow-md cursor-not-allowed w-full mb-2"
-                                    disabled> Select
-                                    an algorithm
-                                </button>
-                                <button type="submit" id="compare-all"
-                                    class="bg-gray-400 text-white py-2 px-4 rounded shadow-md cursor-not-allowed w-full"
-                                    disabled>Enter
-                                    Parameters
-                                </button>
+                            <div id="scan"
+                                class="p-4 transition bg-white rounded shadow-md cursor-pointer hover:shadow-lg">
+                                <h3 class="mb-2 text-lg font-semibold">SCAN</h3>
+                                <p class="text-sm text-gray-700">SCAN scheduling algorithm.</p>
                             </div>
-                        </form>
+                            <div id="cscan"
+                                class="p-4 transition bg-white rounded shadow-md cursor-pointer hover:shadow-lg">
+                                <h3 class="mb-2 text-lg font-semibold">CSCAN</h3>
+                                <p class="text-sm text-gray-700">C-SCAN scheduling algorithm.</p>
+                            </div>
+                            <div id="look"
+                                class="p-4 transition bg-white rounded shadow-md cursor-pointer hover:shadow-lg">
+                                <h3 class="mb-2 text-lg font-semibold">LOOK</h3>
+                                <p class="text-sm text-gray-700">LOOK scheduling algorithm.</p>
+                            </div>
+                            <div id="clook"
+                                class="p-4 transition bg-white rounded shadow-md cursor-pointer hover:shadow-lg">
+                                <h3 class="mb-2 text-lg font-semibold">C-LOOK</h3>
+                                <p class="text-sm text-gray-700">C-LOOK scheduling algorithm.</p>
+                            </div>
+                            <div id="sstf"
+                                class="p-4 transition bg-white rounded shadow-md cursor-pointer hover:shadow-lg">
+                                <h3 class="mb-2 text-lg font-semibold">SSTF</h3>
+                                <p class="text-sm text-gray-700">Shortest Seek Time First scheduling algorithm.</p>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Form Container -->
+                    <div class="col-span-1 col-start-3 row-span-3 row-start-2">
+                        <div class="container h-full p-6 rounded shadow-md bg-gray-300/80">
+                            <form id="simulation-form" autocomplete="off" class="flex flex-col justify-between h-full">
+                                <div>
+                                    <div class="mb-4">
+                                        <label for="initial-head-position"
+                                            class="block text-sm font-medium text-gray-800">Initial Head
+                                            Position</label>
+                                        <label for="initial-head-position"
+                                            class="block text-sm font-medium text-gray-800">(0 - 99)</label>
+                                        <input type="number" id="initial-head-position" name="initialHeadPosition"
+                                            class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            required>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="disk-request-sequence"
+                                            class="block text-sm font-medium text-gray-800">Disk Request
+                                            Sequence</label>
+                                        <label for="disk-request-sequence"
+                                            class="block text-sm font-medium text-gray-800">(0 - 299)
+                                            comma-separated</label>
+                                        <input type="text" id="disk-request-sequence" name="diskRequestSequence"
+                                            class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                            required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="submit" id="start-simulation"
+                                        class="w-full px-4 py-2 mb-2 text-white bg-gray-500 rounded shadow-md cursor-not-allowed"
+                                        disabled> Select
+                                        an algorithm
+                                    </button>
+                                    <button type="submit" id="compare-all"
+                                        class="w-full px-4 py-2 text-white bg-gray-500 rounded shadow-md cursor-not-allowed"
+                                        disabled>Enter
+                                        Parameters
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </article>
-        <!-------------------- Run Single Simulation Page -------------------->
-        <article id="simulation-page" class="hidden">
-            <h3 class="text-2xl font-semibold mb-4"></h3>
-            <div id="algorithm-description" class="mb-4">
-                <p class="text-lg font-medium text-gray-700">Description of the selected algorithm will go here.</p>
-            </div>
-            <div id="graph-container" class="bg-white p-4 rounded shadow-md">
-                <!-- Graph will be generated dynamically here -->
-            </div>
-            <div class="text-center mt-8">
-                <button id="home-button"
-                    class="bg-blue-700 text-white py-2 px-4 rounded shadow-md hover:bg-blue-800 transition">Home</button>
-            </div>
-        </article>
-        <!-------------------- Compare All Simulations Page -------------------->
-    </main>
+            </article>
+            <!-------------------- Run Single Simulation Page -------------------->
+            <article id="simulation-page" class="hidden text-gray-300">
+                <div class="grid grid-cols-3 grid-rows-4 gap-4">
+                    <!-- Heading and Description -->
+                    <div class="col-span-3 text-gray-300 bg-gray-800 bg-opacity-75 rounded shadow-md">
+                        <h3 class="p-4 text-2xl font-bold text-gray-300"></h3>
+                        <div id="algorithm-description" class="text-gray-300 ">
+                            <p class="p-4 text-sm font-medium text-gray-300"></p>
+                        </div>
+                    </div>
+
+                    <!-- Graph Container -->
+                    <div id="graph-container" class="col-span-2 row-span-3 bg-white rounded shadow-md ">
+                        <!-- Graph will be generated dynamically here -->
+                    </div>
+
+                    <!-- Old Sequence -->
+                    <div
+                        class="h-auto col-span-1 row-span-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
+                        <div class="mb-4">
+                            <h4 class="text-lg font-semibold text-gray-300">Starting Sequence</h4>
+                            <p id="old-sequence" class="text-gray-300">[Old sequence will be displayed here]</p>
+                        </div>
+                    </div>
+
+                    <!-- New Sequence -->
+                    <div class="col-span-1 row-span-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
+                        <div class="mb-4">
+                            <h4 class="text-lg font-semibold">New Sequence</h4>
+                            <p id="new-sequence" class="text-gray-300">[New sequence will be displayed here]</p>
+                        </div>
+                    </div>
+
+                    <!-- Total Seek Time -->
+                    <div class="col-span-1 row-span-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
+                        <div>
+                            <h4 class="text-lg font-semibold">Total Seek Time</h4>
+                            <p id="total-seek-time" class="text-gray-300">[Total seek time will be displayed here]</p>
+                        </div>
+                    </div>
+
+                    <!-- Home Button -->
+                    <div class="col-span-3 mt-8 text-center">
+                        <button id="home-button"
+                            class="px-4 py-2 text-white transition bg-blue-700 rounded shadow-md hover:bg-blue-800">Home</button>
+                    </div>
+                </div>
+            </article>
+            <!-------------------- Compare All Simulations Page -------------------->
+            <article id="simulation-page-all" class="hidden text-gray-300">
+                <!-- Heading above the layout -->
+                <div class="w-full mb-4 text-gray-300 bg-gray-800 bg-opacity-75 rounded shadow-md">
+                    <h3 class="p-4 text-2xl font-bold text-gray-300">Comparison for all Algorithms</h3>
+                    <div id="algorithm-description" class="text-gray-300">
+                        <p class="p-4 text-sm font-medium text-gray-300">Henrys cute ass can explain this smexy graph
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Flex Container for Graph and Three Divs -->
+                <div class="flex gap-4 mt-4">
+                    <!-- Left Panel (Graph Container) -->
+                    <div id="graph-container-all" class="flex-grow p-6 bg-white rounded shadow-md max-w">
+                        <!-- Graph will be dynamically generated here -->
+                    </div>
+
+                    <!-- Right Panel (Three Divs) -->
+                    <div class="flex flex-col gap-4">
+                        <!-- Old Sequence -->
+                        <div class="flex-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
+                            <div class="mb-4">
+                                <h4 class="text-lg font-semibold text-gray-300">Starting Sequence</h4>
+                                <p id="old-sequence-all" class="text-gray-300"></p>
+                            </div>
+                        </div>
+
+                        <!-- Seek Times -->
+                        <div class="flex-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
+                            <div id="total-seek-times-all" class="mb-4">
+                                <!-- Seek times will be displayed here -->
+                            </div>
+                        </div>
+
+                        <!-- Minimum Seek Time -->
+                        <div class="flex-1 p-6 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
+                            <div>
+                                <h4 class="text-lg font-semibold">Minimum Seek Time</h4>
+                                <p id="minimum-seek-time-all" class="text-gray-300"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Home Button -->
+                <div class="col-span-3 mt-8 text-center">
+                    <button id="home-button-all"
+                        class="px-4 py-2 text-white transition bg-blue-700 rounded shadow-md hover:bg-blue-800">Home</button>
+                </div>
+            </article>
+
+        </main>
+    </div>
 
     <!-- Footer -->
-    <footer class="bg-blue-700 text-white py-4 mt-auto">
-        <div class="container mx-auto px-4 text-center max-w-4xl">
+    <footer class="py-4 mt-auto text-white bg-blue-700">
+        <div class="container max-w-4xl px-4 mx-auto text-center">
             <p>Developed by Amtoj Punia, Henry Nguyen, and Evan Wushke</p>
         </div>
     </footer>
