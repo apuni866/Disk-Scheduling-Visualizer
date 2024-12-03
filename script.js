@@ -329,8 +329,8 @@ function switchView(currentView, newView) {
 }
 
 function start_single_draw(simulation){
-    // sequence = simulation.newSequence; 
-    // print(sequence)
+    sequence = simulation.newSequence; 
+    print(sequence)
     start_drawing();
 }
 
