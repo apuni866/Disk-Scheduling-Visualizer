@@ -65,7 +65,7 @@ function draw() {
       let point = { 'x': target,
                     'y':posy[l], 
                     'text': {'content':target.toString(),
-                              'x': fx(target) + 2,
+                              'x': fx(target) - 7,
                               // 'y': posy[l] - 3
                               'y': padding/2 + 3
                             }  
@@ -121,20 +121,71 @@ function draw_axis(){
   // for (tick in H/)
 }
 
+// function draw_points(){
+//   const x_coords = [];
+//   points.forEach((point) =>{
+//     let red = color('rgba(255, 30, 70, 90)')
+//     x1 = fx(point.x);
+//     x_coords.push(x1);
+
+//     y1 = point.y;
+//     strokeWeight(0.2);
+//     line(x1, 0, x1, y1);
+//     fill(red)
+//     ellipse(x1, y1, 10, 10);
+//     fill('black');
+//     // Push x coordinate too some array then check if that x coordinate + or - 8  is in the array, if it is, then print the text, otherwise dont.
+
+//     text(point.text.content,point.text.x,point.text.y);
+//   })
+
+//   // draw ellispe at last data point
+//   if (count > 1) {
+//     ellipse(fx(data[l]), posy[l], 4, 4);
+//   }
+// }
 function draw_points(){
-  points.forEach((point) =>{
-    let red = color('rgba(255, 30, 70, 90)')
+  const x_coords = new Set();
+  const x_ranges = new Map();
+  //const range = 10; // Define the range within which points should not be printed
+
+  points.forEach((point) => {
+  /*
+    if (point.text.content.length > 2) {
+      let x_ranges = 15;
+    }
+    else {
+      let x_ranges = 10;
+    }
+      */
+    let range = (point.text.content.length > 2) ? 20 : 10;
+    let red = color('rgba(255, 30, 70, 90)');
     x1 = fx(point.x);
+    
+    // Check if x1 is within the range of any existing x-coordinate
+    let withinRange = false;
+    for (let [key, value] of x_ranges) {
+      if (Math.abs(x1 - key) <= range) {
+        withinRange = true;
+        break;
+      }
+    }
     y1 = point.y;
     strokeWeight(0.2);
-    line(x1, 0, x1, y1);
-    fill(red)
+    line(x1, padding, x1, y1);
+    fill(red);
     ellipse(x1, y1, 10, 10);
-    fill('black')
-    text(point.text.content,point.text.x,point.text.y);
-  })
 
-  // draw ellispe at last data point
+    if (!withinRange) {
+      x_coords.add(x1);
+      x_ranges.set(x1, [x1 - range, x1 + range]);
+
+      fill('black');
+      text(point.text.content, point.text.x, point.text.y);
+    }
+  });
+
+  // draw ellipse at last data point
   if (count > 1) {
     ellipse(fx(data[l]), posy[l], 4, 4);
   }
