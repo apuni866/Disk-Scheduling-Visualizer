@@ -85,7 +85,9 @@ function runFCFS(queue, head) {
     let seekCounter = 0;
     let distance = 0;
 
-    
+    let initialHead = head;
+
+
     for (let i = 0; i < queue.length; i++) {
         currentLocation = queue[i];
         distance = Math.abs(currentLocation - head);  // Corrected distance calculation
@@ -99,7 +101,7 @@ function runFCFS(queue, head) {
         console.log(queue[i].toString());
     }
     let newSequence = Array.from(queue);
-    newSequence.unshift(head);
+    newSequence.unshift(initialHead);
 
     let simulation = new Simulation(queue, newSequence, 0, queue);
     simulation.calculateSeekTime();
