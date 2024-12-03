@@ -144,3 +144,22 @@
 - **Actual Result C-LOOK**: `99`
 - **Actual Result SSTF**: `99`
 
+### Test Case 16 Consecutive locations  ###
+- **Initial Head Position**: `"50"`
+- **Disk Request Sequence**: `"51,52,53,54,55,56,57"`
+
+ **Expected Result FCFS**: `7`
+- **Expected Result SCAN**: `107`
+- **Expected Result C-SCAN**: `397`
+- **Expected Result LOOK**: `7`
+- **Expected Result C-LOOK**: `13`
+- **Expected Result SSTF**: `7`
+
+- **Actual Result FCFS**: `7`
+- **Actual Result SCAN**: `107`
+- **Actual Result C-SCAN**: `397`
+- **Actual Result LOOK**: `7`
+- **Actual Result C-LOOK**: `13`
+- **Actual Result SSTF**: `7`
+
+
