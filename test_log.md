@@ -180,4 +180,22 @@
 - **Actual Result C-LOOK**: `398`
 - **Actual Result SSTF**: `249`
 
+### Test Case 18 Extreme Ends and Some Cluster in the Middle  ###
+- **Initial Head Position**: `"50"`
+- **Disk Request Sequence**: `"0,199,23,19,30,35,1,198"`
+
+ **Expected Result FCFS**: `676`
+- **Expected Result SCAN**: `249`
+- **Expected Result C-SCAN**: `250`
+- **Expected Result LOOK**: `249`
+- **Expected Result C-LOOK**: `250`
+- **Expected Result SSTF**: `249`
+
+- **Actual Result FCFS**: `676`
+- **Actual Result SCAN**: `249`
+- **Actual Result C-SCAN**: `250`
+- **Actual Result LOOK**: `249`
+- **Actual Result C-LOOK**: `250`
+- **Actual Result SSTF**: `249`
+
 
