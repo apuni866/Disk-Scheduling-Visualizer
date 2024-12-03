@@ -65,7 +65,6 @@
 - **Expected Result LOOK**: `50`
 - **Expected Result C-LOOK**: `50`
 - **Expected Result SSTF**: `50`
-- `~~~~~~~~~~~~~~~~~~~~~`
 - **Actual Result FCFS**: `50`
 - **Actual Result SCAN**: `150`
 - **Actual Result C-SCAN**: `348`
@@ -198,4 +197,22 @@
 - **Actual Result C-LOOK**: `250`
 - **Actual Result SSTF**: `249`
 
+
+### Test Case 19 Multiple Identical Requests ###
+- **Initial Head Position**: `"50"`
+- **Disk Request Sequence**: `"50,50,50,50,50"`
+
+ **Expected Result FCFS**: `0`
+- **Expected Result SCAN**: `100`
+- **Expected Result C-SCAN**: `398`
+- **Expected Result LOOK**: `0`
+- **Expected Result C-LOOK**: `0`
+- **Expected Result SSTF**: `0`
+
+- **Actual Result FCFS**: `0`
+- **Actual Result SCAN**: `100`
+- **Actual Result C-SCAN**: `398`
+- **Actual Result LOOK**: `0`
+- **Actual Result C-LOOK**: `0`
+- **Actual Result SSTF**: `0`
 
