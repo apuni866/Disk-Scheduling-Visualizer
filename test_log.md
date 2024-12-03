@@ -71,8 +71,8 @@
 - **Actual Result SCAN**: `150`
 - **Actual Result C-SCAN**: `348`
 - **Actual Result LOOK**: `50`
-- **ActualResult C-LOOK**: `50`
-- **ActualResult SSTF**: `50`
+- **Actual Result C-LOOK**: `50`
+- **Actual Result SSTF**: `50`
 
 
 ### Test Case 10: Empty Queue With Head Position ###
@@ -86,7 +86,7 @@
 - **This will not get past the front end error handling**:
 
 
-### Test Case 12: Empty Queue With Empty Head Position ###$
+### Test Case 12: Empty Queue With Empty Head Position ### 
 - **Initial Head Position**: `" "`
 - **Disk Request Sequence**: `" "`
 - **This will not get past the front end error handling**:
@@ -106,8 +106,8 @@
 - **Actual Result SCAN**: `220`
 - **Actual Result C-SCAN**: `358`
 - **Actual Result LOOK**: `220`
-- **ActualResult C-LOOK**: `260`
-- **ActualResult SSTF**: `220`
+- **Actual Result C-LOOK**: `260`
+- **Actual Result SSTF**: `220`
 
 ### Test Case 14 Wide Locations (Head position roughly in middle) ####
 - **Initial Head Position**: `"99"`
@@ -124,6 +124,6 @@
 - **Actual Result SCAN**: `289`
 - **Actual Result C-SCAN**: `357`
 - **Actual Result LOOK**: `289`
-- **ActualResult C-LOOK**: `339`
-- **ActualResult SSTF**: `289`
+- **Actual Result C-LOOK**: `339`
+- **Actual Result SSTF**: `289`
 
