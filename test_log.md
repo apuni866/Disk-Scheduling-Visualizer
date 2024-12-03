@@ -66,7 +66,7 @@
 - **Expected Result LOOK**: `50`
 - **Expected Result C-LOOK**: `50`
 - **Expected Result SSTF**: `50`
-- **~~~~~~~~~~~~~~~~~~~~~**
+- `~~~~~~~~~~~~~~~~~~~~~`
 - **Actual Result FCFS**: `50`
 - **Actual Result SCAN**: `150`
 - **Actual Result C-SCAN**: `348`
