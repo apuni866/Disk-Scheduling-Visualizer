@@ -211,8 +211,8 @@ function runLook(queue, head) {
     right.sort((a, b) => a - b);
 
     let fullSequence = [head];
-    fullSequence.push(...right); 
     fullSequence.push(...left); 
+    fullSequence.push(...right); 
 
     let simulation = new Simulation(oldqueue, fullSequence, 0, queue);
     simulation.calculateSeekTime();
@@ -221,7 +221,7 @@ function runLook(queue, head) {
     console.log("Left Array:", left);
     console.log("Right Array:", right);
     console.log("Full Sequence:", fullSequence);
-    console.log("Seek time was:", seekTime);
+    
 
     return simulation; 
 }
