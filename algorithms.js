@@ -80,12 +80,37 @@ class Simulation {
         this.drawingSequence = [];
     }
 }
-function runFCFS(queue, head) { return null; }
+function runFCFS(queue, head) {
+    let currentLocation;
+    let seekCounter = 0;
+    let distance = 0;
+
+    
+    for (let i = 0; i < queue.length; i++) {
+        currentLocation = queue[i];
+        distance = Math.abs(currentLocation - head);  // Corrected distance calculation
+        seekCounter += distance;
+        head = currentLocation;
+    }
+
+    console.log("Total Number of seek operations = " + seekCounter);
+    console.log("The Seek Sequence is");
+    for (let i = 0; i < queue.length; i++) {
+        console.log(queue[i].toString());
+    }
+    let newSequence = Array.from(queue);
+    newSequence.unshift(head);
+
+    let simulation = new Simulation(queue, newSequence, 0, queue);
+    simulation.calculateSeekTime();
+    console.log("runFCFS done:");
+    console.dir(simulation);
+    return simulation;
+}
 /* Amtooj do this */
 function runScan(queue, head) {
 
-    const MAX = 200;
-
+    //let simulation = new Simulation();
     console.log("* * * * * Running the SCAN algorithm * * * * *\n");
     let oldqueue = Array.from(queue);
     let left = [];
@@ -111,14 +136,17 @@ function runScan(queue, head) {
     fullSequence.push(...right);
 
     // Calculate seek time
-    let seekTime = this.calculateSeekTime(fullSequence, head);
+    let simulation = new Simulation(oldqueue, fullSequence, 0, queue);
+    //let seekTime = this.calculateSeekTime(fullSequence, head);
+    simulation.calculateSeekTime();
 
     console.log("Left Array:", left);
     console.log("Right Array:", right);
     console.log("Full Sequence:", fullSequence);
-    console.log("Seek time was:", seekTime);
+    console.log("Seek time was:", simulation.seekTime);
 
-    return new Simulation(oldqueue, queue, seekTime, queue); // Fully built array
+    //return new Simulation(oldqueue, queue, seekTime, queue); // Fully built array
+    return simulation;
 }
 
 /**

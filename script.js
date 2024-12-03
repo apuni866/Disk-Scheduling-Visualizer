@@ -184,22 +184,20 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
 
     let heading = document.querySelector("#simulation-page h3");
     let description = document.querySelector("#simulation-page p");
-    //let simulation = null;
-    let simulation = new Simulation([12, 34, 24, 76, 10], [31, 12, 32, 13, 42], 42, [31, 12, 32, 13, 42]);
+    let simulation = null;
+    //let simulation = new Simulation([12, 34, 24, 76, 10], [31, 12, 32, 13, 42], 42, [31, 12, 32, 13, 42]);
     //Remove this later
 
     if (algorithm === 'fcfs') {
         heading.textContent = 'First-Come, First-Served (FCFS) Simulation';
         description.textContent = 'The First-Come, First-Served (FCFS) algorithm processes disk requests in the order they arrive. The disk head moves from the initial position to the first request in the sequence, then to the second request, and so on. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
         console.log('Starting FCFS simulation');
-        //simulation = runFCFS(requests, initialHeadPosition);
+        simulation = runFCFS(diskRequestSequence, initialHeadPosition);
     } else if (algorithm === 'scan') {
         // Call the appropriate function for SCAN
         heading.textContent = 'SCAN Simulation';
         description.textContent = 'The SCAN algorithm processes disk requests in a linear fashion. The disk head moves from the initial position to the end of the disk, then reverses direction and moves to the other end. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
-        //simulation = runScan(requests, initialHeadPosition);
-
-        console.log('SCAN algorithm not implemented yet');
+        simulation = runScan(diskRequestSequence, initialHeadPosition);
     }
     else if (algorithm === 'cscan') {
         // Call the appropriate function for C-SCAN
@@ -256,6 +254,8 @@ function compareAllSimulations(initialHeadPosition, diskRequestSequence) {
 }
 function displaySimulationResults(simulation) {
     if (!simulation) return;
+    console.log("Displaying simulation results");
+    console.dir(simulation);
     const oldSequence = document.querySelector('#old-sequence');
     const newSequence = document.querySelector('#new-sequence');
     const totalTime = document.querySelector('#total-seek-time');
