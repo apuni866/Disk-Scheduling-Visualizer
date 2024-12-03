@@ -138,7 +138,7 @@ function validateUserInput(initialHeadPositionInput, diskRequestSequenceInput) {
 
     console.log(`pos: ${initialHeadPosition}, seq: ${diskRequestSequence}`);
     // Check if initialHeadPosition is a valid integer and falls within the valid range
-    if (!Number.isInteger(initialHeadPosition) || initialHeadPosition < 0 || initialHeadPosition > 99 || !initialHeadPositionInput) {
+    if (!Number.isInteger(initialHeadPosition) || initialHeadPosition < 0 || initialHeadPosition > 199 || !initialHeadPositionInput) {
         console.log("bye");
         return false;
     }
@@ -146,7 +146,7 @@ function validateUserInput(initialHeadPositionInput, diskRequestSequenceInput) {
     if (diskRequestSequence.length === 0) return false;
 
     const isValidDiskRequestSequence = diskRequestSequence.every(num =>
-        Number.isInteger(num) && num >= 0 && num <= 299);
+        Number.isInteger(num) && num >= 0 && num <= 199);
 
     return isValidDiskRequestSequence;
 }

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-const W = 650, H = 650; // dimensions of canvas
+const W = 650, H = 500; // dimensions of canvas
 const padding = 25; 
 const time = W; // number of x tick values
 const step = W/time; // time step

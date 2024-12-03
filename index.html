@@ -86,7 +86,7 @@
                                             class="block text-sm font-medium text-gray-800">Initial Head
                                             Position</label>
                                         <label for="initial-head-position"
-                                            class="block text-sm font-medium text-gray-800">(0 - 99)</label>
+                                            class="block text-sm font-medium text-gray-800">(0 - 199)</label>
                                         <input type="number" id="initial-head-position" name="initialHeadPosition"
                                             class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                             required>
@@ -96,7 +96,7 @@
                                             class="block text-sm font-medium text-gray-800">Disk Request
                                             Sequence</label>
                                         <label for="disk-request-sequence"
-                                            class="block text-sm font-medium text-gray-800">(0 - 299)
+                                            class="block text-sm font-medium text-gray-800">(0 - 199)
                                             comma-separated</label>
                                         <input type="text" id="disk-request-sequence" name="diskRequestSequence"
                                             class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
@@ -123,7 +123,7 @@
             <!-------------------- Run Single Simulation Page -------------------->
             <article id="simulation-page" class="hidden text-gray-300">
                 <!-- Heading above the layout -->
-                <div class="w-full mb-4 text-gray-300 bg-gray-800 bg-opacity-75 rounded shadow-md">
+                <div class="w-full mb-4 text-gray-300 bg-gray-800 bg-opacity-75 rounded shadow-md min-w-5xl">
                     <h3 class="p-4 text-2xl font-bold text-gray-300">Simulation for Selected Algorithm</h3>
                     <div id="algorithm-description" class="text-gray-300">
                         <p class="p-4 text-sm font-medium text-gray-300">Description of the selected algorithm will go
@@ -131,10 +131,10 @@
                     </div>
                 </div>
 
+                <div class="flex gap-4 mt-4 max-w-5xl">
                 <!-- Flex Container for Graph and Three Divs -->
-                <div class="flex gap-4 mt-4">
                     <!-- Left Panel (Graph Container) -->
-                    <div id="graph-container" class="flex-grow p-6 bg-white rounded shadow-md max-w">
+                    <div id="graph-container" class="flex-grow bg-white p-4 rounded shadow-md max-h-fit">
                         <!-- Graph will be generated dynamically here -->
                     </div>
 
