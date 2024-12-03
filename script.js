@@ -184,8 +184,6 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
     let heading = document.querySelector("#simulation-page h3");
     let description = document.querySelector("#simulation-page p");
     let simulation = null;
-    //let simulation = new Simulation([12, 34, 24, 76, 10], [31, 12, 32, 13, 42], 42, [31, 12, 32, 13, 42]);
-    //Remove this later
 
     if (algorithm === 'fcfs') {
         heading.textContent = 'First-Come, First-Served (FCFS) Simulation';
