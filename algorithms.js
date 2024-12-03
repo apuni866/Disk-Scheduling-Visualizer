@@ -295,39 +295,39 @@ function runSSTF(queue, head) {
 
     return simulation;
 }
-function runSSTF(queue, head) {
-    console.log("* * * * * Running the SSTF algorithm * * * * *\n");
+// function runSSTF(queue, head) {
+//     console.log("* * * * * Running the SSTF algorithm * * * * *\n");
 
-    let oldqueue = Array.from(queue);
-    let sortedRequests = Array.from(queue);
-    let fullSequence = [head];
-    let totalSeekTime = 0;
+//     let oldqueue = Array.from(queue);
+//     let sortedRequests = Array.from(queue);
+//     let fullSequence = [head];
+//     let totalSeekTime = 0;
 
-    while (sortedRequests.length > 0) {
-        let minDiff = Number.MAX_SAFE_INTEGER;
-        let minIndex = -1;
+//     while (sortedRequests.length > 0) {
+//         let minDiff = Number.MAX_SAFE_INTEGER;
+//         let minIndex = -1;
 
-        sortedRequests.forEach((qElement, index) => {
-            let diff = Math.abs(head - qElement);
-            if (diff < minDiff) {
-                minDiff = diff;
-                minIndex = index;
-            }
-        });
+//         sortedRequests.forEach((qElement, index) => {
+//             let diff = Math.abs(head - qElement);
+//             if (diff < minDiff) {
+//                 minDiff = diff;
+//                 minIndex = index;
+//             }
+//         });
 
-        totalSeekTime += minDiff;
-        head = sortedRequests[minIndex];
-        fullSequence.push(head);
-        sortedRequests.splice(minIndex, 1);
-    }
+//         totalSeekTime += minDiff;
+//         head = sortedRequests[minIndex];
+//         fullSequence.push(head);
+//         sortedRequests.splice(minIndex, 1);
+//     }
 
-    let seekTime = this.calculateSeekTime(fullSequence, fullSequence[0]);
+//     let seekTime = this.calculateSeekTime(fullSequence, fullSequence[0]);
 
-    console.log("Full Sequence:", fullSequence);
-    console.log("Seek time was:", seekTime);
+//     console.log("Full Sequence:", fullSequence);
+//     console.log("Seek time was:", seekTime);
 
-    return new Simulation(oldqueue, queue, seekTime, fullSequence);
-}
+//     return new Simulation(oldqueue, queue, seekTime, fullSequence);
+// }
 
 /**
  * Calculates the total seek time and generates the seek sequence.
