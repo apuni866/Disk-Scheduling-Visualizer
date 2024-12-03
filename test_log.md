@@ -162,4 +162,22 @@
 - **Actual Result C-LOOK**: `13`
 - **Actual Result SSTF**: `7`
 
+### Test Case 17 Extreme Ends  ###
+- **Initial Head Position**: `"50"`
+- **Disk Request Sequence**: `"0,199,1,198,50"`
+
+ **Expected Result FCFS**: `792`
+- **Expected Result SCAN**: `249`
+- **Expected Result C-SCAN**: `398`
+- **Expected Result LOOK**: `249`
+- **Expected Result C-LOOK**: `398`
+- **Expected Result SSTF**: `249`
+
+- **Actual Result FCFS**: `792`
+- **Actual Result SCAN**: `249`
+- **Actual Result C-SCAN**: `398`
+- **Actual Result LOOK**: `249`
+- **Actual Result C-LOOK**: `398`
+- **Actual Result SSTF**: `249`
+
 
