@@ -216,3 +216,21 @@
 - **Actual Result C-LOOK**: `0`
 - **Actual Result SSTF**: `0`
 
+
+### Test Case 20 Multiple Identical Requests but only between Extreme ends ###
+- **Initial Head Position**: `"0"`
+- **Disk Request Sequence**: `"0,199,0,199,0"`
+
+ **Expected Result FCFS**: `796`
+- **Expected Result SCAN**: `199`
+- **Expected Result C-SCAN**: `398`
+- **Expected Result LOOK**: `199`
+- **Expected Result C-LOOK**: `398`
+- **Expected Result SSTF**: `199`
+
+- **Actual Result FCFS**: `796`
+- **Actual Result SCAN**: `199`
+- **Actual Result C-SCAN**: `398`
+- **Actual Result LOOK**: `199`
+- **Actual Result C-LOOK**: `398`
+- **Actual Result SSTF**: `199`
