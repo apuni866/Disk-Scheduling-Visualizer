@@ -1,4 +1,5 @@
 import { Simulation, runFCFS, runScan, runCScan, runCLook, runSSTF, runLook } from './algorithms.js';
+import { single} from './graph.js';
 /**
  * The main entry point for the application.
  * Uses DOM manipulation to add event listeners to the buttons and form elements.
@@ -329,9 +330,20 @@ function switchView(currentView, newView) {
 }
 
 function start_single_draw(simulation){
-    sequence = simulation.newSequence; 
-    print(sequence)
-    start_drawing();
+    // sequence = simulation.newSequence; 
+    // print(sequence)
+    let p1 = new p5(single);
+    p1.hi = 'hi'
+    // let p2 = new p5(single);
+    console.log('wut')
+    console.log(p1)
+    // p2.start_drawing()
+    
+    let graph_container = document.querySelector('#graph-container');
+    let canvas = document.querySelector('#defaultCanvas0');
+    graph_container.append(canvas);
+    p1.start_drawing([simulation])
+
 }
 
 // function start(){
