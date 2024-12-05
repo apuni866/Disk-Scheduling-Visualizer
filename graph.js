@@ -60,7 +60,7 @@ var single = function(p){
       console.log(graphs.length)
       graphs.forEach((graph) =>
       {
-        p.background('#fff');
+        // p.background('#fff');
       
         // length of data list -1 (to access last item of data list)
         graph.l = graph.data.length -1 ;
