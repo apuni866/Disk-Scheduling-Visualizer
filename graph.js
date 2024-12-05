@@ -4,6 +4,15 @@ const padding = 25;
 const time = W; // number of x tick values
 const step = W/time; // time step
 
+const COLOURS_HEX = [
+    '#FA2A55',//'red': 
+    '#663399',//rebecca purple': '
+    "#CCCCFF" ,//'lavenderish': 
+    '#009193',//'teal': 
+    '#FF991C',//'organge': 
+    '#02590F'//'gram': 
+]
+let colours = []
 let data = []; // to store number of infected people
 // let count = 0; // steps counter
 let posy, fx, l, f;
@@ -16,9 +25,10 @@ let index = 0;//
 let left = true;
 let points = []
 let graphs = []
+let finished_graphs = []
 
 class Graph{
-  constructor(simulation){
+  constructor(simulation, colour){
     this.sequence = simulation.newSequence;
     this.data = []
     this.points = []
@@ -26,6 +36,7 @@ class Graph{
     this.head = this.sequence[this.index];
     this.target = this.sequence[this.index];
     this.left = false;
+    this.colour = colour;
   }
 }
 
@@ -44,23 +55,30 @@ var single = function(p){
     // function to map sequence to x coordinates on canvas
     fx = _ => p.map(_, 0, 199, padding, W-padding);
     
+    COLOURS_HEX.forEach((hex) =>{
+      let colour = p.color(hex)
+      console.log(colour)
+      colours.push(colour)
+    })
+
       
   }
 
   p.get_new_target = function(graph){
     graph.target = graph.sequence[++graph.index]
     if(graph.target == undefined){
-      console.log()
-      graphs.splice(graphs.findIndex((g) => g = graph),1)
+      // graphs.splice(graphs.findIndex((g) => g = graph),1)
+      p.stop_drawing(graph)
     }
   }
 
   p.draw = function() {
     if(graphs.length){
       console.log(graphs.length)
+      p.background('#fff');
+      p.draw_axis()
       graphs.forEach((graph) =>
       {
-        // p.background('#fff');
       
         // length of data list -1 (to access last item of data list)
         graph.l = graph.data.length -1 ;
@@ -98,38 +116,49 @@ var single = function(p){
         p.draw_points(graph)
   
       })
+
+
+
+      finished_graphs.forEach((graph)=>
+      {
+        
+        p.draw_graph(graph)
+        p.draw_points(graph)
+      })
       
-      p.draw_axis()
     }
   }
 
-  // p.reset_graph = function(){
-  //   // reset data and count
-  //   points = []
-  //   data = [];
-  //   // count = 0;
-  //   index = 0;
-  //   target = sequence[index]; 
-  //   head = sequence[index];
-  // }
+  p.reset_graph = function(){
+    
+    p.background('#fff');
+    finished_graphs = []
+    graphs = [];
+  }
 
-  p.stop_drawing = function(){
-    graphs.pop()
+  p.stop_drawing = function(graph){
+    let g = graphs.splice(graphs.indexOf(graph),1)
+    finished_graphs = finished_graphs.concat(g)
     
   }
 
   p.start_drawing = function(simulations){
     console.log('start')
-    // p.reset_graph()
+    p.reset_graph()
     console.log(simulations)
-    graphs = [];
-    simulations.forEach((simulation) =>
-    {
-      let graph = new Graph(simulation);
-      let graph2 = new Graph({'newSequence':[10, 20, 40, 199, 50, 75, 20, 133, 155, 170, 0, 30, 40, 199, 50, 75, 20, 120, 155, 178]});
-      graphs.push(graph2);
-      graphs.push(graph);
-    })
+    let sim = [simulations[0],
+      {'newSequence':[10, 20, 40, 199, 50, 75, 20, 133, 155, 170, 0, 30, 40, 199, 50, 75, 20, 120, 155, 178]},
+      {'newSequence':[20, 55, 17, 170, 86, 180, 199, 125, 128, 193, 92, 50, 3, 49, 148, 6, 100]},
+      {'newSequence':[143, 185, 52, 34, 151, 172, 153, 119, 48, 138, 43, 176, 21, 89,184, 141, 169, 101, 122]},
+      {'newSequence':[143, 89, 68, 199, 97, 48, 190, 193, 50, 177, 169, 124, 31, 47, 121, 170, 28, 43, 163, 180]},
+      {'newSequence':[19,89,40,170,24,178,124,199,196,104,87,4,138, 146, 107,190,122,45,151,148]}
+    ]
+
+    for (let i = 0; i < simulations.length ; i++){
+      let graph = new Graph(simulations[i],colours[i]);
+      console.log(graph);
+      graphs.push(graph)
+    }
     start = true
   }
 
@@ -147,7 +176,7 @@ var single = function(p){
       let y1 = point.y;
       p.strokeWeight(0.2);
       p.line(x1, 0, x1, y1);
-      p.fill(red)
+      p.fill(graph.colour)
       p.ellipse(x1, y1, 10, 10);
       p.fill('black')
       p.text(point.text.content,point.text.x,point.text.y);
@@ -169,7 +198,7 @@ var single = function(p){
       let y1 = posy[i];
       let y2 = posy[i+1];
 
-      console.log(x1, y1, x2, y2)
+      // console.log(x1, y1, x2, y2)
       p.strokeWeight(2);
       p.line(x1, y1, x2, y2);
     }
