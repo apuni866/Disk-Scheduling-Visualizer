@@ -6,18 +6,17 @@ import { graph } from './graph.js';
  */
 document.addEventListener('DOMContentLoaded', () => {
     let selectedAlgorithm = null;
-    let single_graph = new p5(graph)
-    let multi_graph = new p5(graph)
-    
     const COMPARE_ALL_FLAG = true;
     const RUN_SINGLE_FLAG = false;
+
+    let single_graph = new p5(graph)
+    let multi_graph = new p5(graph)
 
     const startSimulationButton = document.querySelector('#start-simulation');
     const algorithms = ['fcfs', 'scan', 'cscan', 'look', 'clook', 'sstf'];
     const compareAllButton = document.querySelector('#compare-all');
     const homeButton = document.querySelector('#home-button');
     const homeButtonAll = document.querySelector('#home-button-all');
-    //const homeButtons = document.querySelectorAll('.home-button');
 
     const initialHeadPositionInput = document.querySelector('#initial-head-position');
     const diskRequestSequenceInput = document.querySelector('#disk-request-sequence');
@@ -58,22 +57,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const initialHeadPosition = parseInt(initialHeadPositionInput.value);
             const diskRequestSequence = diskRequestSequenceInput.value.split(',').map(Number);
 
-            // Check which button was clicked based on its ID
             if (clickedButton.id === 'start-simulation' && selectedAlgorithm) {
-                // Handle the logic for the 'start-simulation' button
                 startSimulation(selectedAlgorithm, initialHeadPosition, diskRequestSequence, single_graph);
+
             } else if (clickedButton.id === 'compare-all') {
-                // Handle the logic for the 'compare-all' button
                 compareAllSimulations(initialHeadPosition, diskRequestSequence, multi_graph);
             }
         }
     });
-    homeButton.addEventListener('click', () => {
-        switchView("simulation-page", "home-page");
-    });
-    homeButtonAll.addEventListener('click', () => {
-        switchView("simulation-page-all", "home-page");
-    });    
+    homeButton.addEventListener('click', () => { switchView("simulation-page", "home-page"); });
+    homeButtonAll.addEventListener('click', () => { switchView("simulation-page-all", "home-page"); });
 });
 /**
  * Updates the state of a button based on the validity of input and the selected algorithm.
@@ -86,25 +79,20 @@ document.addEventListener('DOMContentLoaded', () => {
 function updateButtonState(valid, isAllButton, button, selectedAlgorithm) {
 
     if (isAllButton) {
-        if (valid) {
-            transformButton(false, `Compare All`, button);
-        }
-        else {
-            transformButton(true, "Enter Parameters", button);
-        }
+        if (valid) transformButton(false, `Compare All`, button);
+        else transformButton(true, "Enter Parameters", button);
+
         return;
     }
 
     if (!selectedAlgorithm) return;
 
     if (valid) {
-        console.log(selectedAlgorithm);
         transformButton(false, `Start ${selectedAlgorithm.toUpperCase()} Simulation`, button);
         updateStartButton(button, selectedAlgorithm);
     }
-    else {
-        transformButton(true, 'Enter Parameters', button);
-    }
+    else transformButton(true, 'Enter Parameters', button);
+
 }
 /**
  * Transforms the appearance and state of a button element.
@@ -125,7 +113,6 @@ function transformButton(disabledValue, text, button) {
     }
     button.textContent = text;
 }
-
 /**
  * Validates the user input for the initial head position and disk request sequence.
  *
@@ -134,23 +121,21 @@ function transformButton(disabledValue, text, button) {
  * @returns {boolean} - Returns true if the input is valid, otherwise false.
  */
 function validateUserInput(initialHeadPositionInput, diskRequestSequenceInput) {
-    const initialHeadPosition = parseFloat(initialHeadPositionInput.value);  // Parse as float
+    const initialHeadPosition = parseFloat(initialHeadPositionInput.value);
     const diskRequestSequence = diskRequestSequenceInput.value
         .split(',')
-        .filter(str => str.trim() !== '') // Filter out empty strings
+        .filter(str => str.trim() !== '')
         .map(Number);
 
-    console.log(`pos: ${initialHeadPosition}, seq: ${diskRequestSequence}`);
-    // Check if initialHeadPosition is a valid integer and falls within the valid range
-    if (!Number.isInteger(initialHeadPosition) || initialHeadPosition < 0 || initialHeadPosition > 99 || !initialHeadPositionInput) {
-        console.log("bye");
+    if (!Number.isInteger(initialHeadPosition) || initialHeadPosition < 0 ||
+        initialHeadPosition > 199 || !initialHeadPositionInput) {
         return false;
     }
 
     if (diskRequestSequence.length === 0) return false;
 
     const isValidDiskRequestSequence = diskRequestSequence.every(num =>
-        Number.isInteger(num) && num >= 0 && num <= 299);
+        Number.isInteger(num) && num >= 0 && num <= 199);
 
     return isValidDiskRequestSequence;
 }
@@ -171,7 +156,6 @@ function updateStartButton(button, selectedAlgorithm) {
     };
     button.textContent = `Start ${algorithmNames[selectedAlgorithm]} Simulation`;
 }
-
 /**
  * Starts the disk scheduling simulation with the specified algorithm.
  *
@@ -180,142 +164,140 @@ function updateStartButton(button, selectedAlgorithm) {
  * @param {number[]} diskRequestSequence - An array of track numbers representing the disk request sequence.
  */
 function startSimulation(algorithm, initialHeadPosition, diskRequestSequence, single_graph) {
-    console.log(`Starting simulation with ${algorithm} algorithm`);
-    //const requests = diskRequestSequence.map(trackNumber => new Request(trackNumber));
+
     const homeButton = document.querySelector('#home-button');
     switchView("home-page", "simulation-page");
 
     let heading = document.querySelector("#simulation-page h3");
     let description = document.querySelector("#simulation-page p");
     let simulation = null;
-    //let simulation = new Simulation([12, 34, 24, 76, 10], [31, 12, 32, 13, 42], 42, [31, 12, 32, 13, 42]);
-    //Remove this later
 
     if (algorithm === 'fcfs') {
         heading.textContent = 'First-Come, First-Served (FCFS) Simulation';
         description.textContent = 'The First-Come, First-Served (FCFS) algorithm processes disk requests in the order they arrive. The disk head moves from the initial position to the first request in the sequence, then to the second request, and so on. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
-        console.log('Starting FCFS simulation');
         simulation = runFCFS(diskRequestSequence, initialHeadPosition);
+
     } else if (algorithm === 'scan') {
-        
         heading.textContent = 'SCAN Simulation';
         description.textContent = 'The SCAN algorithm processes disk requests in a linear fashion. The disk head moves from the initial position to the end of the disk, then reverses direction and moves to the other end. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
         simulation = runScan(diskRequestSequence, initialHeadPosition);
     }
     else if (algorithm === 'cscan') {
-        
+
         heading.textContent = 'C-SCAN Simulation';
         description.textContent = 'The C-SCAN algorithm processes disk requests in a circular fashion. The disk head moves from the initial position to the end of the disk, then jumps to the other end without servicing any requests in between. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
         simulation = runCScan(diskRequestSequence, initialHeadPosition);
     }
     else if (algorithm === 'look') {
-        
+
         heading.textContent = 'LOOK Simulation';
         description.textContent = 'The LOOK algorithm processes disk requests in a linear fashion. The disk head moves from the initial position to the end of the disk, then reverses direction and moves to the other end. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
         simulation = runLook(diskRequestSequence, initialHeadPosition);
     }
-    else if (algorithm === 'clook') { 
-            heading.textContent = 'C-LOOK Simulation';
-            description.textContent = 'The C-LOOK algorithm processes disk requests in a circular fashion. The disk head moves from the initial position to the end of the disk, then jumps to the other end without servicing any requests in between. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
-            simulation = runCLook(diskRequestSequence, initialHeadPosition);
-        
+    else if (algorithm === 'clook') {
+
+        heading.textContent = 'C-LOOK Simulation';
+        description.textContent = 'The C-LOOK algorithm processes disk requests in a circular fashion. The disk head moves from the initial position to the end of the disk, then jumps to the other end without servicing any requests in between. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
+        simulation = runCLook(diskRequestSequence, initialHeadPosition);
     }
     else if (algorithm === 'sstf') {
-            
-            heading.textContent = 'Shortest Seek Time First (SSTF) Simulation';
-            description.textContent = 'The Shortest Seek Time First (SSTF) algorithm processes disk requests based on the shortest seek time. The disk head moves to the closest request in the sequence before moving to the next closest request. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
-            simulation = runSSTF(diskRequestSequence, initialHeadPosition);
+
+        heading.textContent = 'Shortest Seek Time First (SSTF) Simulation';
+        description.textContent = 'The Shortest Seek Time First (SSTF) algorithm processes disk requests based on the shortest seek time. The disk head moves to the closest request in the sequence before moving to the next closest request. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
+        simulation = runSSTF(diskRequestSequence, initialHeadPosition);
     }
     start_draw([simulation], single_graph);
     displaySimulationResults(simulation);
-
-
-
-    // Add other conditions for different algorithms
 }
+/**
+ * Compares the seek times of all disk scheduling algorithms using the same disk request sequence.
+ * 
+ * @param {number} initialHeadPosition - The initial position of the disk head.
+ * @param {number[]} diskRequestSequence - An array of track numbers representing the disk request sequence.
+ */
 function compareAllSimulations(initialHeadPosition, diskRequestSequence, multi_graph) {
-    //const homeButton = document.querySelector('#home-button');
 
     switchView("home-page", "simulation-page-all");
-    console.log("click");
     const seekTimes = [];
 
-    //const simulations = {};
-    //simulations['FCFS'] = runFCFS(diskRequestSequence, initialHeadPosition);
+    const simulations = {};
+    simulations['FCFS'] = runFCFS(diskRequestSequence, initialHeadPosition);
+    simulations['SCAN'] = runScan(diskRequestSequence, initialHeadPosition);
+    simulations['CSCAN'] = runCScan(diskRequestSequence, initialHeadPosition);
+    simulations['LOOK'] = runLook(diskRequestSequence, initialHeadPosition);
+    simulations['CLOOK'] = runCLook(diskRequestSequence, initialHeadPosition);
+    simulations['SSTF'] = runSSTF(diskRequestSequence, initialHeadPosition);
 
-    const simulations = {
-        "FCFS": new Simulation([45, 20, 10, 80, 30], [10, 20, 30, 45, 80], 250, [45, 20, 10, 80, 30]),
-        "SCAN": new Simulation([75, 30, 60, 20, 40], [20, 30, 40, 60, 75], 300, [40, 30, 60, 20, 75]),
-        "CSCAN": new Simulation([50, 10, 90, 30, 60], [10, 30, 50, 60, 90], 280, [50, 10, 90, 30, 60]),
-        "LOOK": new Simulation([40, 10, 80, 60, 30], [10, 30, 40, 60, 80], 260, [40, 10, 80, 60, 30]),
-        "C-LOOK": new Simulation([25, 55, 100, 85, 10], [10, 25, 55, 85, 100], 220, [55, 100, 85, 10, 25]),
-        "SSTF": new Simulation([60, 80, 20, 40, 70], [20, 40, 60, 70, 80], 150, [60, 80, 20, 40, 70])
-    };
-
-    console.log("All Seek times:");
     for (let algorithm in simulations) {
         seekTimes.push(simulations[algorithm].seekTime);
-        console.log(`${simulations[algorithm].seekTime}`);
     }
-    let minValue = Math.min(...seekTimes);
-    console.log(`min val is: ${minValue}`);
-    displayAllResults(simulations, initialHeadPosition, diskRequestSequence, minValue);
-    // ^ remove that later, just for testing before algorithms are implemented.
 
-    start_draw(Object.values(simulations),multi_graph)
-    //rest goes here
+    let minValue = Math.min(...seekTimes);
+    displayAllResults(simulations, initialHeadPosition, diskRequestSequence, minValue);
+    start_draw(Object.values(simulations), multi_graph)
 }
+/**
+ * Displays the simulation results on the webpage.
+ * @param {Object} simulation - The simulation object containing the results.
+ */
 function displaySimulationResults(simulation) {
     if (!simulation) return;
-    console.log("Displaying simulation results");
-    console.dir(simulation);
+
     const oldSequence = document.querySelector('#old-sequence');
     const newSequence = document.querySelector('#new-sequence');
     const totalTime = document.querySelector('#total-seek-time');
-
-    // const seekTimeElement = document.querySelector('#seek-time');
-    // const drawingElement = document.querySelector('#drawing');
-
-    // seekTimeElement.textContent = `Total Seek Time: ${simulation.seekTime}`;
-    // drawingElement.textContent = `Drawing Sequence: ${simulation.drawingSequence.join(' -> ')}`;
 
     oldSequence.textContent = simulation.originalSequence;
     newSequence.textContent = simulation.newSequence;
     totalTime.textContent = simulation.seekTime;
 }
+/**
+ * Displays all the results of the disk scheduling simulations.
+ * 
+ * @param {Array} simulations - An array of simulation results.
+ * @param {number} position - The initial position of the disk head.
+ * @param {Array} sequence - The sequence of disk requests.
+ * @param {number} minValue - The minimum seek time among all simulations.
+ */
 function displayAllResults(simulations, position, sequence, minValue) {
+
     const oldSequence = document.querySelector('#old-sequence-all');
     writeTextContent(oldSequence, sequence);
-    writeTotalSeekTimes(simulations);
+    writeTotalSeekTimes(simulations, minValue);
     writeTextContent(document.querySelector('#minimum-seek-time-all'), minValue);
-
-
 }
+/**
+ * Wrapper function for writing text content to an HTML element.
+ * @param {*} element 
+ * @param {*} content 
+ */
 function writeTextContent(element, content) {
     element.textContent = `${content}`;
 }
-function writeTotalSeekTimes(simulations) {
-    const resultsContainer = document.querySelector("#total-seek-times-all");
+/**
+ * Writes the total seek times for each simulation to the results container.
+ * @param {Object} simulations - An object containing the simulation results.
+ * @param {number} minValue - The minimum seek time value.
+ */
+function writeTotalSeekTimes(simulations, minValue) {
 
-    // Clear any existing content
+    const resultsContainer = document.querySelector("#total-seek-times-all");
     resultsContainer.textContent = '';
 
     const header = document.createElement('h4');
-    header.classList.add('text-lg', 'font-semibold'); // Adding classes for styling
-    header.textContent = 'Total Seek Times'; // Set the text of the header
+    header.classList.add('text-lg', 'font-semibold');
+    header.textContent = 'Total Seek Times';
     resultsContainer.appendChild(header);
 
-    // Iterate over the 'simulations' object
     for (let key in simulations) {
         if (simulations.hasOwnProperty(key)) {
-            // Access the seekTime for each simulation (the third property in the Simulation constructor)
-            let seekTime = simulations[key].seekTime;
 
-            // Create a new text node with the key and seekTime
+            let seekTime = simulations[key].seekTime;
             const textNode = document.createElement('p');
             textNode.textContent = `${key}: ${seekTime}`;
 
-            // Append the text node to the results container
+            if (seekTime == minValue) textNode.style.color = "#FFFF00";
+
             resultsContainer.appendChild(textNode);
         }
     }
@@ -328,12 +310,22 @@ function writeTotalSeekTimes(simulations) {
 function switchView(currentView, newView) {
     const currentViewElement = document.querySelector(`#${currentView}`);
     const newViewElement = document.querySelector(`#${newView}`);
+    const header = document.querySelector('header');
 
     currentViewElement.classList.add('hidden');
     newViewElement.classList.remove('hidden');
-}
 
-function start_draw(simulations, graph){
+    if (newView !== 'home-page') {
+        header.classList.add('hidden');
+    } else {
+        header.classList.remove('hidden');
+    }
+}
+/**
+ * Starts a single draw simulation.
+ *
+ * @param {object} simulation - The simulation object.
+ */
+function start_draw(simulations, graph) {
     graph.start_drawing(simulations)
 }
-
