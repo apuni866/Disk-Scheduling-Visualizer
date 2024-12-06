@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Disk Scheduling Algorithm Visualizer</title>
-    <link href="src/output.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="libraries/p5.min.js"></script>
     <script type="module" src="script.js"></script>
     <script type="module" src="graph.js"></script>
@@ -135,10 +135,11 @@
                 <!-- Flex Container for Graph and Three Divs -->
                 <div class="flex gap-4 mt-4">
                     <!-- Left Panel (Graph Container) -->
-                    <div id="graph-container" class="flex-grow p-6 bg-white rounded shadow-md max-w graph-container"></div>
+                    <div id="graph-container" class="flex-grow p-6 bg-white rounded shadow-md max-w graph-container">
+                    </div>
 
                     <!-- Right Panel (Three Divs) -->
-                    <div class="flex flex-col gap-4 w-full">
+                    <div class="flex flex-col w-full gap-4">
 
                         <!-- Old Sequence -->
                         <div class="flex-1 text-white bg-gray-800 bg-opacity-75 rounded shadow-md">
@@ -186,7 +187,8 @@
                 <!-- Flex Container for Graph and Three Divs -->
                 <div class="flex gap-4 mt-4">
                     <!-- Left Panel (Graph Container) -->
-                    <div id="graph-container-all" class="flex-grow p-6 bg-white rounded shadow-md max-w graph-container"></div>
+                    <div id="graph-container-all"
+                        class="flex-grow p-6 bg-white rounded shadow-md max-w graph-container"></div>
 
                     <!-- Right Panel (Three Divs) -->
                     <div class="flex flex-col gap-4">
