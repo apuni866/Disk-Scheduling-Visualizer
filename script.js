@@ -31,23 +31,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectedAlgorithm = algorithm;
                 algorithms.forEach(algo => {
                     document.querySelector(`#${algo}`).classList.remove('glowing-border');
+                    document.querySelector(`#${algo}`).classList.add('hover:shadow-lg');
                 });
+                document.querySelector(`#${algorithm}`).classList.remove('hover:shadow-lg');
                 document.querySelector(`#${algorithm}`).classList.add('glowing-border');
             }
-            let valid = validateUserInput(initialHeadPositionInput, diskRequestSequenceInput);
-            updateButtonState(valid, RUN_SINGLE_FLAG, startSimulationButton, selectedAlgorithm);
-            updateButtonState(valid, COMPARE_ALL_FLAG, compareAllButton, selectedAlgorithm);
+            updateButtons(initialHeadPositionInput, diskRequestSequenceInput,
+                startSimulationButton, compareAllButton, selectedAlgorithm);
         });
     });
     initialHeadPositionInput.addEventListener('input', () => {
-        let valid = validateUserInput(initialHeadPositionInput, diskRequestSequenceInput);
-        updateButtonState(valid, RUN_SINGLE_FLAG, startSimulationButton, selectedAlgorithm);
-        updateButtonState(valid, COMPARE_ALL_FLAG, compareAllButton, selectedAlgorithm);
+        updateButtons(initialHeadPositionInput, diskRequestSequenceInput,
+            startSimulationButton, compareAllButton, selectedAlgorithm);
     });
     diskRequestSequenceInput.addEventListener('input', () => {
-        let valid = validateUserInput(initialHeadPositionInput, diskRequestSequenceInput);
-        updateButtonState(valid, RUN_SINGLE_FLAG, startSimulationButton, selectedAlgorithm);
-        updateButtonState(valid, COMPARE_ALL_FLAG, compareAllButton, selectedAlgorithm);
+        updateButtons(initialHeadPositionInput, diskRequestSequenceInput,
+            startSimulationButton, compareAllButton, selectedAlgorithm);
     });
     document.querySelector('#simulation-form').addEventListener('submit', (event) => {
         event.preventDefault();
@@ -93,6 +92,22 @@ function updateButtonState(valid, isAllButton, button, selectedAlgorithm) {
     }
     else transformButton(true, 'Enter Parameters', button);
 
+}
+/**
+ * Helper function, basically a wrapper for updateButtonState and input validation.
+ * @param {*} initialHeadPositionInput 
+ * @param {*} diskRequestSequenceInput 
+ * @param {*} startSimulationButton 
+ * @param {*} compareAllButton 
+ * @param {*} selectedAlgorithm 
+ */
+function updateButtons(initialHeadPositionInput, diskRequestSequenceInput, startSimulationButton, compareAllButton, selectedAlgorithm) {
+    const COMPARE_ALL_FLAG = true;
+    const RUN_SINGLE_FLAG = false;
+
+    let valid = validateUserInput(initialHeadPositionInput, diskRequestSequenceInput);
+    updateButtonState(valid, RUN_SINGLE_FLAG, startSimulationButton, selectedAlgorithm);
+    updateButtonState(valid, COMPARE_ALL_FLAG, compareAllButton, selectedAlgorithm);
 }
 /**
  * Transforms the appearance and state of a button element.
