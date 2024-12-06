@@ -25,3 +25,7 @@ We chose to focus on these topics to learn about optimizing resource allocation 
 
 ### Implementation
 We would prefer to develop a web-based application, using HMTL, CSS, and JavaScript for the bulk of the project. We would also be open to using C, but we aren't sure how that would work with the visual output.
+
+
+## Testing
+There is a formal testing document,`test_log.md`, included for this project. It has many test cases that test the functionality of the algorithms. There are many scenarios depicted for the request seqences and also the expected + actual seek times are listed for each algotithm. This makes it easy to understand from a quick glance the short-comings of some of the algorithms.
