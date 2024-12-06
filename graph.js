@@ -157,13 +157,42 @@ var graph = function (p) {
     }
     start = true
   }
-
+  //12,109,23,54,109
   //specifically draw the axis at hte top.
+  //p.draw_axis = function () {
+  //  p.strokeWeight(1.0)
+  //  p.line(padding, padding, W - padding, padding)
+  //  // line(padding/2, 0, padding/2, H)
+  //  // for (tick in H/)
+  //}
   p.draw_axis = function () {
-    p.strokeWeight(1.0)
-    p.line(padding, padding, W - padding, padding)
-    // line(padding/2, 0, padding/2, H)
-    // for (tick in H/)
+    p.strokeWeight(1.0);
+    p.line(padding, padding, W - padding, padding); // Draw the main axis line
+
+    // Draw tick marks and labels
+    let tickInterval = 10;
+    let labelInterval = 20;
+    let tickLength = 5; // Length of the tick marks
+
+    // Adjust the range to match your data (0 to 200)
+    let dataMax = 200;
+    let scaleFactor = (W - 2 * padding) / dataMax;
+
+    for (let i = 0; i <= dataMax; i += tickInterval) {
+      let x = padding + i * scaleFactor;
+
+      // Draw tick marks
+      p.strokeWeight(1.0);
+      p.line(x, padding - tickLength, x, padding + tickLength);
+
+      // Draw labels at every 20 interval
+      if (i % labelInterval === 0) {
+        p.fill('black'); // Set text color to black (or any other color you prefer)
+        p.textSize(12); // Set text size
+        p.textAlign(p.CENTER, p.CENTER);
+        p.text(i, x, padding - tickLength * 2); // Adjust the position of the labels
+      }
+    }
   }
 
   //draw these specific points with a coloured circle and a line extending to the top .
@@ -172,11 +201,12 @@ var graph = function (p) {
       let x1 = fx(point.x);
       let y1 = point.y;
       p.strokeWeight(0.2);
-      p.line(x1, 0, x1, y1);
+      p.line(x1, padding, x1, y1);
       p.fill(graph.colour)
       p.ellipse(x1, y1, 10, 10);
       p.fill('black')
-      p.text(point.text.content, point.text.x, point.text.y);
+      //p.text(point.text.content, point.text.x, point.text.y);
+      //console.log(point.text.y);
     })
 
 
