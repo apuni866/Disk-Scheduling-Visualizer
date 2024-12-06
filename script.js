@@ -61,10 +61,17 @@ document.addEventListener('DOMContentLoaded', () => {
             // Check which button was clicked based on its ID
             if (clickedButton.id === 'start-simulation' && selectedAlgorithm) {
                 // Handle the logic for the 'start-simulation' button
+<<<<<<< HEAD
                 startSimulation(selectedAlgorithm, initialHeadPosition, diskRequestSequence, single_graph);
             } else if (clickedButton.id === 'compare-all') {
                 // Handle the logic for the 'compare-all' button
                 compareAllSimulations(initialHeadPosition, diskRequestSequence, multi_graph);
+=======
+                startSimulation(selectedAlgorithm, initialHeadPosition, diskRequestSequence);
+            } else if (clickedButton.id === 'compare-all') {
+                // Handle the logic for the 'compare-all' button
+                compareAllSimulations(initialHeadPosition, diskRequestSequence);
+>>>>>>> parent of aed5479 (Added minimum seek time highlight and implemented capare all logic)
             }
         }
     });
@@ -73,7 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     homeButtonAll.addEventListener('click', () => {
         switchView("simulation-page-all", "home-page");
+<<<<<<< HEAD
     });    
+=======
+    });
+>>>>>>> parent of aed5479 (Added minimum seek time highlight and implemented capare all logic)
 });
 /**
  * Updates the state of a button based on the validity of input and the selected algorithm.
@@ -142,7 +153,11 @@ function validateUserInput(initialHeadPositionInput, diskRequestSequenceInput) {
 
     console.log(`pos: ${initialHeadPosition}, seq: ${diskRequestSequence}`);
     // Check if initialHeadPosition is a valid integer and falls within the valid range
+<<<<<<< HEAD
     if (!Number.isInteger(initialHeadPosition) || initialHeadPosition < 0 || initialHeadPosition > 99 || !initialHeadPositionInput) {
+=======
+    if (!Number.isInteger(initialHeadPosition) || initialHeadPosition < 0 || initialHeadPosition > 199 || !initialHeadPositionInput) {
+>>>>>>> parent of aed5479 (Added minimum seek time highlight and implemented capare all logic)
         console.log("bye");
         return false;
     }
@@ -179,7 +194,11 @@ function updateStartButton(button, selectedAlgorithm) {
  * @param {number} initialHeadPosition - The initial position of the disk head.
  * @param {number[]} diskRequestSequence - An array of track numbers representing the disk request sequence.
  */
+<<<<<<< HEAD
 function startSimulation(algorithm, initialHeadPosition, diskRequestSequence, single_graph) {
+=======
+function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
+>>>>>>> parent of aed5479 (Added minimum seek time highlight and implemented capare all logic)
     console.log(`Starting simulation with ${algorithm} algorithm`);
     //const requests = diskRequestSequence.map(trackNumber => new Request(trackNumber));
     const homeButton = document.querySelector('#home-button');
@@ -233,7 +252,11 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence, si
 
     // Add other conditions for different algorithms
 }
+<<<<<<< HEAD
 function compareAllSimulations(initialHeadPosition, diskRequestSequence, multi_graph) {
+=======
+function compareAllSimulations(initialHeadPosition, diskRequestSequence) {
+>>>>>>> parent of aed5479 (Added minimum seek time highlight and implemented capare all logic)
     //const homeButton = document.querySelector('#home-button');
 
     switchView("home-page", "simulation-page-all");
@@ -262,7 +285,10 @@ function compareAllSimulations(initialHeadPosition, diskRequestSequence, multi_g
     displayAllResults(simulations, initialHeadPosition, diskRequestSequence, minValue);
     // ^ remove that later, just for testing before algorithms are implemented.
 
+<<<<<<< HEAD
     start_draw(Object.values(simulations),multi_graph)
+=======
+>>>>>>> parent of aed5479 (Added minimum seek time highlight and implemented capare all logic)
     //rest goes here
 }
 function displaySimulationResults(simulation) {
@@ -333,7 +359,21 @@ function switchView(currentView, newView) {
     newViewElement.classList.remove('hidden');
 }
 
+<<<<<<< HEAD
 function start_draw(simulations, graph){
     graph.start_drawing(simulations)
 }
 
+=======
+function start_single_draw(simulation){
+    sequence = simulation.newSequence; 
+    print(sequence)
+    start_drawing();
+}
+
+// function start(){
+//     setup();
+//     draw();
+// }
+// start();
+>>>>>>> parent of aed5479 (Added minimum seek time highlight and implemented capare all logic)
