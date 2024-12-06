@@ -1,11 +1,14 @@
 import { Simulation, runFCFS, runScan, runCScan, runCLook, runSSTF, runLook } from './algorithms.js';
-import { single} from './graph.js';
+import { graph } from './graph.js';
 /**
  * The main entry point for the application.
  * Uses DOM manipulation to add event listeners to the buttons and form elements.
  */
 document.addEventListener('DOMContentLoaded', () => {
     let selectedAlgorithm = null;
+    let single_graph = new p5(graph)
+    let multi_graph = new p5(graph)
+    
     const COMPARE_ALL_FLAG = true;
     const RUN_SINGLE_FLAG = false;
 
@@ -58,10 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Check which button was clicked based on its ID
             if (clickedButton.id === 'start-simulation' && selectedAlgorithm) {
                 // Handle the logic for the 'start-simulation' button
-                startSimulation(selectedAlgorithm, initialHeadPosition, diskRequestSequence);
+                startSimulation(selectedAlgorithm, initialHeadPosition, diskRequestSequence, single_graph);
             } else if (clickedButton.id === 'compare-all') {
                 // Handle the logic for the 'compare-all' button
-                compareAllSimulations(initialHeadPosition, diskRequestSequence);
+                compareAllSimulations(initialHeadPosition, diskRequestSequence, multi_graph);
             }
         }
     });
@@ -70,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     homeButtonAll.addEventListener('click', () => {
         switchView("simulation-page-all", "home-page");
-    });
+    });    
 });
 /**
  * Updates the state of a button based on the validity of input and the selected algorithm.
@@ -176,7 +179,7 @@ function updateStartButton(button, selectedAlgorithm) {
  * @param {number} initialHeadPosition - The initial position of the disk head.
  * @param {number[]} diskRequestSequence - An array of track numbers representing the disk request sequence.
  */
-function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
+function startSimulation(algorithm, initialHeadPosition, diskRequestSequence, single_graph) {
     console.log(`Starting simulation with ${algorithm} algorithm`);
     //const requests = diskRequestSequence.map(trackNumber => new Request(trackNumber));
     const homeButton = document.querySelector('#home-button');
@@ -223,14 +226,14 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence) {
             description.textContent = 'The Shortest Seek Time First (SSTF) algorithm processes disk requests based on the shortest seek time. The disk head moves to the closest request in the sequence before moving to the next closest request. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
             simulation = runSSTF(diskRequestSequence, initialHeadPosition);
     }
-    start_single_draw(simulation);
+    start_draw([simulation], single_graph);
     displaySimulationResults(simulation);
 
 
 
     // Add other conditions for different algorithms
 }
-function compareAllSimulations(initialHeadPosition, diskRequestSequence) {
+function compareAllSimulations(initialHeadPosition, diskRequestSequence, multi_graph) {
     //const homeButton = document.querySelector('#home-button');
 
     switchView("home-page", "simulation-page-all");
@@ -259,6 +262,7 @@ function compareAllSimulations(initialHeadPosition, diskRequestSequence) {
     displayAllResults(simulations, initialHeadPosition, diskRequestSequence, minValue);
     // ^ remove that later, just for testing before algorithms are implemented.
 
+    start_draw(Object.values(simulations),multi_graph)
     //rest goes here
 }
 function displaySimulationResults(simulation) {
@@ -329,25 +333,7 @@ function switchView(currentView, newView) {
     newViewElement.classList.remove('hidden');
 }
 
-function start_single_draw(simulation){
-    // sequence = simulation.newSequence; 
-    // print(sequence)
-    let p1 = new p5(single);
-    p1.hi = 'hi'
-    // let p2 = new p5(single);
-    console.log('wut')
-    console.log(p1)
-    // p2.start_drawing()
-    
-    let graph_container = document.querySelector('#graph-container');
-    let canvas = document.querySelector('#defaultCanvas0');
-    graph_container.append(canvas);
-    p1.start_drawing([simulation])
-
+function start_draw(simulations, graph){
+    graph.start_drawing(simulations)
 }
 
-// function start(){
-//     setup();
-//     draw();
-// }
-// start();

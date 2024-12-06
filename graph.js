@@ -13,17 +13,8 @@ const COLOURS_HEX = [
     '#02590F'//'gram': 
 ]
 let colours = []
-let data = []; // to store number of infected people
-// let count = 0; // steps counter
-let posy, fx, l, f;
+let posy, fx, f;
 
-let minH = 650;
-let sequence = [10, 20, 40, 199, 50, 75, 20, 133, 155, 170, 0, 30, 40, 199, 50, 75, 20, 120, 155, 178]
-let head = 30;// starting head
-let index = 0;// 
-// let target = sequence[index];
-let left = true;
-let points = []
 let graphs = []
 let finished_graphs = []
 
@@ -42,10 +33,10 @@ class Graph{
 
 
 var start = false;
-var single = function(p){
+var graph = function(p){
 
   p.setup = function() {
-    p.createCanvas(W, H);
+    let canvas = p.createCanvas(W, H);
     p.fill(255, 30, 70, 90);
 
 
@@ -55,37 +46,48 @@ var single = function(p){
     // function to map sequence to x coordinates on canvas
     fx = _ => p.map(_, 0, 199, padding, W-padding);
     
+    // initialize colour objects
     COLOURS_HEX.forEach((hex) =>{
       let colour = p.color(hex)
-      console.log(colour)
       colours.push(colour)
     })
 
-      
+    //append graphs to their graph containers.
+    let graph_containers = document.querySelectorAll('.graph-container')
+    for (let container of graph_containers){
+      if (!container.hasChildNodes()){
+        canvas.parent(container.getAttribute('id'))
+      }
+    }
+
   }
 
+  //gets a new target for graph to draw towards. essentialy iterates the sequence.
   p.get_new_target = function(graph){
     graph.target = graph.sequence[++graph.index]
     if(graph.target == undefined){
-      // graphs.splice(graphs.findIndex((g) => g = graph),1)
+      p.draw_points(graph)
       p.stop_drawing(graph)
     }
   }
 
+  //handles all drawing.
+  //p5 constantly tries to call this.
   p.draw = function() {
     if(graphs.length){
-      console.log(graphs.length)
       p.background('#fff');
       p.draw_axis()
+
+      // this section populates the plotting area while redrawing the graph to make it look lke its animating.
       graphs.forEach((graph) =>
       {
-      
+
         // length of data list -1 (to access last item of data list)
         graph.l = graph.data.length -1 ;
 
-  
         // frameCount
         f = p.frameCount;
+
         //fills points array with important points as it passees them.
         if(graph.left && graph.head > graph.target)
           graph.head -= 1.5;
@@ -109,16 +111,17 @@ var single = function(p){
         // store that number at each step (the x-axis tick values)
         if (f&step) {
           graph.data.push(graph.head);
-          // count += 1;
         }
         
+
+        //actualy draw the graphs
         p.draw_graph(graph)
         p.draw_points(graph)
   
       })
 
 
-
+      //draw graphs that are finished.
       finished_graphs.forEach((graph)=>
       {
         
@@ -129,6 +132,7 @@ var single = function(p){
     }
   }
 
+  //resets the state of the canvas and graphs
   p.reset_graph = function(){
     
     p.background('#fff');
@@ -136,6 +140,7 @@ var single = function(p){
     graphs = [];
   }
 
+  //stop drawing a graph and save the info somewhere so we can persist the graph while other graphs are drawing.
   p.stop_drawing = function(graph){
     let g = graphs.splice(graphs.indexOf(graph),1)
     finished_graphs = finished_graphs.concat(g)
@@ -143,25 +148,16 @@ var single = function(p){
   }
 
   p.start_drawing = function(simulations){
-    console.log('start')
     p.reset_graph()
-    console.log(simulations)
-    let sim = [simulations[0],
-      {'newSequence':[10, 20, 40, 199, 50, 75, 20, 133, 155, 170, 0, 30, 40, 199, 50, 75, 20, 120, 155, 178]},
-      {'newSequence':[20, 55, 17, 170, 86, 180, 199, 125, 128, 193, 92, 50, 3, 49, 148, 6, 100]},
-      {'newSequence':[143, 185, 52, 34, 151, 172, 153, 119, 48, 138, 43, 176, 21, 89,184, 141, 169, 101, 122]},
-      {'newSequence':[143, 89, 68, 199, 97, 48, 190, 193, 50, 177, 169, 124, 31, 47, 121, 170, 28, 43, 163, 180]},
-      {'newSequence':[19,89,40,170,24,178,124,199,196,104,87,4,138, 146, 107,190,122,45,151,148]}
-    ]
 
     for (let i = 0; i < simulations.length ; i++){
       let graph = new Graph(simulations[i],colours[i]);
-      console.log(graph);
       graphs.push(graph)
     }
     start = true
   }
 
+  //specifically draw the axis at hte top.
   p.draw_axis = function(){
     p.strokeWeight(1.0)
     p.line(padding, padding, W - padding, padding)
@@ -169,9 +165,9 @@ var single = function(p){
     // for (tick in H/)
   }
 
+  //draw these specific points with a coloured circle and a line extending to the top .
   p.draw_points = function(graph){
     graph.points.forEach((point) =>{
-      let red = p.color('rgba(255, 30, 70, 90)')
       let x1 = fx(point.x);
       let y1 = point.y;
       p.strokeWeight(0.2);
@@ -182,10 +178,7 @@ var single = function(p){
       p.text(point.text.content,point.text.x,point.text.y);
     })
 
-    // draw ellispe at last data point
-    // if (count > 1) {
-      p.ellipse(fx(graph.data[graph.l]), posy[graph.l], 4, 4);
-    // }
+
   }
 
   p.draw_graph = function(graph){
@@ -198,149 +191,14 @@ var single = function(p){
       let y1 = posy[i];
       let y2 = posy[i+1];
 
-      // console.log(x1, y1, x2, y2)
       p.strokeWeight(2);
       p.line(x1, y1, x2, y2);
+
+      //makes the drawing point a little more visible. maybe remove if laggy.
+      p.ellipse(fx(graph.data[graph.l]), posy[graph.l], 4, 4);
     }
   }
 }
-// var multi = function(p){
-//   p.setup = function() {
-//     p.createCanvas(W, H);
-//     p.fill(255, 30, 70, 90);
-//     let graph_container = document.querySelector('#graph-container');
-//     let canvas = document.querySelector('canvas');
-    
-//     graph_container.append(canvas);
 
 
-//     // array containing the y positions of the line graph, scaled to fit the canvas
-//     posy = Float32Array.from({ length: time }, (_, i) => p.map(i, 0, time, padding, W));
-    
-//     // function to map sequence to x coordinates on canvas
-//     fx = _ => p.map(_, 0, 199, padding, W-padding);
-    
-      
-//   }
-
-//   p.get_new_target = function(){
-//     target = sequence[++index]
-//     if(target == undefined){
-//       p.stop_drawing() 
-//     }
-//   }
-
-//   p.draw = function() {
-//     if(start){
-
-      
-//       p.background('#fff');
-      
-//       // length of data list -1 (to access last item of data list)
-//       l = data.length -1 ;
-
-//       // frameCount
-//       f = p.frameCount;
-      
-//       //fills points array with important points as it passees them.
-//       if(left && head > target)
-//         head -= 1.5;
-//       else if(!left && head < target)
-//         head += 1.5;
-//       else{
-//         let old_target = target
-//         let point = { 'x': target,
-//                       'y':posy[l], 
-//                       'text': {'content':target.toString(),
-//                                 'x': fx(target) + 2,
-//                                 // 'y': posy[l] - 3
-//                                 'y': padding/2 + 3
-//                               }  
-//                     };
-//         points.push(point);
-//         p.get_new_target();
-//         left = (target < head)
-//       }
-
-//       // fills x-axis data : data[]
-//       // store that number at each step (the x-axis tick values)
-//       if (f&step) {
-//         data.push(head);
-//         count += 1;
-//       }
-      
-//       p.draw_graph()
-//       p.draw_points()
-//       p.draw_axis()
-
-//     }
-//   }
-
-//   p.reset_graph = function(){
-//     // reset data and count
-//     points = []
-//     data = [];
-//     count = 0;
-//     index = 0;
-//     target = sequence[index]; 
-//     head = sequence[index];
-//     // print(sequence)
-//     // print(head)
-//     // print(target)
-//     //head shoudl be reset in script.js
-//     //new sequence shoudl be loaded in script.js
-//   }
-
-//   p.stop_drawing = function(){
-//     start = false
-    
-//   }
-
-//   p.start_drawing = function([simulations]){
-//     console.log('start')
-//     p.reset_graph()
-//     start = true
-//   }
-
-//   p.draw_axis = function(){
-//     p.strokeWeight(1.0)
-//     p.line(padding, padding, W - padding, padding)
-//     // line(padding/2, 0, padding/2, H)
-//     // for (tick in H/)
-//   }
-
-//   p.draw_points = function(){
-//     points.forEach((point) =>{
-//       let red = p.color('rgba(255, 30, 70, 90)')
-//       x1 = fx(point.x);
-//       y1 = point.y;
-//       p.strokeWeight(0.2);
-//       p.line(x1, 0, x1, y1);
-//       p.fill(red)
-//       p.ellipse(x1, y1, 10, 10);
-//       p.fill('black')
-//       p.text(point.text.content,point.text.x,point.text.y);
-//     })
-
-//     // draw ellispe at last data point
-//     if (count > 1) {
-//       p.ellipse(fx(data[l]), posy[l], 4, 4);
-//     }
-//   }
-
-//   p.draw_graph = function(){
-    
-//     // iterate over data list to rebuild curve at each frame
-//     for (let i = 0; i < l; i++) {
-      
-//       x1 = fx(data[i]);
-//       x2 = fx(data[i+1]);
-//       y1 = posy[i];
-//       y2 = posy[i+1];
-      
-//       p.strokeWeight(2);
-//       p.line(x1, y1, x2, y2);
-//     }
-//   }
-// }
-export{single}
+export{graph}
