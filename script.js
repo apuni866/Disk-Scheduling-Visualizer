@@ -310,9 +310,16 @@ function writeTotalSeekTimes(simulations, minValue) {
 function switchView(currentView, newView) {
     const currentViewElement = document.querySelector(`#${currentView}`);
     const newViewElement = document.querySelector(`#${newView}`);
+    const header = document.querySelector('header');
 
     currentViewElement.classList.add('hidden');
     newViewElement.classList.remove('hidden');
+
+    if (newView !== 'home-page') {
+        header.classList.add('hidden');
+    } else {
+        header.classList.remove('hidden');
+    }
 }
 /**
  * Starts a single draw simulation.
