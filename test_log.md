@@ -238,3 +238,24 @@
 - **Actual Result C-LOOK**: `398`
 - **Actual Result SSTF**: `199`
 
+
+### Test Case 21 Demonstrates Starvation for SSTF  ###
+With this case, we are able to see that the SSTF algorithm selects the request closest to the current head position.
+So it inadvertantly goes all the way to 199, then jumps back to service 2
+- **Initial Head Position**: `"21"`
+- **Disk Request Sequence**: `"109,2,45,199,42,78,27,99,126,12,0,0,2,9"`
+
+ **Expected Result FCFS**: `870`
+- **Expected Result SCAN**: `220`
+- **Expected Result C-SCAN**: `392`
+- **Expected Result LOOK**: `220`
+- **Expected Result C-LOOK**: `392`
+- **Expected Result SSTF**: `377`
+
+- **Actual Result FCFS**: `870`
+- **Actual Result SCAN**: `220`
+- **Actual Result C-SCAN**: `392`
+- **Actual Result LOOK**: `220`
+- **Actual Result C-LOOK**: `392`
+- **Actual Result SSTF**: `377`
+
