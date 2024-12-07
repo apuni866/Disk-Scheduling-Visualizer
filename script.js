@@ -5,12 +5,10 @@ import { graph } from './graph.js';
  * Uses DOM manipulation to add event listeners to the buttons and form elements.
  */
 document.addEventListener('DOMContentLoaded', () => {
-    let selectedAlgorithm = null;
-    const COMPARE_ALL_FLAG = true;
-    const RUN_SINGLE_FLAG = false;
 
-    let single_graph = new p5(graph)
-    let multi_graph = new p5(graph)
+    let selectedAlgorithm = null;
+    let single_graph = new p5(graph);
+    let multi_graph = new p5(graph);
 
     const startSimulationButton = document.querySelector('#start-simulation');
     const algorithms = ['fcfs', 'scan', 'cscan', 'look', 'clook', 'sstf'];
@@ -206,13 +204,13 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence, si
     else if (algorithm === 'look') {
 
         heading.textContent = 'LOOK Simulation';
-        description.textContent = 'The LOOK algorithm processes disk requests in a linear fashion. The disk head moves from the initial position to the end of the disk, then reverses direction and moves to the other end. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
+        description.textContent = 'The LOOK algorithm processes disk requests in a linear fashion. The disk head moves from the initial position to the end of the lowest request number (i.e. left-first direction), then reverses direction and moves to the other end up to the highest request. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
         simulation = runLook(diskRequestSequence, initialHeadPosition);
     }
     else if (algorithm === 'clook') {
 
         heading.textContent = 'C-LOOK Simulation';
-        description.textContent = 'The C-LOOK algorithm processes disk requests in a circular fashion. The disk head moves from the initial position to the end of the disk, then jumps to the other end without servicing any requests in between. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
+        description.textContent = 'C Look Algorithm is similar to C-SCAN algorithm to some extent. In this algorithm, the arm of the disk moves outwards servicing requests until it reaches the highest request cylinder, then it jumps to the lowest request cylinder without servicing any request then it again start moving outwards servicing the remaining requests.';
         simulation = runCLook(diskRequestSequence, initialHeadPosition);
     }
     else if (algorithm === 'sstf') {
@@ -262,8 +260,8 @@ function displaySimulationResults(simulation) {
     const newSequence = document.querySelector('#new-sequence');
     const totalTime = document.querySelector('#total-seek-time');
 
-    oldSequence.textContent = simulation.originalSequence;
-    newSequence.textContent = simulation.newSequence;
+    oldSequence.textContent = simulation.originalSequence.join(', ');
+    newSequence.textContent = simulation.newSequence.join(', ');
     totalTime.textContent = simulation.seekTime;
 }
 /**
@@ -277,17 +275,11 @@ function displaySimulationResults(simulation) {
 function displayAllResults(simulations, position, sequence, minValue) {
 
     const oldSequence = document.querySelector('#old-sequence-all');
-    writeTextContent(oldSequence, sequence);
+    const minValues = document.querySelector('#minimum-seek-time-all');
+
+    oldSequence.textContent = sequence.join(', ');
     writeTotalSeekTimes(simulations, minValue);
-    writeTextContent(document.querySelector('#minimum-seek-time-all'), minValue);
-}
-/**
- * Wrapper function for writing text content to an HTML element.
- * @param {*} element 
- * @param {*} content 
- */
-function writeTextContent(element, content) {
-    element.textContent = `${content}`;
+    minValues.textContent = minValue;
 }
 /**
  * Writes the total seek times for each simulation to the results container.
@@ -300,7 +292,7 @@ function writeTotalSeekTimes(simulations, minValue) {
     resultsContainer.textContent = '';
 
     const header = document.createElement('h4');
-    header.classList.add('text-lg', 'font-semibold');
+    header.classList.add('text-2xl', 'font-bold', 'pb-4');
     header.textContent = 'Total Seek Times';
     resultsContainer.appendChild(header);
 
@@ -309,6 +301,7 @@ function writeTotalSeekTimes(simulations, minValue) {
 
             let seekTime = simulations[key].seekTime;
             const textNode = document.createElement('p');
+            textNode.classList.add('text-lg');
             textNode.textContent = `${key}: ${seekTime}`;
 
             if (seekTime == minValue) textNode.style.color = "#FFFF00";

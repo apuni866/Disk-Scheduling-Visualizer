@@ -1,5 +1,5 @@
 import { Simulation } from "./algorithms.js";
-const W = 650, H = 650; // dimensions of canvas
+const W = 650, H = 625; // dimensions of canvas
 const padding = 25;
 const time = W; // number of x tick values
 const step = W / time; // time step
@@ -54,7 +54,7 @@ var graph = function (p) {
     //append graphs to their graph containers.
     let graph_containers = document.querySelectorAll('.graph-container')
     for (let container of graph_containers) {
-      //if (!container.hasChildNodes()){
+
       if (!container.childElementCount) {
         canvas.parent(container.getAttribute('id'))
       }
@@ -66,7 +66,6 @@ var graph = function (p) {
   p.get_new_target = function (graph) {
     graph.target = graph.sequence[++graph.index]
     if (graph.target == undefined) {
-      // p.draw_points_(graph)
       p.stop_drawing(graph)
     }
   }
@@ -97,26 +96,16 @@ var graph = function (p) {
         else {
           let point = {
             'x': graph.target,
-            'y': posy[graph.l],
-            'text': {
-              'content': graph.target.toString(),
-              'x': fx(graph.target) + 2,
-              // 'y': posy[l] - 3
-              'y': padding / 2 + 3
-            }
+            'y': posy[graph.l]
           };
           graph.points.push(point);
           p.get_new_target(graph);
           graph.left = (graph.target < graph.head);
         }
-
-        // fills x-axis data : data[]
         // store that number at each step (the x-axis tick values)
         if (f & step) {
           graph.data.push(graph.head);
         }
-
-
         //actualy draw the graphs
         p.draw_graph(graph)
         p.draw_points_line(graph)
@@ -133,8 +122,8 @@ var graph = function (p) {
       })
 
     }
-    finished_graphs.forEach((graph) => {p.draw_points_ellipse(graph)})
-    if(graphs.length > 1 || finished_graphs.length > 1)
+    finished_graphs.forEach((graph) => { p.draw_points_ellipse(graph) })
+    if (graphs.length > 1 || finished_graphs.length > 1)
       p.draw_legend()
   }
 
@@ -171,7 +160,7 @@ var graph = function (p) {
     // Draw tick marks and labels
     let tickInterval = 10;
     let labelInterval = 20;
-    let tickLength = 5; // Length of the tick marks
+    let tickLength = 5;
 
     // Adjust the range to match your data (0 to 200)
     let dataMax = 200;
@@ -186,17 +175,16 @@ var graph = function (p) {
 
       // Draw labels at every 20 interval
       if (i % labelInterval === 0) {
-        p.fill('black'); // Set text color to black (or any other color you prefer)
-        p.textSize(12); // Set text size
+        p.fill('black');
+        p.textSize(12);
         p.strokeWeight(0.1);
         p.textAlign(p.CENTER, p.CENTER);
         p.text(i, x, padding - tickLength * 2); // Adjust the position of the labels
       }
     }
   }
-
   //draws vertial lines that extend to the axis for each graph
-  p.draw_points_line = function(graph){
+  p.draw_points_line = function (graph) {
     graph.points.forEach((point) => {
       let x1 = fx(point.x);
       let y1 = point.y;
@@ -232,33 +220,30 @@ var graph = function (p) {
       p.strokeWeight(2);
       p.line(x1, y1, x2, y2);
 
-      //makes the drawing point a little more visible. maybe remove if laggy.
-      // p.ellipse(fx(graph.data[graph.l]), posy[graph.l], 4, 4);
     }
   }
-  
+
   //draws a legend in the bottom right
-  p.draw_legend = function(){
+  p.draw_legend = function () {
     let graph_x = 550
-    let graph_y = 550
+    let graph_y = 525
     let symbol_x = 560
-    let symbol_y = 563
+    let symbol_y = 538
     let text_x = 570
-    let text_y = 564
+    let text_y = 539
     let texts = ['FCSF', "SCAN", "C-SCAN", "LOOK", "C-LOOK", 'SSTF']
 
     p.strokeWeight(1)
     p.fill('white');
-    p.rect(graph_x,graph_y,100,100);
+    p.rect(graph_x, graph_y, 100, 100);
 
-    for(let i = 0; i < 6 ; i++){
+    for (let i = 0; i < 6; i++) {
       p.fill(colours[i])
-      p.ellipse(symbol_x, symbol_y + i*15, 10, 10)
+      p.ellipse(symbol_x, symbol_y + i * 15, 10, 10)
       p.textAlign(p.LEFT)
-      p.text(texts[i], text_x, text_y + i*15)
+      p.text(texts[i], text_x, text_y + i * 15)
     }
   }
 }
-
 
 export { graph }
