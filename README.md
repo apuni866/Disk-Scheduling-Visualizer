@@ -13,6 +13,7 @@ This project proposes the development of an interactive Disk Scheduling Algorith
 ### Important Files for this project ###
 We did some of the implementation in Java before JavaScript to make sure the algorithms were working,
 so there is a Java folder with code for for the algorithms. We translated them over afterwards into JS.
+NOTE: This code serves not functionality to the website.
 
 
 ### Objective and Functionality
