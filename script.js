@@ -210,7 +210,7 @@ function startSimulation(algorithm, initialHeadPosition, diskRequestSequence, si
     else if (algorithm === 'clook') {
 
         heading.textContent = 'C-LOOK Simulation';
-        description.textContent = 'The C-LOOK algorithm processes disk requests in a circular fashion. The disk head moves from the initial position to the end of the disk, then jumps to the other end without servicing any requests in between. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.';
+        description.textContent = 'C Look Algorithm is similar to C-SCAN algorithm to some extent. In this algorithm, the arm of the disk moves outwards servicing requests until it reaches the highest request cylinder, then it jumps to the lowest request cylinder without servicing any request then it again start moving outwards servicing the remaining requests.';
         simulation = runCLook(diskRequestSequence, initialHeadPosition);
     }
     else if (algorithm === 'sstf') {
