@@ -136,6 +136,7 @@ function runCScan(queue, head) {
     let fullSequence = [head];
     fullSequence.push(...left);
     fullSequence.push(0);
+    //Simulates the disk head moving to the end of the disk
     fullSequence.push(MAX - 1);
     fullSequence.push(...right);
 
