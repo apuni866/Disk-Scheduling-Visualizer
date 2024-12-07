@@ -29,6 +29,14 @@ class Simulation {
     updateDrawingSequence(seq) {
         this.drawingSequence = seq;
     }
+
+    // Example method to reset the simulation
+    resetSimulation() {
+        this.originalSequence = [];
+        this.newSequence = [];
+        this.seekTime = 0;
+        this.drawingSequence = [];
+    }
 }
 /**
  * Runs the First-Come-First-Serve (FCFS) disk scheduling algorithm.
@@ -210,7 +218,6 @@ function runCLook(queue, head) {
  * @returns {Simulation} - An object containing the simulation results, including the full sequence of head movements and the total seek time.
  */
 function runSSTF(queue, head) {
-    console.log("* * * * * Running the SSTF algorithm * * * * *\n");
 
     let oldqueue = Array.from(queue);
     let sortedRequests = Array.from(queue);
