@@ -146,7 +146,6 @@ var graph = function (p) {
       let graph = new Graph(simulations[i], colours[i]);
       graphs.push(graph)
     }
-    start = true
   }
 
   //resets the state of the canvas and graphs
@@ -159,9 +158,8 @@ var graph = function (p) {
 
   //stop drawing a graph and save the info somewhere so we can persist the graph while other graphs are drawing.
   p.stop_drawing = function (graph) {
-    let g = graphs.splice(graphs.indexOf(graph), 1)
-    finished_graphs = finished_graphs.concat(g)
-    //p.draw_points(finished_graphs)
+    let g = graphs.splice(graphs.indexOf(graph), 1);
+    finished_graphs = finished_graphs.concat(g);
 
   }
 
