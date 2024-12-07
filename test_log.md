@@ -77,18 +77,23 @@ These will NOT let the user select the buttons as inputs are invalid.
 ### Test Case 10: Empty Queue with valid Head Position ###
 - **Initial Head Position**: `"50"`
 - **Disk Request Sequence**: `" "`
+- **Expected Result**: `false`
+- **Actual Result**: `false`
 
 
 ### Test Case 11: Empty Queue With Empty Head Position ###
 - **Initial Head Position**: `" "`
 - **Disk Request Sequence**: `" "`
+- **Expected Result**: `false`
+- **Actual Result**: `false`
 
 
 
 ### Test Case 12: Empty Head Position with valid Queue### 
 - **Initial Head Position**: `" "`
 - **Disk Request Sequence**: `"50"`
-
+- **Expected Result**: `false`
+- **Actual Result**: `false`
 
 ## These test cases below will have VALID inputs and test the funtionality of all algorithms ##
 
