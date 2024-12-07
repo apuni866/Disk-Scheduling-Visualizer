@@ -5,12 +5,10 @@ import { graph } from './graph.js';
  * Uses DOM manipulation to add event listeners to the buttons and form elements.
  */
 document.addEventListener('DOMContentLoaded', () => {
-    let selectedAlgorithm = null;
-    const COMPARE_ALL_FLAG = true;
-    const RUN_SINGLE_FLAG = false;
 
-    let single_graph = new p5(graph)
-    let multi_graph = new p5(graph)
+    let selectedAlgorithm = null;
+    let single_graph = new p5(graph);
+    let multi_graph = new p5(graph);
 
     const startSimulationButton = document.querySelector('#start-simulation');
     const algorithms = ['fcfs', 'scan', 'cscan', 'look', 'clook', 'sstf'];
