@@ -28,7 +28,7 @@ The visualizer will provide a clear side-by-side comparison of FCFS, SCAN, and C
 - **CLOOK**: C Look Algorithm is similar to C-SCAN algorithm to some extent. In this algorithm, the arm of the disk moves outwards servicing requests until it reaches the highest request cylinder, then it jumps to the lowest request cylinder without servicing any request then it again start moving outwards servicing the remaining requests.
 - **SSTF**: The Shortest Seek Time First (SSTF) algorithm processes disk requests based on the shortest seek time. The disk head moves to the closest request in the sequence before moving to the next closest request. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.
 
-## Features that would nice to have time permitting
+## Features that would be nice to have time permitting
 - **Different types of graphs that comapred the seek times. For example a bar graph.**
 - **Choose any algorithms to comapre. For example: If user wanted to comapre SSTF FCFS and LOOK they would have the option to select any algorithms they want to comapre**
 - **Choosing custom colours to comapre**
