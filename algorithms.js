@@ -1,48 +1,6 @@
-/*class Request {
-    constructor(trackNumber) {
-        this.trackNumber = trackNumber;
-    }
-
-    getTrackNumber() {
-        return this.trackNumber;
-    }
-
-    toString() {
-        return String(this.trackNumber);
-    }
-}
-
-function runFCFS(queue, head) {
-    let currentLocation;
-    let seekCounter = 0;
-    let distance = 0;
-
-    for (let i = 0; i < queue.length; i++) {
-        currentLocation = queue[i].getTrackNumber();
-        distance = Math.abs(currentLocation - head);  // Corrected distance calculation
-        seekCounter += distance;
-        head = currentLocation;
-    }
-
-    console.log("Total Number of seek operations = " + seekCounter);
-    console.log("The Seek Sequence is");
-    for (let i = 0; i < queue.length; i++) {
-        console.log(queue[i].toString());
-    }
-}*/
-
-// Example usage
-/*
-const initialHeadPosition = 40; // Example initial head position
-const input = "40,20,67,89,8"; // Example disk request sequence
-
-const inputArray = input.split(',');
-const requests = inputArray.map(trackNumber => new Request(parseInt(trackNumber)));
-
-runFCFS(requests, initialHeadPosition);
-*/
-// Export the class and function if using modules
-//
+/**
+ * Represents a simulation of disk scheduling algorithms.
+ */
 class Simulation {
     constructor(originalSequence = [], newSequence = [], seekTime = 0, drawingSequence = []) {
         this.originalSequence = originalSequence;
@@ -71,22 +29,20 @@ class Simulation {
     updateDrawingSequence(seq) {
         this.drawingSequence = seq;
     }
-
-    // Example method to reset the simulation
-    resetSimulation() {
-        this.originalSequence = [];
-        this.newSequence = [];
-        this.seekTime = 0;
-        this.drawingSequence = [];
-    }
 }
+/**
+ * Runs the First-Come-First-Serve (FCFS) disk scheduling algorithm.
+ * @param {Array} queue 
+ * @param {Number} head 
+ * @returns none
+ */
 function runFCFS(queue, head) {
+
     let currentLocation;
     let seekCounter = 0;
     let distance = 0;
 
     let initialHead = head;
-
 
     for (let i = 0; i < queue.length; i++) {
         currentLocation = queue[i];
@@ -94,26 +50,28 @@ function runFCFS(queue, head) {
         seekCounter += distance;
         head = currentLocation;
     }
-
-    console.log("Total Number of seek operations = " + seekCounter);
-    console.log("The Seek Sequence is");
-    for (let i = 0; i < queue.length; i++) {
-        console.log(queue[i].toString());
-    }
     let newSequence = Array.from(queue);
     newSequence.unshift(initialHead);
+    //unshift adds the initial head to the beginning of the array
 
     let simulation = new Simulation(queue, newSequence, 0, queue);
     simulation.calculateSeekTime();
-    console.log("runFCFS done:");
-    console.dir(simulation);
+
     return simulation;
 }
-/* Amtooj do this */
+
+/**
+ * Runs the SCAN disk scheduling algorithm on the given queue starting from the head position.
+ * The SCAN algorithm moves the disk arm towards one end, servicing all requests until it reaches the end,
+ * then reverses direction and services the remaining requests.
+ *
+ * @param {number[]} queue - An array of disk track positions to be serviced.
+ * @param {number} head - The initial position of the disk arm.
+ * @returns {Simulation} - A Simulation object containing the original queue, the full sequence of traversal,
+ *                         the seek time, and the final queue state.
+ */
 function runScan(queue, head) {
 
-    //let simulation = new Simulation();
-    console.log("* * * * * Running the SCAN algorithm * * * * *\n");
     let oldqueue = Array.from(queue);
     let left = [];
     let right = [];
@@ -137,29 +95,24 @@ function runScan(queue, head) {
     fullSequence.push(0); // Since we're doing a left traversal, include 0
     fullSequence.push(...right);
 
-
-
-    // Calculate seek time
     let simulation = new Simulation(oldqueue, fullSequence, 0, queue);
-    //let seekTime = this.calculateSeekTime(fullSequence, head);
     simulation.calculateSeekTime();
 
-    console.log("Left Array:", left);
-    console.log("Right Array:", right);
-    console.log("Full Sequence:", fullSequence);
-    console.log("Seek time was:", simulation.seekTime);
-
-    //return new Simulation(oldqueue, queue, seekTime, queue); // Fully built array
     return simulation;
 }
+/**
+ * Simulates the C-SCAN (Circular SCAN) disk scheduling algorithm.
+ * 
+ * @param {number[]} queue - An array of integers representing the queue of disk track requests.
+ * @param {number} head - The initial position of the disk head.
+ * @returns {Simulation} - An instance of the Simulation class containing the seek sequence and calculated seek time.
+ */
 function runCScan(queue, head) {
     const MAX = 200;
 
-    console.log("* * * * * Running the C-SCAN algorithm * * * * *\n");
     let oldqueue = Array.from(queue);
     let left = [];
     let right = [];
-
 
     queue.forEach((qElement) => {
         if (qElement < head) {
@@ -178,22 +131,20 @@ function runCScan(queue, head) {
     fullSequence.push(MAX - 1);
     fullSequence.push(...right);
 
-
-
     let simulation = new Simulation(oldqueue, fullSequence, 0, queue);
     simulation.calculateSeekTime();
-    //let seekTime = this.calculateSeekTime(fullSequence, head);
-
-    console.log("Left Array:", left);
-    console.log("Right Array:", right);
-    console.log("Full Sequence:", fullSequence);
-    //console.log("Seek time was:", seekTime);
 
     return simulation;
 }
-
+/**
+ * Runs the LOOK disk scheduling algorithm on the given queue starting from the given head position.
+ * The LOOK algorithm services requests in one direction until it reaches the end, then reverses direction.
+ *
+ * @param {number[]} queue - An array of disk track numbers representing the queue of disk access requests.
+ * @param {number} head - The initial position of the disk head.
+ * @returns {Simulation} - An instance of the Simulation class containing the results of the LOOK algorithm.
+ */
 function runLook(queue, head) {
-    console.log("* * * * * Running the LOOK algorithm * * * * *\n");
 
     let oldqueue = Array.from(queue);
     let left = [];
@@ -206,7 +157,6 @@ function runLook(queue, head) {
             right.push(qElement);
         }
     });
-
     left.sort((a, b) => b - a);
     right.sort((a, b) => a - b);
 
@@ -216,22 +166,21 @@ function runLook(queue, head) {
 
     let simulation = new Simulation(oldqueue, fullSequence, 0, queue);
     simulation.calculateSeekTime();
-    //let seekTime = this.calculateSeekTime(fullSequence, head);
-
-    console.log("Left Array:", left);
-    console.log("Right Array:", right);
-    console.log("Full Sequence:", fullSequence);
-
 
     return simulation;
 }
+/**
+ * Runs the C-LOOK disk scheduling algorithm on the provided queue.
+ *
+ * @param {number[]} queue - An array of integers representing the disk queue.
+ * @param {number} head - The initial position of the disk head.
+ * @returns {Simulation} - A Simulation object containing the results of the C-LOOK algorithm.
+ */
 function runCLook(queue, head) {
-    console.log("* * * * * Running the C-LOOK algorithm * * * * *\n");
 
     let oldqueue = Array.from(queue);
     let left = [];
     let right = [];
-
 
     queue.forEach((qElement) => {
         if (qElement < head) {
@@ -241,25 +190,25 @@ function runCLook(queue, head) {
         }
     });
 
-
     left.sort((a, b) => b - a);
     right.sort((a, b) => b - a);
-
 
     let fullSequence = [head];
     fullSequence.push(...left);
     fullSequence.push(...right);
 
-    //let seekTime = this.calculateSeekTime(fullSequence, head);
     let simulation = new Simulation(oldqueue, fullSequence, 0, queue);
     simulation.calculateSeekTime();
 
-    console.log("Left Array:", left);
-    console.log("Right Array:", right);
-    console.log("Full Sequence:", fullSequence);
-
     return simulation;
 }
+/**
+ * Runs the Shortest Seek Time First (SSTF) disk scheduling algorithm.
+ * 
+ * @param {number[]} queue - An array of disk track requests.
+ * @param {number} head - The initial position of the disk head.
+ * @returns {Simulation} - An object containing the simulation results, including the full sequence of head movements and the total seek time.
+ */
 function runSSTF(queue, head) {
     console.log("* * * * * Running the SSTF algorithm * * * * *\n");
 
@@ -279,81 +228,15 @@ function runSSTF(queue, head) {
                 minIndex = index;
             }
         });
-
         totalSeekTime += minDiff;
         head = sortedRequests[minIndex];
         fullSequence.push(head);
         sortedRequests.splice(minIndex, 1);
     }
-
-    //let seekTime = this.calculateSeekTime(fullSequence, fullSequence[0]);
     let simulation = new Simulation(oldqueue, fullSequence, 0, queue);
     simulation.calculateSeekTime();
 
-    console.log("Full Sequence:", fullSequence);
-    //console.log("Seek time was:", seekTime);
-
     return simulation;
 }
-// function runSSTF(queue, head) {
-//     console.log("* * * * * Running the SSTF algorithm * * * * *\n");
 
-//     let oldqueue = Array.from(queue);
-//     let sortedRequests = Array.from(queue);
-//     let fullSequence = [head];
-//     let totalSeekTime = 0;
-
-//     while (sortedRequests.length > 0) {
-//         let minDiff = Number.MAX_SAFE_INTEGER;
-//         let minIndex = -1;
-
-//         sortedRequests.forEach((qElement, index) => {
-//             let diff = Math.abs(head - qElement);
-//             if (diff < minDiff) {
-//                 minDiff = diff;
-//                 minIndex = index;
-//             }
-//         });
-
-//         totalSeekTime += minDiff;
-//         head = sortedRequests[minIndex];
-//         fullSequence.push(head);
-//         sortedRequests.splice(minIndex, 1);
-//     }
-
-//     let seekTime = this.calculateSeekTime(fullSequence, fullSequence[0]);
-
-//     console.log("Full Sequence:", fullSequence);
-//     console.log("Seek time was:", seekTime);
-
-//     return new Simulation(oldqueue, queue, seekTime, fullSequence);
-// }
-
-/**
- * Calculates the total seek time and generates the seek sequence.
- *
- * @param {number[]} queue The list of track numbers to process.
- * @param {number} head The starting position of the head.
- * @return {number} The total seek time.
- */
-//static calculateSeekTime(queue, head) {
-//    let seekCounter = 0;
-//
-//    for (let i = 1; i < queue.length; i++) {
-//        let track = queue[i];
-//        let distance = Math.abs(track - head); // Calculate the seek distance
-//        seekCounter += distance; // Accumulate total seek time
-//        head = track;
-//    }
-//
-//    return seekCounter;
-//}
-
-
-// Example usage:
-//const queue = [82, 170, 43, 140, 24, 16, 190];
-//const head = 50;
-//const result = SCAN.runScan(queue, head);
-//
-//console.log("Resulting sequence:", result);
 export { Simulation, runFCFS, runScan, runCScan, runLook, runCLook, runSSTF };
