@@ -1,8 +1,9 @@
 # Test Log
 
-## Input Validation Tests
-
 ### Input Validation Test Log
+
+These will NOT let the user select the buttons as inputs are invalid.
+
 
 #### Test Case 1: Valid Input
 - **Initial Head Position**: `50`
@@ -22,13 +23,13 @@
 - **Expected Result**: `false`
 - **Actual Result**: `false`
 
-#### Test Case 4: Empty Disk Request Sequence
+#### Test Case 4: Invalid Disk Request Sequence (EMPTY request sequence)
 - **Initial Head Position**: `50`
 - **Disk Request Sequence**: ``
 - **Expected Result**: `false`
 - **Actual Result**: `false`
 
-#### Test Case 5: Disk Request Sequence with Trailing Comma
+#### Test Case 5: Invalid Disk Request Sequence (Trailing Comma)
 - **Initial Head Position**: `50`
 - **Disk Request Sequence**: `10,20,30,40,50,`
 - **Expected Result**: `true`
@@ -53,8 +54,6 @@
 - **Disk Request Sequence**: `10,-20,30,40,50`
 - **Expected Result**: `false`
 - **Actual Result**: `false`
-- **This will NOT let the user select the buttons as input is invalid**
-
 
 ### Test Case 9: Single Request
 - **Initial Head Position**: `50`
@@ -66,7 +65,7 @@
 - **Expected Result LOOK**: `50`
 - **Expected Result C-LOOK**: `50`
 - **Expected Result SSTF**: `50`
-- `~~~~~~~~~~~~~~~~~~~~~`
+
 - **Actual Result FCFS**: `50`
 - **Actual Result SCAN**: `150`
 - **Actual Result C-SCAN**: `348`
@@ -75,21 +74,28 @@
 - **Actual Result SSTF**: `50`
 
 
-### Test Case 10: Empty Queue With Head Position ###
+### Test Case 10: Empty Queue with valid Head Position ###
 - **Initial Head Position**: `"50"`
 - **Disk Request Sequence**: `" "`
-- **This will not get past the front end error handling**:
+- **Expected Result**: `false`
+- **Actual Result**: `false`
+
 
 ### Test Case 11: Empty Queue With Empty Head Position ###
 - **Initial Head Position**: `" "`
 - **Disk Request Sequence**: `" "`
-- **This will not get past the front end error handling**:
+- **Expected Result**: `false`
+- **Actual Result**: `false`
 
 
-### Test Case 12: Empty Queue With Empty Head Position ### 
+
+### Test Case 12: Empty Head Position with valid Queue### 
 - **Initial Head Position**: `" "`
-- **Disk Request Sequence**: `" "`
-- **This will not get past the front end error handling**:
+- **Disk Request Sequence**: `"50"`
+- **Expected Result**: `false`
+- **Actual Result**: `false`
+
+## These test cases below will have VALID inputs and test the funtionality of all algorithms ##
 
 ### Test Case 13: Randomized Locations (some are purposefully close together and head is somewhere in middle) ####
 - **Initial Head Position**: `"70"`
@@ -237,4 +243,25 @@
 - **Actual Result LOOK**: `199`
 - **Actual Result C-LOOK**: `398`
 - **Actual Result SSTF**: `199`
+
+
+### Test Case 21 Demonstrates Starvation for SSTF  ###
+With this case, we are able to see that the SSTF algorithm selects the request closest to the current head position.
+So it inadvertantly goes all the way to 199, then jumps back to service 2
+- **Initial Head Position**: `"21"`
+- **Disk Request Sequence**: `"109,2,45,199,42,78,27,99,126,12,0,0,2,9"`
+
+ **Expected Result FCFS**: `870`
+- **Expected Result SCAN**: `220`
+- **Expected Result C-SCAN**: `392`
+- **Expected Result LOOK**: `220`
+- **Expected Result C-LOOK**: `392`
+- **Expected Result SSTF**: `377`
+
+- **Actual Result FCFS**: `870`
+- **Actual Result SCAN**: `220`
+- **Actual Result C-SCAN**: `392`
+- **Actual Result LOOK**: `220`
+- **Actual Result C-LOOK**: `392`
+- **Actual Result SSTF**: `377`
 

@@ -153,14 +153,14 @@ function runScan(queue, head) {
     return simulation;
 }
 function runCScan(queue, head) {
-    const MAX = 200; 
+    const MAX = 200;
 
     console.log("* * * * * Running the C-SCAN algorithm * * * * *\n");
     let oldqueue = Array.from(queue);
     let left = [];
     let right = [];
 
-    
+
     queue.forEach((qElement) => {
         if (qElement < head) {
             left.push(qElement);
@@ -173,10 +173,10 @@ function runCScan(queue, head) {
     right.sort((a, b) => b - a);
 
     let fullSequence = [head];
-    fullSequence.push(...left); 
-    fullSequence.push(0);       
-    fullSequence.push(MAX - 1); 
-    fullSequence.push(...right); 
+    fullSequence.push(...left);
+    fullSequence.push(0);
+    fullSequence.push(MAX - 1);
+    fullSequence.push(...right);
 
 
 
@@ -189,7 +189,7 @@ function runCScan(queue, head) {
     console.log("Full Sequence:", fullSequence);
     //console.log("Seek time was:", seekTime);
 
-    return simulation; 
+    return simulation;
 }
 
 function runLook(queue, head) {
@@ -211,8 +211,8 @@ function runLook(queue, head) {
     right.sort((a, b) => a - b);
 
     let fullSequence = [head];
-    fullSequence.push(...left); 
-    fullSequence.push(...right); 
+    fullSequence.push(...left);
+    fullSequence.push(...right);
 
     let simulation = new Simulation(oldqueue, fullSequence, 0, queue);
     simulation.calculateSeekTime();
@@ -221,9 +221,9 @@ function runLook(queue, head) {
     console.log("Left Array:", left);
     console.log("Right Array:", right);
     console.log("Full Sequence:", fullSequence);
-    
 
-    return simulation; 
+
+    return simulation;
 }
 function runCLook(queue, head) {
     console.log("* * * * * Running the C-LOOK algorithm * * * * *\n");
@@ -247,8 +247,8 @@ function runCLook(queue, head) {
 
 
     let fullSequence = [head];
-    fullSequence.push(...left); 
-    fullSequence.push(...right); 
+    fullSequence.push(...left);
+    fullSequence.push(...right);
 
     //let seekTime = this.calculateSeekTime(fullSequence, head);
     let simulation = new Simulation(oldqueue, fullSequence, 0, queue);
@@ -258,7 +258,7 @@ function runCLook(queue, head) {
     console.log("Right Array:", right);
     console.log("Full Sequence:", fullSequence);
 
-    return simulation; 
+    return simulation;
 }
 function runSSTF(queue, head) {
     console.log("* * * * * Running the SSTF algorithm * * * * *\n");

@@ -7,7 +7,7 @@ const step = W / time; // time step
 const COLOURS_HEX = [
   '#FA2A55',//'red': 
   '#663399',//rebecca purple': '
-  "#CCCCFF",//'lavenderish': 
+  "#000cff",//'lavenderishn't': 
   '#009193',//'teal': 
   '#FF991C',//'organge': 
   '#02590F'//'gram': 
@@ -76,8 +76,9 @@ var graph = function (p) {
   //p5 constantly tries to call this.
   p.draw = function () {
     if (graphs.length) {
-      p.background('#fff');
+      p.background('#e5e7eb');
       p.draw_axis()
+
 
       // this section populates the plotting area while redrawing the graph to make it look lke its animating.
       graphs.forEach((graph) => {
@@ -90,9 +91,9 @@ var graph = function (p) {
 
         //fills points array with important points as it passees them.
         if (graph.left && graph.head > graph.target)
-          graph.head -= 1.5;
+          graph.head -= 0.7;
         else if (!graph.left && graph.head < graph.target)
-          graph.head += 1.5;
+          graph.head += 0.7;
         else {
           let point = {
             'x': graph.target,
@@ -124,7 +125,7 @@ var graph = function (p) {
       if(graphs.length > 1 || finished_graphs > 1)
         p.draw_legend()
 
-      //draw graphs that are finished.
+      // draw graphs that are finished.
       finished_graphs.forEach((graph) => {
 
         p.draw_graph(graph)
@@ -132,12 +133,16 @@ var graph = function (p) {
       })
 
     }
+    finished_graphs.forEach((graph) => {
+
+      p.draw_points(graph)
+    })
   }
 
   //resets the state of the canvas and graphs
   p.reset_graph = function () {
 
-    p.background('#fff');
+    p.background('#e5e7eb');
     finished_graphs = []
     graphs = [];
   }
@@ -146,6 +151,9 @@ var graph = function (p) {
   p.stop_drawing = function (graph) {
     let g = graphs.splice(graphs.indexOf(graph), 1)
     finished_graphs = finished_graphs.concat(g)
+    //p.draw_points(finished_graphs)
+
+
 
   }
 
@@ -158,13 +166,43 @@ var graph = function (p) {
     }
     start = true
   }
-
+  //12,109,23,54,109
   //specifically draw the axis at hte top.
+  //p.draw_axis = function () {
+  //  p.strokeWeight(1.0)
+  //  p.line(padding, padding, W - padding, padding)
+  //  // line(padding/2, 0, padding/2, H)
+  //  // for (tick in H/)
+  //}
   p.draw_axis = function () {
-    p.strokeWeight(1.0)
-    p.line(padding, padding, W - padding, padding)
-    // line(padding/2, 0, padding/2, H)
-    // for (tick in H/)
+    p.strokeWeight(1.0);
+    p.line(padding, padding, W - padding, padding); // Draw the main axis line
+
+    // Draw tick marks and labels
+    let tickInterval = 10;
+    let labelInterval = 20;
+    let tickLength = 5; // Length of the tick marks
+
+    // Adjust the range to match your data (0 to 200)
+    let dataMax = 200;
+    let scaleFactor = (W - 2 * padding) / dataMax;
+
+    for (let i = 0; i <= dataMax; i += tickInterval) {
+      let x = padding + i * scaleFactor;
+
+      // Draw tick marks
+      p.strokeWeight(1.0);
+      p.line(x, padding - tickLength, x, padding + tickLength);
+
+      // Draw labels at every 20 interval
+      if (i % labelInterval === 0) {
+        p.fill('black'); // Set text color to black (or any other color you prefer)
+        p.textSize(12); // Set text size
+        p.strokeWeight(0.1);
+        p.textAlign(p.CENTER, p.CENTER);
+        p.text(i, x, padding - tickLength * 2); // Adjust the position of the labels
+      }
+    }
   }
 
   //draw these specific points with a coloured circle and a line extending to the top .
@@ -172,12 +210,16 @@ var graph = function (p) {
     graph.points.forEach((point) => {
       let x1 = fx(point.x);
       let y1 = point.y;
-      p.strokeWeight(0.2);
-      p.line(x1, 0, x1, y1);
-      p.fill(graph.colour)
+      p.stroke("black");
+      p.strokeWeight(0.1);
+      p.line(x1, padding, x1, y1);
+      p.fill(graph.colour);
+      p.stroke("black")
+      p.strokeWeight(1.7)
       p.ellipse(x1, y1, 10, 10);
-      p.fill('black')
-      p.text(point.text.content, point.text.x, point.text.y);
+      //p.fill('black')
+      //p.text(point.text.content, point.text.x, point.text.y);
+      //console.log(point.text.y);
     })
 
 
@@ -193,11 +235,16 @@ var graph = function (p) {
       let y1 = posy[i];
       let y2 = posy[i + 1];
 
+      p.stroke(graph.colour);
       p.strokeWeight(2);
       p.line(x1, y1, x2, y2);
 
+      //console.log(`x1: ${x1}, y1: ${y1}, x2: ${x2}, y2: ${y2}, i: ${i}`);
+      //console.log(`graph: `);
+      //console.dir(graph);
+
       //makes the drawing point a little more visible. maybe remove if laggy.
-      p.ellipse(fx(graph.data[graph.l]), posy[graph.l], 4, 4);
+      //p.ellipse(fx(graph.data[graph.l]), posy[graph.l], 4, 4);
     }
   }
   
