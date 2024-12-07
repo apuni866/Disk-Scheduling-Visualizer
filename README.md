@@ -28,6 +28,15 @@ The visualizer will provide a clear side-by-side comparison of FCFS, SCAN, and C
 - **CLOOK**: C Look Algorithm is similar to C-SCAN algorithm to some extent. In this algorithm, the arm of the disk moves outwards servicing requests until it reaches the highest request cylinder, then it jumps to the lowest request cylinder without servicing any request then it again start moving outwards servicing the remaining requests.
 - **SSTF**: The Shortest Seek Time First (SSTF) algorithm processes disk requests based on the shortest seek time. The disk head moves to the closest request in the sequence before moving to the next closest request. The total head movement is the sum of the absolute differences between the track numbers in the request sequence.
 
+## Features that would nice to have time permitting
+- **Different types of graphs that comapred the seek times. For example a bar graph.**
+- **Choose any algorithms to comapre. For example: If user wanted to comapre SSTF FCFS and LOOK they would have the option to select any algorithms they want to comapre**
+- **Choosing custom colours to comapre**
+- **Hover over a point on the graph and get metrics at that plotted point.**
+
+
+
+
 
 ### Relevance to OS Concepts
 The visualizer demonstrates fundamental OS concepts, particularly in I/O management and disk scheduling. Disk scheduling is an essential part of operating system design, impacting how quickly data can be accessed from storage and, consequently, the performance of applications relying on disk I/O. By providing users with the ability to test different scheduling algorithms, this project highlights the trade-offs inherent in each approach, such as balancing seek time. We chose to focus on these topics to learn about optimizing resource allocation and overall system performance in an OS. The visualizer will offer students and users an experiential learning opportunity to observe the effects of scheduling choices in real time, helping them grasp why specific algorithms are favored under particular workloads or system constraints.
