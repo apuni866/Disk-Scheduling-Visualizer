@@ -30,10 +30,11 @@ These will NOT let the user select the buttons as inputs are invalid.
 - **Actual Result**: `false`
 
 #### Test Case 5: Invalid Disk Request Sequence (Trailing Comma)
+NOTE: This one will run but it replaces the comma with a zero. (Limitation)
 - **Initial Head Position**: `50`
 - **Disk Request Sequence**: `10,20,30,40,50,`
-- **Expected Result**: `true`
-- **Actual Result**: `true`
+- **Expected Result**: `false`
+- **Actual Result**: `10,20,30,40,50,0` This is what the Sequence is treated as.
 
 #### FAILS
 #### Test Case 6: Non-integer Initial Head Position
@@ -86,7 +87,6 @@ These will NOT let the user select the buttons as inputs are invalid.
 - **Disk Request Sequence**: `" "`
 - **Expected Result**: `false`
 - **Actual Result**: `false`
-
 
 
 ### Test Case 12: Empty Head Position with valid Queue### 
