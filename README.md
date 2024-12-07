@@ -4,6 +4,8 @@
 
 [View Our Project on Github Pages](https://apuni866.github.io/Disk-Scheduling-Visualizer/)
 
+[View our Project Governace](https://docs.google.com/document/d/1UCeY2iLomhVSKzFggaktWNOsTkYY99SSWvBjRraaan4/edit?usp=sharing)
+
 ### Overview
 This project proposes the development of an interactive Disk Scheduling Algorithm Visualizer that simulates and compares six fundamental disk scheduling algorithms: First-Come-First-Serve (FCFS), SCAN, Circular SCAN (CSCAN), LOOK, Cicular LOOK (CLOOK) and Shortest Seek Time First (SSTF).
 
