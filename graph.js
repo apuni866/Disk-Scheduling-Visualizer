@@ -32,7 +32,6 @@ class Graph {
 }
 
 
-var start = false;
 var graph = function (p) {
 
   p.setup = function () {
@@ -67,7 +66,7 @@ var graph = function (p) {
   p.get_new_target = function (graph) {
     graph.target = graph.sequence[++graph.index]
     if (graph.target == undefined) {
-      p.draw_points(graph)
+      // p.draw_points_(graph)
       p.stop_drawing(graph)
     }
   }
@@ -92,9 +91,9 @@ var graph = function (p) {
         //fills points array with important points as it passees them.
         //graph.head increments/decerments reflect how fast the graph seeks.
         if (graph.left && graph.head > graph.target)
-          graph.head -= 0.7;
+          graph.head -= 0.8;
         else if (!graph.left && graph.head < graph.target)
-          graph.head += 0.7;
+          graph.head += 0.8;
         else {
           let point = {
             'x': graph.target,
@@ -120,7 +119,8 @@ var graph = function (p) {
 
         //actualy draw the graphs
         p.draw_graph(graph)
-        p.draw_points(graph)
+        p.draw_points_line(graph)
+        p.draw_points_ellipse(graph)
 
       })
 
@@ -128,16 +128,25 @@ var graph = function (p) {
       finished_graphs.forEach((graph) => {
 
         p.draw_graph(graph)
-        p.draw_points(graph)
+        p.draw_points_line(graph)
+        p.draw_points_ellipse(graph)
       })
 
     }
-    finished_graphs.forEach((graph) => {
-
-      p.draw_points(graph)
-    })
+    finished_graphs.forEach((graph) => {p.draw_points_ellipse(graph)})
     if(graphs.length > 1 || finished_graphs.length > 1)
       p.draw_legend()
+  }
+
+  //initializes the graphs for drawing. standard draw loop is locked by graph[] length so this is entry point.
+  p.start_drawing = function (simulations) {
+    p.reset_graph()
+
+    for (let i = 0; i < simulations.length; i++) {
+      let graph = new Graph(simulations[i], colours[i]);
+      graphs.push(graph)
+    }
+    start = true
   }
 
   //resets the state of the canvas and graphs
@@ -154,27 +163,9 @@ var graph = function (p) {
     finished_graphs = finished_graphs.concat(g)
     //p.draw_points(finished_graphs)
 
-
-
   }
 
-  p.start_drawing = function (simulations) {
-    p.reset_graph()
-
-    for (let i = 0; i < simulations.length; i++) {
-      let graph = new Graph(simulations[i], colours[i]);
-      graphs.push(graph)
-    }
-    start = true
-  }
-  //12,109,23,54,109
-  //specifically draw the axis at hte top.
-  //p.draw_axis = function () {
-  //  p.strokeWeight(1.0)
-  //  p.line(padding, padding, W - padding, padding)
-  //  // line(padding/2, 0, padding/2, H)
-  //  // for (tick in H/)
-  //}
+  //draws axis at the top of canvas with ticks and numbers at set intervals
   p.draw_axis = function () {
     p.strokeWeight(1.0);
     p.line(padding, padding, W - padding, padding); // Draw the main axis line
@@ -206,29 +197,31 @@ var graph = function (p) {
     }
   }
 
-
-  //draw ellipses at each point for each graph
-  p.draw_points = function (graph) {
+  //draws vertial lines that extend to the axis for each graph
+  p.draw_points_line = function(graph){
     graph.points.forEach((point) => {
       let x1 = fx(point.x);
       let y1 = point.y;
       p.stroke("black");
       p.strokeWeight(0.1);
       p.line(x1, padding, x1, y1);
+    })
+  }
+
+  //draw ellipses at each point for each graph
+  p.draw_points_ellipse = function (graph) {
+    graph.points.forEach((point) => {
+      let x1 = fx(point.x);
+      let y1 = point.y;
       p.fill(graph.colour);
       p.stroke("black")
       p.strokeWeight(1.7)
       p.ellipse(x1, y1, 10, 10);
-      //p.fill('black')
-      //p.text(point.text.content, point.text.x, point.text.y);
-      //console.log(point.text.y);
     })
-
-
   }
 
+  //draws the actual lines of the graph. this gets called a lot to simulate animations 
   p.draw_graph = function (graph) {
-
     // iterate over data list to rebuild curve at each frame
     for (let i = 0; i < graph.l; i++) {
 
@@ -241,12 +234,8 @@ var graph = function (p) {
       p.strokeWeight(2);
       p.line(x1, y1, x2, y2);
 
-      //console.log(`x1: ${x1}, y1: ${y1}, x2: ${x2}, y2: ${y2}, i: ${i}`);
-      //console.log(`graph: `);
-      //console.dir(graph);
-
       //makes the drawing point a little more visible. maybe remove if laggy.
-      //p.ellipse(fx(graph.data[graph.l]), posy[graph.l], 4, 4);
+      // p.ellipse(fx(graph.data[graph.l]), posy[graph.l], 4, 4);
     }
   }
   
@@ -270,9 +259,6 @@ var graph = function (p) {
       p.textAlign(p.LEFT)
       p.text(texts[i], text_x, text_y + i*15)
     }
-
-
-
   }
 }
 
