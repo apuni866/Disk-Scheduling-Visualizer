@@ -3,7 +3,7 @@ const W = 650, H = 650; // dimensions of canvas
 const padding = 25;
 const time = W; // number of x tick values
 const step = W / time; // time step
-
+const background_hex = '#e5e7eb'
 const COLOURS_HEX = [
   '#FA2A55',//'red': 
   '#663399',//rebecca purple': '
@@ -76,7 +76,7 @@ var graph = function (p) {
   //p5 constantly tries to call this.
   p.draw = function () {
     if (graphs.length) {
-      p.background('#e5e7eb');
+      p.background(background_hex);
       p.draw_axis()
 
 
@@ -90,6 +90,7 @@ var graph = function (p) {
         f = p.frameCount;
 
         //fills points array with important points as it passees them.
+        //graph.head increments/decerments reflect how fast the graph seeks.
         if (graph.left && graph.head > graph.target)
           graph.head -= 0.7;
         else if (!graph.left && graph.head < graph.target)
@@ -122,8 +123,6 @@ var graph = function (p) {
         p.draw_points(graph)
 
       })
-      if(graphs.length > 1 || finished_graphs > 1)
-        p.draw_legend()
 
       // draw graphs that are finished.
       finished_graphs.forEach((graph) => {
@@ -137,12 +136,14 @@ var graph = function (p) {
 
       p.draw_points(graph)
     })
+    if(graphs.length > 1 || finished_graphs.length > 1)
+      p.draw_legend()
   }
 
   //resets the state of the canvas and graphs
   p.reset_graph = function () {
 
-    p.background('#e5e7eb');
+    p.background(background_hex);
     finished_graphs = []
     graphs = [];
   }
@@ -205,7 +206,8 @@ var graph = function (p) {
     }
   }
 
-  //draw these specific points with a coloured circle and a line extending to the top .
+
+  //draw ellipses at each point for each graph
   p.draw_points = function (graph) {
     graph.points.forEach((point) => {
       let x1 = fx(point.x);
@@ -255,20 +257,17 @@ var graph = function (p) {
     let symbol_x = 560
     let symbol_y = 563
     let text_x = 570
-    let text_y = 568
+    let text_y = 564
     let texts = ['FCSF', "SCAN", "C-SCAN", "LOOK", "C-LOOK", 'SSTF']
 
     p.strokeWeight(1)
-    p.line(graph_x      , graph_y      , graph_x      , graph_y + 100)
-    p.line(graph_x      , graph_y      , graph_x + 100, graph_y      )    
-    p.line(graph_x + 100, graph_y      , graph_x + 100, graph_y + 100)
-    p.line(graph_x      , graph_y + 100, graph_x + 100, graph_y + 100)
+    p.fill('white');
+    p.rect(graph_x,graph_y,100,100);
 
-
-    for(let i = 0;i < 6 ; i++){
+    for(let i = 0; i < 6 ; i++){
       p.fill(colours[i])
       p.ellipse(symbol_x, symbol_y + i*15, 10, 10)
-      
+      p.textAlign(p.LEFT)
       p.text(texts[i], text_x, text_y + i*15)
     }
 
