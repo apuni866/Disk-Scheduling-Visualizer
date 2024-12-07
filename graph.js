@@ -121,7 +121,8 @@ var graph = function (p) {
         p.draw_points(graph)
 
       })
-
+      if(graphs.length > 1 || finished_graphs > 1)
+        p.draw_legend()
 
       //draw graphs that are finished.
       finished_graphs.forEach((graph) => {
@@ -198,6 +199,34 @@ var graph = function (p) {
       //makes the drawing point a little more visible. maybe remove if laggy.
       p.ellipse(fx(graph.data[graph.l]), posy[graph.l], 4, 4);
     }
+  }
+  
+  //draws a legend in the bottom right
+  p.draw_legend = function(){
+    let graph_x = 550
+    let graph_y = 550
+    let symbol_x = 560
+    let symbol_y = 563
+    let text_x = 570
+    let text_y = 568
+    let texts = ['FCSF', "SCAN", "C-SCAN", "LOOK", "C-LOOK", 'SSTF']
+
+    p.strokeWeight(1)
+    p.line(graph_x      , graph_y      , graph_x      , graph_y + 100)
+    p.line(graph_x      , graph_y      , graph_x + 100, graph_y      )    
+    p.line(graph_x + 100, graph_y      , graph_x + 100, graph_y + 100)
+    p.line(graph_x      , graph_y + 100, graph_x + 100, graph_y + 100)
+
+
+    for(let i = 0;i < 6 ; i++){
+      p.fill(colours[i])
+      p.ellipse(symbol_x, symbol_y + i*15, 10, 10)
+      
+      p.text(texts[i], text_x, text_y + i*15)
+    }
+
+
+
   }
 }
 
